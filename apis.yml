@@ -10,10 +10,10 @@ position: Consumer
 access: 3rd-Party
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
-  - Serverless
-  - Deployment
   - Cloud Platform
+  - Deployment
   - PaaS
+  - Serverless
 created: '2025-01-08'
 modified: '2026-03-16'
 url: >-
@@ -27,8 +27,8 @@ apis:
       deployments, and secrets on the Koyeb platform.
     humanURL: https://www.koyeb.com/docs/api
     tags:
-      - Serverless
       - Deployment
+      - Serverless
     properties:
       - type: Documentation
         url: https://www.koyeb.com/docs/api
