@@ -6,34 +6,36 @@ Koyeb is a developer-friendly serverless platform for deploying apps globally. T
 ## Scope
 
 - **Type:** Index 
-- **Position:** Consuming 
+- **Position:** Consumer 
 - **Access:** 3rd-Party 
 
 ## Tags:
 
- - Serverless, Deployment, Cloud Platform, PaaS
+ - Cloud Platform, Deployment, PaaS, Serverless
 
 ## Timestamps
 
 - **Created:** 2025-01-08 
-- **Modified:** 2026-03-16 
+- **Modified:** 2026-04-28 
 
 ## APIs
 
 ### Koyeb API
-The Koyeb API provides programmatic access to manage apps, services, deployments, and secrets on the Koyeb platform.
+The Koyeb API provides programmatic access to manage apps, services, deployments, secrets, domains, regions, organizations and billing on the Koyeb serverless platform.
 
 **Human URL:** [https://www.koyeb.com/docs/api](https://www.koyeb.com/docs/api)
 
+**Base URL:** https://app.koyeb.com
 
 #### Tags:
 
- - Serverless, Deployment
+ - Deployment, Serverless
 
 #### Properties
 
 - [Documentation](https://www.koyeb.com/docs/api)
 - [Reference](https://www.koyeb.com/docs/reference)
+- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/koyeb/refs/heads/main/openapi/openapi.json)
 
 ## Common Properties
 

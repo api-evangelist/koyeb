@@ -15,7 +15,7 @@ tags:
   - PaaS
   - Serverless
 created: '2025-01-08'
-modified: '2026-03-16'
+modified: '2026-04-28'
 url: >-
   https://raw.githubusercontent.com/api-evangelist/koyeb/refs/heads/main/apis.yml
 specificationVersion: '0.19'
@@ -24,8 +24,10 @@ apis:
     name: Koyeb API
     description: >-
       The Koyeb API provides programmatic access to manage apps, services,
-      deployments, and secrets on the Koyeb platform.
+      deployments, secrets, domains, regions, organizations and billing on the
+      Koyeb serverless platform.
     humanURL: https://www.koyeb.com/docs/api
+    baseURL: https://app.koyeb.com
     tags:
       - Deployment
       - Serverless
@@ -34,6 +36,9 @@ apis:
         url: https://www.koyeb.com/docs/api
       - type: Reference
         url: https://www.koyeb.com/docs/reference
+      - type: OpenAPI
+        url: >-
+          https://raw.githubusercontent.com/api-evangelist/koyeb/refs/heads/main/openapi/openapi.json
 common:
   - type: Website
     url: https://www.koyeb.com
