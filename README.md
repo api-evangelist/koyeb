@@ -35,7 +35,7 @@ The Koyeb API provides programmatic access to manage apps, services, deployments
 
 - [Documentation](https://www.koyeb.com/docs/api)
 - [Reference](https://www.koyeb.com/docs/reference)
-- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/koyeb/refs/heads/main/openapi/openapi.json)
+- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/koyeb/refs/heads/main/openapi/koyeb-openapi.json)
 
 ## Common Properties
 

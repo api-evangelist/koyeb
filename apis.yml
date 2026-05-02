@@ -38,7 +38,7 @@ apis:
         url: https://www.koyeb.com/docs/reference
       - type: OpenAPI
         url: >-
-          https://raw.githubusercontent.com/api-evangelist/koyeb/refs/heads/main/openapi/openapi.json
+          https://raw.githubusercontent.com/api-evangelist/koyeb/refs/heads/main/openapi/koyeb-openapi.json
 common:
   - type: Website
     url: https://www.koyeb.com
