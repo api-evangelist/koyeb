@@ -48,6 +48,16 @@ common:
     url: https://www.koyeb.com/docs/deploy
   - type: Sign Up
     url: https://app.koyeb.com/auth/signup
+  - type: Integrations
+    url: https://www.koyeb.com/partners
+integrations:
+  - name: Designed for scale
+  - name: Stand out in your market
+  - name: Hardware agnostic
+  - name: Natively global
+  - name: Exclusive technical resources and support
+  - name: Expand your ecosystem
+  - name: Jim Keller
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
