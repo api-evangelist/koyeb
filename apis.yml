@@ -44,9 +44,9 @@ common:
     url: https://www.koyeb.com
   - type: Documentation
     url: https://www.koyeb.com/docs
-  - type: Getting Started
+  - type: GettingStarted
     url: https://www.koyeb.com/docs/deploy
-  - type: Sign Up
+  - type: SignUp
     url: https://app.koyeb.com/auth/signup
   - type: Integrations
     url: https://www.koyeb.com/partners
