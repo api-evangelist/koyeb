@@ -1,0 +1,77 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Koyeb Rest API — Summary
+  description: 'Koyeb Rest API — Summary. 1 operations. Lead operation: Get organization usage summary. Self-contained Naftiko
+    capability covering one Koyeb business surface.'
+  tags:
+  - Koyeb
+  - Summary
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    KOYEB_API_KEY: KOYEB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: koyeb-summary
+    baseUri: https://app.koyeb.com
+    description: Koyeb Rest API — Summary business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-organizations-organization_id-summary
+      path: /v1/organizations/{organization_id}/summary
+      operations:
+      - name: getorganizationsummary
+        method: GET
+        description: Get organization usage summary
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: organization_id
+          in: path
+          type: string
+          description: Organization ID
+          required: true
+  exposes:
+  - type: rest
+    namespace: koyeb-summary-rest
+    port: 8080
+    description: REST adapter for Koyeb Rest API — Summary. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/v1/organizations/{organization-id}/summary
+      name: v1-organizations-organization-id-summary
+      description: REST surface for v1-organizations-organization_id-summary.
+      operations:
+      - method: GET
+        name: getorganizationsummary
+        description: Get organization usage summary
+        call: koyeb-summary.getorganizationsummary
+        with:
+          organization_id: rest.organization_id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: koyeb-summary-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Koyeb Rest API — Summary. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: get-organization-usage-summary
+      description: Get organization usage summary
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: koyeb-summary.getorganizationsummary
+      with:
+        organization_id: tools.organization_id
+      outputParameters:
+      - type: object
+        mapping: $.

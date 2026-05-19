@@ -1,0 +1,195 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Koyeb Rest API — RegionalDeployments
+  description: 'Koyeb Rest API — RegionalDeployments. 3 operations. Lead operation: List Regional Deployment events. Self-contained
+    Naftiko capability covering one Koyeb business surface.'
+  tags:
+  - Koyeb
+  - RegionalDeployments
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    KOYEB_API_KEY: KOYEB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: koyeb-regionaldeployments
+    baseUri: https://app.koyeb.com
+    description: Koyeb Rest API — RegionalDeployments business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-regional_deployment_events
+      path: /v1/regional_deployment_events
+      operations:
+      - name: listregionaldeploymentevents
+        method: GET
+        description: List Regional Deployment events
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: regional_deployment_id
+          in: query
+          type: string
+          description: (Optional) Filter on regional deployment id
+        - name: types
+          in: query
+          type: array
+          description: (Optional) Filter on regional deployment event types
+        - name: limit
+          in: query
+          type: string
+          description: (Optional) The number of items to return
+        - name: offset
+          in: query
+          type: string
+          description: (Optional) The offset in the list of item to return
+        - name: order
+          in: query
+          type: string
+          description: (Optional) Sorts the list in the ascending or the descending order
+    - name: v1-regional_deployments
+      path: /v1/regional_deployments
+      operations:
+      - name: listregionaldeployments
+        method: GET
+        description: List Regional Deployments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: deployment_id
+          in: query
+          type: string
+          description: (Optional) Filter on deployment id
+        - name: limit
+          in: query
+          type: string
+          description: (Optional) The number of items to return
+        - name: offset
+          in: query
+          type: string
+          description: (Optional) The offset in the list of item to return
+    - name: v1-regional_deployments-id
+      path: /v1/regional_deployments/{id}
+      operations:
+      - name: getregionaldeployment
+        method: GET
+        description: Get Regional Deployment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The id of the regional deployment
+          required: true
+  exposes:
+  - type: rest
+    namespace: koyeb-regionaldeployments-rest
+    port: 8080
+    description: REST adapter for Koyeb Rest API — RegionalDeployments. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/v1/regional-deployment-events
+      name: v1-regional-deployment-events
+      description: REST surface for v1-regional_deployment_events.
+      operations:
+      - method: GET
+        name: listregionaldeploymentevents
+        description: List Regional Deployment events
+        call: koyeb-regionaldeployments.listregionaldeploymentevents
+        with:
+          regional_deployment_id: rest.regional_deployment_id
+          types: rest.types
+          limit: rest.limit
+          offset: rest.offset
+          order: rest.order
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/regional-deployments
+      name: v1-regional-deployments
+      description: REST surface for v1-regional_deployments.
+      operations:
+      - method: GET
+        name: listregionaldeployments
+        description: List Regional Deployments
+        call: koyeb-regionaldeployments.listregionaldeployments
+        with:
+          deployment_id: rest.deployment_id
+          limit: rest.limit
+          offset: rest.offset
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/regional-deployments/{id}
+      name: v1-regional-deployments-id
+      description: REST surface for v1-regional_deployments-id.
+      operations:
+      - method: GET
+        name: getregionaldeployment
+        description: Get Regional Deployment
+        call: koyeb-regionaldeployments.getregionaldeployment
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: koyeb-regionaldeployments-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Koyeb Rest API — RegionalDeployments. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-regional-deployment-events
+      description: List Regional Deployment events
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: koyeb-regionaldeployments.listregionaldeploymentevents
+      with:
+        regional_deployment_id: tools.regional_deployment_id
+        types: tools.types
+        limit: tools.limit
+        offset: tools.offset
+        order: tools.order
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-regional-deployments
+      description: List Regional Deployments
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: koyeb-regionaldeployments.listregionaldeployments
+      with:
+        deployment_id: tools.deployment_id
+        limit: tools.limit
+        offset: tools.offset
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-regional-deployment
+      description: Get Regional Deployment
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: koyeb-regionaldeployments.getregionaldeployment
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,77 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Koyeb Rest API — Subscriptions
+  description: 'Koyeb Rest API — Subscriptions. 1 operations. Lead operation: Get Subscription. Self-contained Naftiko capability
+    covering one Koyeb business surface.'
+  tags:
+  - Koyeb
+  - Subscriptions
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    KOYEB_API_KEY: KOYEB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: koyeb-subscriptions
+    baseUri: https://app.koyeb.com
+    description: Koyeb Rest API — Subscriptions business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-subscriptions-id
+      path: /v1/subscriptions/{id}
+      operations:
+      - name: getsubscription
+        method: GET
+        description: Get Subscription
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The id of the instance
+          required: true
+  exposes:
+  - type: rest
+    namespace: koyeb-subscriptions-rest
+    port: 8080
+    description: REST adapter for Koyeb Rest API — Subscriptions. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/v1/subscriptions/{id}
+      name: v1-subscriptions-id
+      description: REST surface for v1-subscriptions-id.
+      operations:
+      - method: GET
+        name: getsubscription
+        description: Get Subscription
+        call: koyeb-subscriptions.getsubscription
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: koyeb-subscriptions-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Koyeb Rest API — Subscriptions. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: get-subscription
+      description: Get Subscription
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: koyeb-subscriptions.getsubscription
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.

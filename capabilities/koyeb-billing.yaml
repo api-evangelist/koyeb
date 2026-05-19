@@ -1,0 +1,131 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Koyeb Rest API — billing
+  description: 'Koyeb Rest API — billing. 3 operations. Lead operation: Experimental: Has unpaid invoices. Self-contained
+    Naftiko capability covering one Koyeb business surface.'
+  tags:
+  - Koyeb
+  - billing
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    KOYEB_API_KEY: KOYEB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: koyeb-billing
+    baseUri: https://app.koyeb.com
+    description: Koyeb Rest API — billing business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-billing-has_unpaid_invoices
+      path: /v1/billing/has_unpaid_invoices
+      operations:
+      - name: hasunpaidinvoices
+        method: GET
+        description: 'Experimental: Has unpaid invoices'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v1-billing-manage
+      path: /v1/billing/manage
+      operations:
+      - name: manage
+        method: GET
+        description: ''
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v1-billing-next_invoice
+      path: /v1/billing/next_invoice
+      operations:
+      - name: nextinvoice
+        method: GET
+        description: 'Experimental: Fetch next invoice'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    namespace: koyeb-billing-rest
+    port: 8080
+    description: REST adapter for Koyeb Rest API — billing. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/v1/billing/has-unpaid-invoices
+      name: v1-billing-has-unpaid-invoices
+      description: REST surface for v1-billing-has_unpaid_invoices.
+      operations:
+      - method: GET
+        name: hasunpaidinvoices
+        description: 'Experimental: Has unpaid invoices'
+        call: koyeb-billing.hasunpaidinvoices
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/billing/manage
+      name: v1-billing-manage
+      description: REST surface for v1-billing-manage.
+      operations:
+      - method: GET
+        name: manage
+        description: manage
+        call: koyeb-billing.manage
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/billing/next-invoice
+      name: v1-billing-next-invoice
+      description: REST surface for v1-billing-next_invoice.
+      operations:
+      - method: GET
+        name: nextinvoice
+        description: 'Experimental: Fetch next invoice'
+        call: koyeb-billing.nextinvoice
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: koyeb-billing-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Koyeb Rest API — billing. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: experimental-has-unpaid-invoices
+      description: 'Experimental: Has unpaid invoices'
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: koyeb-billing.hasunpaidinvoices
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: manage
+      description: manage
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: koyeb-billing.manage
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: experimental-fetch-next-invoice
+      description: 'Experimental: Fetch next invoice'
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: koyeb-billing.nextinvoice
+      outputParameters:
+      - type: object
+        mapping: $.

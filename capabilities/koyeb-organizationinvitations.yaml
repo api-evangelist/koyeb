@@ -1,0 +1,253 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Koyeb Rest API — OrganizationInvitations
+  description: 'Koyeb Rest API — OrganizationInvitations. 5 operations. Lead operation: List Organization Invitations. Self-contained
+    Naftiko capability covering one Koyeb business surface.'
+  tags:
+  - Koyeb
+  - OrganizationInvitations
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    KOYEB_API_KEY: KOYEB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: koyeb-organizationinvitations
+    baseUri: https://app.koyeb.com
+    description: Koyeb Rest API — OrganizationInvitations business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-organization_invitations
+      path: /v1/organization_invitations
+      operations:
+      - name: listorganizationinvitations
+        method: GET
+        description: List Organization Invitations
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: limit
+          in: query
+          type: string
+          description: (Optional) The number of items to return
+        - name: offset
+          in: query
+          type: string
+          description: (Optional) The offset in the list of item to return
+        - name: statuses
+          in: query
+          type: array
+          description: (Optional) Filter on organization invitation statuses
+        - name: user_id
+          in: query
+          type: string
+          description: (Optional) Filter on invitee ID. Will match both invitations sent to
+      - name: createorganizationinvitation
+        method: POST
+        description: Create Organization Invitation
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: string
+          required: true
+    - name: v1-organization_invitations-id
+      path: /v1/organization_invitations/{id}
+      operations:
+      - name: getorganizationinvitation
+        method: GET
+        description: Get Organization Invitation
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The id of the invitation to get
+          required: true
+      - name: deleteorganizationinvitation
+        method: DELETE
+        description: Delete Organization Invitation
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The id of the organization invitation to delete
+          required: true
+    - name: v1-organization_invitations-id-resend
+      path: /v1/organization_invitations/{id}/resend
+      operations:
+      - name: resendorganizationinvitation
+        method: POST
+        description: Resend Organization Invitation
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The id of the organization invitation to resend
+          required: true
+        - name: body
+          in: body
+          type: object
+          required: true
+  exposes:
+  - type: rest
+    namespace: koyeb-organizationinvitations-rest
+    port: 8080
+    description: REST adapter for Koyeb Rest API — OrganizationInvitations. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/v1/organization-invitations
+      name: v1-organization-invitations
+      description: REST surface for v1-organization_invitations.
+      operations:
+      - method: GET
+        name: listorganizationinvitations
+        description: List Organization Invitations
+        call: koyeb-organizationinvitations.listorganizationinvitations
+        with:
+          limit: rest.limit
+          offset: rest.offset
+          statuses: rest.statuses
+          user_id: rest.user_id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createorganizationinvitation
+        description: Create Organization Invitation
+        call: koyeb-organizationinvitations.createorganizationinvitation
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/organization-invitations/{id}
+      name: v1-organization-invitations-id
+      description: REST surface for v1-organization_invitations-id.
+      operations:
+      - method: GET
+        name: getorganizationinvitation
+        description: Get Organization Invitation
+        call: koyeb-organizationinvitations.getorganizationinvitation
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteorganizationinvitation
+        description: Delete Organization Invitation
+        call: koyeb-organizationinvitations.deleteorganizationinvitation
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/organization-invitations/{id}/resend
+      name: v1-organization-invitations-id-resend
+      description: REST surface for v1-organization_invitations-id-resend.
+      operations:
+      - method: POST
+        name: resendorganizationinvitation
+        description: Resend Organization Invitation
+        call: koyeb-organizationinvitations.resendorganizationinvitation
+        with:
+          id: rest.id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: koyeb-organizationinvitations-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Koyeb Rest API — OrganizationInvitations. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: list-organization-invitations
+      description: List Organization Invitations
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: koyeb-organizationinvitations.listorganizationinvitations
+      with:
+        limit: tools.limit
+        offset: tools.offset
+        statuses: tools.statuses
+        user_id: tools.user_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-organization-invitation
+      description: Create Organization Invitation
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: koyeb-organizationinvitations.createorganizationinvitation
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-organization-invitation
+      description: Get Organization Invitation
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: koyeb-organizationinvitations.getorganizationinvitation
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-organization-invitation
+      description: Delete Organization Invitation
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: koyeb-organizationinvitations.deleteorganizationinvitation
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: resend-organization-invitation
+      description: Resend Organization Invitation
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: koyeb-organizationinvitations.resendorganizationinvitation
+      with:
+        id: tools.id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

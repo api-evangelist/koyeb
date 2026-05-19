@@ -1,0 +1,211 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Koyeb Rest API — Provisioning
+  description: 'Koyeb Rest API — Provisioning. 3 operations. Lead operation: Create an attempt for a stage. Self-contained
+    Naftiko capability covering one Koyeb business surface.'
+  tags:
+  - Koyeb
+  - Provisioning
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    KOYEB_API_KEY: KOYEB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: koyeb-provisioning
+    baseUri: https://app.koyeb.com
+    description: Koyeb Rest API — Provisioning business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-provisioning-deployment_id-status-stage-attempt
+      path: /v1/provisioning/{deployment_id}/status/{stage}/{attempt}
+      operations:
+      - name: createstageattempt
+        method: POST
+        description: Create an attempt for a stage
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: deployment_id
+          in: path
+          type: string
+          required: true
+        - name: stage
+          in: path
+          type: string
+          required: true
+        - name: attempt
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          required: true
+      - name: declarestageprogress
+        method: PATCH
+        description: Declare stage progress
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: deployment_id
+          in: path
+          type: string
+          required: true
+        - name: stage
+          in: path
+          type: string
+          required: true
+        - name: attempt
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          required: true
+    - name: v1-provisioning-deployment_id-status-stage-attempt-step
+      path: /v1/provisioning/{deployment_id}/status/{stage}/{attempt}/{step}
+      operations:
+      - name: declarestepprogress
+        method: PATCH
+        description: Declare step progress
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: deployment_id
+          in: path
+          type: string
+          required: true
+        - name: stage
+          in: path
+          type: string
+          required: true
+        - name: attempt
+          in: path
+          type: string
+          required: true
+        - name: step
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          required: true
+  exposes:
+  - type: rest
+    namespace: koyeb-provisioning-rest
+    port: 8080
+    description: REST adapter for Koyeb Rest API — Provisioning. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/v1/provisioning/{deployment-id}/status/{stage}/{attempt}
+      name: v1-provisioning-deployment-id-status-stage-attempt
+      description: REST surface for v1-provisioning-deployment_id-status-stage-attempt.
+      operations:
+      - method: POST
+        name: createstageattempt
+        description: Create an attempt for a stage
+        call: koyeb-provisioning.createstageattempt
+        with:
+          deployment_id: rest.deployment_id
+          stage: rest.stage
+          attempt: rest.attempt
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: declarestageprogress
+        description: Declare stage progress
+        call: koyeb-provisioning.declarestageprogress
+        with:
+          deployment_id: rest.deployment_id
+          stage: rest.stage
+          attempt: rest.attempt
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/provisioning/{deployment-id}/status/{stage}/{attempt}/{step}
+      name: v1-provisioning-deployment-id-status-stage-attempt-step
+      description: REST surface for v1-provisioning-deployment_id-status-stage-attempt-step.
+      operations:
+      - method: PATCH
+        name: declarestepprogress
+        description: Declare step progress
+        call: koyeb-provisioning.declarestepprogress
+        with:
+          deployment_id: rest.deployment_id
+          stage: rest.stage
+          attempt: rest.attempt
+          step: rest.step
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: koyeb-provisioning-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Koyeb Rest API — Provisioning. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: create-attempt-stage
+      description: Create an attempt for a stage
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: koyeb-provisioning.createstageattempt
+      with:
+        deployment_id: tools.deployment_id
+        stage: tools.stage
+        attempt: tools.attempt
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: declare-stage-progress
+      description: Declare stage progress
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: koyeb-provisioning.declarestageprogress
+      with:
+        deployment_id: tools.deployment_id
+        stage: tools.stage
+        attempt: tools.attempt
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: declare-step-progress
+      description: Declare step progress
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: koyeb-provisioning.declarestepprogress
+      with:
+        deployment_id: tools.deployment_id
+        stage: tools.stage
+        attempt: tools.attempt
+        step: tools.step
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

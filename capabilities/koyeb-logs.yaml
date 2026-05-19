@@ -1,0 +1,295 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Koyeb Rest API — Logs
+  description: 'Koyeb Rest API — Logs. 2 operations. Lead operation: Query logs. Self-contained Naftiko capability covering
+    one Koyeb business surface.'
+  tags:
+  - Koyeb
+  - Logs
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    KOYEB_API_KEY: KOYEB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: koyeb-logs
+    baseUri: https://app.koyeb.com
+    description: Koyeb Rest API — Logs business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-streams-logs-query
+      path: /v1/streams/logs/query
+      operations:
+      - name: querylogs
+        method: GET
+        description: Query logs
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: type
+          in: query
+          type: string
+          description: Type of logs to retrieve, either "build" or "runtime". Defaults to "runtime".
+        - name: app_id
+          in: query
+          type: string
+          description: (Optional) Filter on the provided app_id. At least one of app_id, service_id, deployment_id, regional_deployment_id
+            or instance_ids must be set.
+        - name: service_id
+          in: query
+          type: string
+          description: (Optional) Filter on the provided service_id. At least one of app_id, service_id, deployment_id, regional_deployment_id
+            or instance_ids must be set.
+        - name: deployment_id
+          in: query
+          type: string
+          description: (Optional) Filter on the provided deployment_id. At least one of app_id, service_id, deployment_id,
+            regional_deployment_id or instance_ids must be set.
+        - name: regional_deployment_id
+          in: query
+          type: string
+          description: (Optional) Filter on the provided regional_deployment_id. At least one of app_id, service_id, deployment_id,
+            regional_deployment_id or instance_ids must be set.
+        - name: instance_id
+          in: query
+          type: string
+          description: Deprecated, prefer using instance_ids instead.
+        - name: instance_ids
+          in: query
+          type: array
+          description: (Optional) Filter on the provided instance_ids. At least one of app_id, service_id, deployment_id,
+            regional_deployment_id or instance_ids must be set.
+        - name: stream
+          in: query
+          type: string
+          description: Deprecated, prefer using streams instead.
+        - name: streams
+          in: query
+          type: array
+          description: '(Optional) Filter on stream: either "stdout", "stderr" or "koyeb" (for system logs).'
+        - name: start
+          in: query
+          type: string
+          description: (Optional) Must always be before `end`. Defaults to 15 minutes ago.
+        - name: end
+          in: query
+          type: string
+          description: (Optional) Must always be after `start`. Defaults to now.
+        - name: order
+          in: query
+          type: string
+          description: (Optional) `asc` or `desc`. Defaults to `desc`.
+        - name: limit
+          in: query
+          type: string
+          description: (Optional) Defaults to 100. Maximum of 1000.
+        - name: regex
+          in: query
+          type: string
+          description: (Optional) Apply a regex to filter logs. Can't be used with `text`.
+        - name: text
+          in: query
+          type: string
+          description: (Optional) Looks for this string in logs. Can't be used with `regex`.
+        - name: regions
+          in: query
+          type: array
+          description: (Optional) Filter on the provided regions (e.g. ["fra", "was"]).
+    - name: v1-streams-logs-tail
+      path: /v1/streams/logs/tail
+      operations:
+      - name: taillogs
+        method: GET
+        description: Tails logs
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: type
+          in: query
+          type: string
+          description: Type of logs to retrieve, either "build" or "runtime". Defaults to "runtime".
+        - name: app_id
+          in: query
+          type: string
+          description: (Optional) Filter on the provided app_id. At least one of app_id, service_id, deployment_id, regional_deployment_id
+            or instance_ids must be set.
+        - name: service_id
+          in: query
+          type: string
+          description: (Optional) Filter on the provided service_id. At least one of app_id, service_id, deployment_id, regional_deployment_id
+            or instance_ids must be set.
+        - name: deployment_id
+          in: query
+          type: string
+          description: (Optional) Filter on the provided deployment_id. At least one of app_id, service_id, deployment_id,
+            regional_deployment_id or instance_ids must be set.
+        - name: regional_deployment_id
+          in: query
+          type: string
+          description: (Optional) Filter on the provided regional_deployment_id. At least one of app_id, service_id, deployment_id,
+            regional_deployment_id or instance_ids must be set.
+        - name: instance_id
+          in: query
+          type: string
+          description: Deprecated, prefer using instance_ids instead.
+        - name: instance_ids
+          in: query
+          type: array
+          description: (Optional) Filter on the provided instance_ids. At least one of app_id, service_id, deployment_id,
+            regional_deployment_id or instance_ids must be set.
+        - name: stream
+          in: query
+          type: string
+          description: Deprecated, prefer using streams instead.
+        - name: streams
+          in: query
+          type: array
+          description: '(Optional) Filter on stream: either "stdout", "stderr" or "koyeb" (for system logs).'
+        - name: start
+          in: query
+          type: string
+          description: (Optional) Defaults to 24 hours ago.
+        - name: limit
+          in: query
+          type: string
+          description: (Optional) Defaults to 1000. Maximum of 1000.
+        - name: regex
+          in: query
+          type: string
+          description: (Optional) Apply a regex to filter logs. Can't be used with `text`.
+        - name: text
+          in: query
+          type: string
+          description: (Optional) Looks for this string in logs. Can't be used with `regex`.
+        - name: regions
+          in: query
+          type: array
+          description: (Optional) Filter on the provided regions (e.g. ["fra", "was"]).
+  exposes:
+  - type: rest
+    namespace: koyeb-logs-rest
+    port: 8080
+    description: REST adapter for Koyeb Rest API — Logs. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/v1/streams/logs/query
+      name: v1-streams-logs-query
+      description: REST surface for v1-streams-logs-query.
+      operations:
+      - method: GET
+        name: querylogs
+        description: Query logs
+        call: koyeb-logs.querylogs
+        with:
+          type: rest.type
+          app_id: rest.app_id
+          service_id: rest.service_id
+          deployment_id: rest.deployment_id
+          regional_deployment_id: rest.regional_deployment_id
+          instance_id: rest.instance_id
+          instance_ids: rest.instance_ids
+          stream: rest.stream
+          streams: rest.streams
+          start: rest.start
+          end: rest.end
+          order: rest.order
+          limit: rest.limit
+          regex: rest.regex
+          text: rest.text
+          regions: rest.regions
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/streams/logs/tail
+      name: v1-streams-logs-tail
+      description: REST surface for v1-streams-logs-tail.
+      operations:
+      - method: GET
+        name: taillogs
+        description: Tails logs
+        call: koyeb-logs.taillogs
+        with:
+          type: rest.type
+          app_id: rest.app_id
+          service_id: rest.service_id
+          deployment_id: rest.deployment_id
+          regional_deployment_id: rest.regional_deployment_id
+          instance_id: rest.instance_id
+          instance_ids: rest.instance_ids
+          stream: rest.stream
+          streams: rest.streams
+          start: rest.start
+          limit: rest.limit
+          regex: rest.regex
+          text: rest.text
+          regions: rest.regions
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: koyeb-logs-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Koyeb Rest API — Logs. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: query-logs
+      description: Query logs
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: koyeb-logs.querylogs
+      with:
+        type: tools.type
+        app_id: tools.app_id
+        service_id: tools.service_id
+        deployment_id: tools.deployment_id
+        regional_deployment_id: tools.regional_deployment_id
+        instance_id: tools.instance_id
+        instance_ids: tools.instance_ids
+        stream: tools.stream
+        streams: tools.streams
+        start: tools.start
+        end: tools.end
+        order: tools.order
+        limit: tools.limit
+        regex: tools.regex
+        text: tools.text
+        regions: tools.regions
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: tails-logs
+      description: Tails logs
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: koyeb-logs.taillogs
+      with:
+        type: tools.type
+        app_id: tools.app_id
+        service_id: tools.service_id
+        deployment_id: tools.deployment_id
+        regional_deployment_id: tools.regional_deployment_id
+        instance_id: tools.instance_id
+        instance_ids: tools.instance_ids
+        stream: tools.stream
+        streams: tools.streams
+        start: tools.start
+        limit: tools.limit
+        regex: tools.regex
+        text: tools.text
+        regions: tools.regions
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,196 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Koyeb Rest API — activity
+  description: 'Koyeb Rest API — activity. 3 operations. Lead operation: List Activities. Self-contained Naftiko capability
+    covering one Koyeb business surface.'
+  tags:
+  - Koyeb
+  - activity
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    KOYEB_API_KEY: KOYEB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: koyeb-activity
+    baseUri: https://app.koyeb.com
+    description: Koyeb Rest API — activity business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-account-activities
+      path: /v1/account/activities
+      operations:
+      - name: getaccountactivities
+        method: GET
+        description: ''
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: limit
+          in: query
+          type: string
+        - name: offset
+          in: query
+          type: string
+    - name: v1-activities
+      path: /v1/activities
+      operations:
+      - name: listactivities
+        method: GET
+        description: List Activities
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: limit
+          in: query
+          type: string
+        - name: offset
+          in: query
+          type: string
+        - name: types
+          in: query
+          type: array
+          description: (Optional) Filter on object type
+    - name: v1-notifications
+      path: /v1/notifications
+      operations:
+      - name: listnotifications
+        method: GET
+        description: List Notifications
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: limit
+          in: query
+          type: string
+        - name: offset
+          in: query
+          type: string
+        - name: mark_read
+          in: query
+          type: string
+        - name: mark_seen
+          in: query
+          type: string
+        - name: unread
+          in: query
+          type: string
+        - name: unseen
+          in: query
+          type: string
+  exposes:
+  - type: rest
+    namespace: koyeb-activity-rest
+    port: 8080
+    description: REST adapter for Koyeb Rest API — activity. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/v1/account/activities
+      name: v1-account-activities
+      description: REST surface for v1-account-activities.
+      operations:
+      - method: GET
+        name: getaccountactivities
+        description: getaccountactivities
+        call: koyeb-activity.getaccountactivities
+        with:
+          limit: rest.limit
+          offset: rest.offset
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/activities
+      name: v1-activities
+      description: REST surface for v1-activities.
+      operations:
+      - method: GET
+        name: listactivities
+        description: List Activities
+        call: koyeb-activity.listactivities
+        with:
+          limit: rest.limit
+          offset: rest.offset
+          types: rest.types
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/notifications
+      name: v1-notifications
+      description: REST surface for v1-notifications.
+      operations:
+      - method: GET
+        name: listnotifications
+        description: List Notifications
+        call: koyeb-activity.listnotifications
+        with:
+          limit: rest.limit
+          offset: rest.offset
+          mark_read: rest.mark_read
+          mark_seen: rest.mark_seen
+          unread: rest.unread
+          unseen: rest.unseen
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: koyeb-activity-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Koyeb Rest API — activity. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: getaccountactivities
+      description: getaccountactivities
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: koyeb-activity.getaccountactivities
+      with:
+        limit: tools.limit
+        offset: tools.offset
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-activities
+      description: List Activities
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: koyeb-activity.listactivities
+      with:
+        limit: tools.limit
+        offset: tools.offset
+        types: tools.types
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-notifications
+      description: List Notifications
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: koyeb-activity.listnotifications
+      with:
+        limit: tools.limit
+        offset: tools.offset
+        mark_read: tools.mark_read
+        mark_seen: tools.mark_seen
+        unread: tools.unread
+        unseen: tools.unseen
+      outputParameters:
+      - type: object
+        mapping: $.

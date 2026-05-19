@@ -1,0 +1,302 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Koyeb Rest API — Deployments
+  description: 'Koyeb Rest API — Deployments. 5 operations. Lead operation: Get Deployment Scaling. Self-contained Naftiko
+    capability covering one Koyeb business surface.'
+  tags:
+  - Koyeb
+  - Deployments
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    KOYEB_API_KEY: KOYEB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: koyeb-deployments
+    baseUri: https://app.koyeb.com
+    description: Koyeb Rest API — Deployments business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-deployment-id-scaling
+      path: /v1/deployment/{id}/scaling
+      operations:
+      - name: getdeploymentscaling
+        method: GET
+        description: Get Deployment Scaling
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - name: region
+          in: query
+          type: string
+          description: (Optional) Filter on region
+        - name: replica_index
+          in: query
+          type: integer
+          description: (Optional) Filter on replica_index
+    - name: v1-deployment_events
+      path: /v1/deployment_events
+      operations:
+      - name: listdeploymentevents
+        method: GET
+        description: List Deployment events
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: deployment_id
+          in: query
+          type: string
+          description: (Optional) Filter on deployment id
+        - name: types
+          in: query
+          type: array
+          description: (Optional) Filter on deployment event types
+        - name: limit
+          in: query
+          type: string
+          description: (Optional) The number of items to return
+        - name: offset
+          in: query
+          type: string
+          description: (Optional) The offset in the list of item to return
+        - name: order
+          in: query
+          type: string
+          description: (Optional) Sorts the list in the ascending or the descending order
+    - name: v1-deployments
+      path: /v1/deployments
+      operations:
+      - name: listdeployments
+        method: GET
+        description: List Deployments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: app_id
+          in: query
+          type: string
+          description: (Optional) Filter on application id
+        - name: service_id
+          in: query
+          type: string
+          description: (Optional) Filter on service id
+        - name: limit
+          in: query
+          type: string
+          description: (Optional) The number of items to return
+        - name: offset
+          in: query
+          type: string
+          description: (Optional) The offset in the list of item to return
+        - name: statuses
+          in: query
+          type: array
+          description: (Optional) Filter on statuses
+    - name: v1-deployments-id
+      path: /v1/deployments/{id}
+      operations:
+      - name: getdeployment
+        method: GET
+        description: Get Deployment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The id of the deployment
+          required: true
+    - name: v1-deployments-id-cancel
+      path: /v1/deployments/{id}/cancel
+      operations:
+      - name: canceldeployment
+        method: POST
+        description: Cancel Deployment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The id of the deployment to cancel.
+          required: true
+  exposes:
+  - type: rest
+    namespace: koyeb-deployments-rest
+    port: 8080
+    description: REST adapter for Koyeb Rest API — Deployments. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/v1/deployment/{id}/scaling
+      name: v1-deployment-id-scaling
+      description: REST surface for v1-deployment-id-scaling.
+      operations:
+      - method: GET
+        name: getdeploymentscaling
+        description: Get Deployment Scaling
+        call: koyeb-deployments.getdeploymentscaling
+        with:
+          id: rest.id
+          region: rest.region
+          replica_index: rest.replica_index
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/deployment-events
+      name: v1-deployment-events
+      description: REST surface for v1-deployment_events.
+      operations:
+      - method: GET
+        name: listdeploymentevents
+        description: List Deployment events
+        call: koyeb-deployments.listdeploymentevents
+        with:
+          deployment_id: rest.deployment_id
+          types: rest.types
+          limit: rest.limit
+          offset: rest.offset
+          order: rest.order
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/deployments
+      name: v1-deployments
+      description: REST surface for v1-deployments.
+      operations:
+      - method: GET
+        name: listdeployments
+        description: List Deployments
+        call: koyeb-deployments.listdeployments
+        with:
+          app_id: rest.app_id
+          service_id: rest.service_id
+          limit: rest.limit
+          offset: rest.offset
+          statuses: rest.statuses
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/deployments/{id}
+      name: v1-deployments-id
+      description: REST surface for v1-deployments-id.
+      operations:
+      - method: GET
+        name: getdeployment
+        description: Get Deployment
+        call: koyeb-deployments.getdeployment
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/deployments/{id}/cancel
+      name: v1-deployments-id-cancel
+      description: REST surface for v1-deployments-id-cancel.
+      operations:
+      - method: POST
+        name: canceldeployment
+        description: Cancel Deployment
+        call: koyeb-deployments.canceldeployment
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: koyeb-deployments-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Koyeb Rest API — Deployments. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: get-deployment-scaling
+      description: Get Deployment Scaling
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: koyeb-deployments.getdeploymentscaling
+      with:
+        id: tools.id
+        region: tools.region
+        replica_index: tools.replica_index
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-deployment-events
+      description: List Deployment events
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: koyeb-deployments.listdeploymentevents
+      with:
+        deployment_id: tools.deployment_id
+        types: tools.types
+        limit: tools.limit
+        offset: tools.offset
+        order: tools.order
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-deployments
+      description: List Deployments
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: koyeb-deployments.listdeployments
+      with:
+        app_id: tools.app_id
+        service_id: tools.service_id
+        limit: tools.limit
+        offset: tools.offset
+        statuses: tools.statuses
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-deployment
+      description: Get Deployment
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: koyeb-deployments.getdeployment
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: cancel-deployment
+      description: Cancel Deployment
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: koyeb-deployments.canceldeployment
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.

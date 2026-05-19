@@ -1,0 +1,845 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Koyeb Rest API — organization
+  description: 'Koyeb Rest API — organization. 19 operations. Lead operation: Fetch Github Installation configuration. Self-contained
+    Naftiko capability covering one Koyeb business surface.'
+  tags:
+  - Koyeb
+  - organization
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    KOYEB_API_KEY: KOYEB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: koyeb-organization
+    baseUri: https://app.koyeb.com
+    description: Koyeb Rest API — organization business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-github-installation
+      path: /v1/github/installation
+      operations:
+      - name: getgithubinstallation
+        method: GET
+        description: Fetch Github Installation configuration
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: githubinstallation
+        method: POST
+        description: Start Github Installation
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: string
+          required: true
+    - name: v1-organizations
+      path: /v1/organizations
+      operations:
+      - name: createorganization
+        method: POST
+        description: Create Organization
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: string
+          required: true
+    - name: v1-organizations-id
+      path: /v1/organizations/{id}
+      operations:
+      - name: getorganization
+        method: GET
+        description: Get Organization
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+      - name: deleteorganization
+        method: DELETE
+        description: Delete an Organization
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+      - name: updateorganization
+        method: PUT
+        description: Update Organization
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - name: organization
+          in: body
+          type: string
+          required: true
+        - name: update_mask
+          in: query
+          type: string
+      - name: updateorganization2
+        method: PATCH
+        description: Update Organization
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - name: organization
+          in: body
+          type: string
+          required: true
+        - name: update_mask
+          in: query
+          type: string
+    - name: v1-organizations-id-access_token
+      path: /v1/organizations/{id}/access_token
+      operations:
+      - name: createaccesstoken
+        method: POST
+        description: CreateAccessToken
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: Organization id for ephemeral credential
+          required: true
+        - name: body
+          in: body
+          type: object
+          required: true
+    - name: v1-organizations-id-deactivate
+      path: /v1/organizations/{id}/deactivate
+      operations:
+      - name: deactivateorganization
+        method: POST
+        description: Deactivate an Organization
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          required: true
+    - name: v1-organizations-id-name
+      path: /v1/organizations/{id}/name
+      operations:
+      - name: updateorganizationname
+        method: PUT
+        description: Update Organization Name
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          required: true
+    - name: v1-organizations-id-plan
+      path: /v1/organizations/{id}/plan
+      operations:
+      - name: updateorganizationplan
+        method: POST
+        description: Update Organization plan
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          required: true
+    - name: v1-organizations-id-reactivate
+      path: /v1/organizations/{id}/reactivate
+      operations:
+      - name: reactivateorganization
+        method: POST
+        description: Reactivate an Organization
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          required: true
+    - name: v1-organizations-id-signup_qualification
+      path: /v1/organizations/{id}/signup_qualification
+      operations:
+      - name: upsertsignupqualification
+        method: POST
+        description: Upsert Organization's signup qualification
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          required: true
+    - name: v1-organizations-id-switch
+      path: /v1/organizations/{id}/switch
+      operations:
+      - name: switchorganization
+        method: POST
+        description: Switch Organization context
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          required: true
+        - name: seon-fp
+          in: header
+          type: string
+          description: Seon Fingerprint
+    - name: v1-organizations-organization_id-budget
+      path: /v1/organizations/{organization_id}/budget
+      operations:
+      - name: getbudget
+        method: GET
+        description: Get Budget
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: organization_id
+          in: path
+          type: string
+          required: true
+      - name: deletebudget
+        method: DELETE
+        description: Delete Budget
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: organization_id
+          in: path
+          type: string
+          required: true
+      - name: createbudget
+        method: POST
+        description: Create Budget
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: organization_id
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          required: true
+      - name: updatebudget
+        method: PUT
+        description: Update Budget
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: organization_id
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          required: true
+    - name: v1-unscope_organization_token
+      path: /v1/unscope_organization_token
+      operations:
+      - name: unscopeorganizationtoken
+        method: POST
+        description: Unscope Organization Token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: string
+          required: true
+        - name: seon-fp
+          in: header
+          type: string
+          description: Seon Fingerprint
+  exposes:
+  - type: rest
+    namespace: koyeb-organization-rest
+    port: 8080
+    description: REST adapter for Koyeb Rest API — organization. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/v1/github/installation
+      name: v1-github-installation
+      description: REST surface for v1-github-installation.
+      operations:
+      - method: GET
+        name: getgithubinstallation
+        description: Fetch Github Installation configuration
+        call: koyeb-organization.getgithubinstallation
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: githubinstallation
+        description: Start Github Installation
+        call: koyeb-organization.githubinstallation
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/organizations
+      name: v1-organizations
+      description: REST surface for v1-organizations.
+      operations:
+      - method: POST
+        name: createorganization
+        description: Create Organization
+        call: koyeb-organization.createorganization
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/organizations/{id}
+      name: v1-organizations-id
+      description: REST surface for v1-organizations-id.
+      operations:
+      - method: GET
+        name: getorganization
+        description: Get Organization
+        call: koyeb-organization.getorganization
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteorganization
+        description: Delete an Organization
+        call: koyeb-organization.deleteorganization
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updateorganization
+        description: Update Organization
+        call: koyeb-organization.updateorganization
+        with:
+          id: rest.id
+          organization: rest.organization
+          update_mask: rest.update_mask
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: updateorganization2
+        description: Update Organization
+        call: koyeb-organization.updateorganization2
+        with:
+          id: rest.id
+          organization: rest.organization
+          update_mask: rest.update_mask
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/organizations/{id}/access-token
+      name: v1-organizations-id-access-token
+      description: REST surface for v1-organizations-id-access_token.
+      operations:
+      - method: POST
+        name: createaccesstoken
+        description: CreateAccessToken
+        call: koyeb-organization.createaccesstoken
+        with:
+          id: rest.id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/organizations/{id}/deactivate
+      name: v1-organizations-id-deactivate
+      description: REST surface for v1-organizations-id-deactivate.
+      operations:
+      - method: POST
+        name: deactivateorganization
+        description: Deactivate an Organization
+        call: koyeb-organization.deactivateorganization
+        with:
+          id: rest.id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/organizations/{id}/name
+      name: v1-organizations-id-name
+      description: REST surface for v1-organizations-id-name.
+      operations:
+      - method: PUT
+        name: updateorganizationname
+        description: Update Organization Name
+        call: koyeb-organization.updateorganizationname
+        with:
+          id: rest.id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/organizations/{id}/plan
+      name: v1-organizations-id-plan
+      description: REST surface for v1-organizations-id-plan.
+      operations:
+      - method: POST
+        name: updateorganizationplan
+        description: Update Organization plan
+        call: koyeb-organization.updateorganizationplan
+        with:
+          id: rest.id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/organizations/{id}/reactivate
+      name: v1-organizations-id-reactivate
+      description: REST surface for v1-organizations-id-reactivate.
+      operations:
+      - method: POST
+        name: reactivateorganization
+        description: Reactivate an Organization
+        call: koyeb-organization.reactivateorganization
+        with:
+          id: rest.id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/organizations/{id}/signup-qualification
+      name: v1-organizations-id-signup-qualification
+      description: REST surface for v1-organizations-id-signup_qualification.
+      operations:
+      - method: POST
+        name: upsertsignupqualification
+        description: Upsert Organization's signup qualification
+        call: koyeb-organization.upsertsignupqualification
+        with:
+          id: rest.id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/organizations/{id}/switch
+      name: v1-organizations-id-switch
+      description: REST surface for v1-organizations-id-switch.
+      operations:
+      - method: POST
+        name: switchorganization
+        description: Switch Organization context
+        call: koyeb-organization.switchorganization
+        with:
+          id: rest.id
+          body: rest.body
+          seon-fp: rest.seon-fp
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/organizations/{organization-id}/budget
+      name: v1-organizations-organization-id-budget
+      description: REST surface for v1-organizations-organization_id-budget.
+      operations:
+      - method: GET
+        name: getbudget
+        description: Get Budget
+        call: koyeb-organization.getbudget
+        with:
+          organization_id: rest.organization_id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletebudget
+        description: Delete Budget
+        call: koyeb-organization.deletebudget
+        with:
+          organization_id: rest.organization_id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createbudget
+        description: Create Budget
+        call: koyeb-organization.createbudget
+        with:
+          organization_id: rest.organization_id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatebudget
+        description: Update Budget
+        call: koyeb-organization.updatebudget
+        with:
+          organization_id: rest.organization_id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/unscope-organization-token
+      name: v1-unscope-organization-token
+      description: REST surface for v1-unscope_organization_token.
+      operations:
+      - method: POST
+        name: unscopeorganizationtoken
+        description: Unscope Organization Token
+        call: koyeb-organization.unscopeorganizationtoken
+        with:
+          body: rest.body
+          seon-fp: rest.seon-fp
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: koyeb-organization-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Koyeb Rest API — organization. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: fetch-github-installation-configuration
+      description: Fetch Github Installation configuration
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: koyeb-organization.getgithubinstallation
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: start-github-installation
+      description: Start Github Installation
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: koyeb-organization.githubinstallation
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-organization
+      description: Create Organization
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: koyeb-organization.createorganization
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-organization
+      description: Get Organization
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: koyeb-organization.getorganization
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-organization
+      description: Delete an Organization
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: koyeb-organization.deleteorganization
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-organization
+      description: Update Organization
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: koyeb-organization.updateorganization
+      with:
+        id: tools.id
+        organization: tools.organization
+        update_mask: tools.update_mask
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-organization-2
+      description: Update Organization
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: koyeb-organization.updateorganization2
+      with:
+        id: tools.id
+        organization: tools.organization
+        update_mask: tools.update_mask
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: createaccesstoken
+      description: CreateAccessToken
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: koyeb-organization.createaccesstoken
+      with:
+        id: tools.id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: deactivate-organization
+      description: Deactivate an Organization
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: koyeb-organization.deactivateorganization
+      with:
+        id: tools.id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-organization-name
+      description: Update Organization Name
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: koyeb-organization.updateorganizationname
+      with:
+        id: tools.id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-organization-plan
+      description: Update Organization plan
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: koyeb-organization.updateorganizationplan
+      with:
+        id: tools.id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: reactivate-organization
+      description: Reactivate an Organization
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: koyeb-organization.reactivateorganization
+      with:
+        id: tools.id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: upsert-organization-s-signup-qualification
+      description: Upsert Organization's signup qualification
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: koyeb-organization.upsertsignupqualification
+      with:
+        id: tools.id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: switch-organization-context
+      description: Switch Organization context
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: koyeb-organization.switchorganization
+      with:
+        id: tools.id
+        body: tools.body
+        seon-fp: tools.seon-fp
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-budget
+      description: Get Budget
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: koyeb-organization.getbudget
+      with:
+        organization_id: tools.organization_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-budget
+      description: Delete Budget
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: koyeb-organization.deletebudget
+      with:
+        organization_id: tools.organization_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-budget
+      description: Create Budget
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: koyeb-organization.createbudget
+      with:
+        organization_id: tools.organization_id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-budget
+      description: Update Budget
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: koyeb-organization.updatebudget
+      with:
+        organization_id: tools.organization_id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: unscope-organization-token
+      description: Unscope Organization Token
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: koyeb-organization.unscopeorganizationtoken
+      with:
+        body: tools.body
+        seon-fp: tools.seon-fp
+      outputParameters:
+      - type: object
+        mapping: $.

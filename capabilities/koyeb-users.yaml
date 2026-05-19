@@ -1,0 +1,119 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Koyeb Rest API — Users
+  description: 'Koyeb Rest API — Users. 2 operations. Lead operation: Delete user. Self-contained Naftiko capability covering
+    one Koyeb business surface.'
+  tags:
+  - Koyeb
+  - Users
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    KOYEB_API_KEY: KOYEB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: koyeb-users
+    baseUri: https://app.koyeb.com
+    description: Koyeb Rest API — Users business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-users-id
+      path: /v1/users/{id}
+      operations:
+      - name: deleteuser
+        method: DELETE
+        description: Delete user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The id of the user
+          required: true
+    - name: v2-users-id
+      path: /v2/users/{id}
+      operations:
+      - name: deleteuserv2
+        method: DELETE
+        description: V2 Delete user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The id of the user
+          required: true
+  exposes:
+  - type: rest
+    namespace: koyeb-users-rest
+    port: 8080
+    description: REST adapter for Koyeb Rest API — Users. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/v1/users/{id}
+      name: v1-users-id
+      description: REST surface for v1-users-id.
+      operations:
+      - method: DELETE
+        name: deleteuser
+        description: Delete user
+        call: koyeb-users.deleteuser
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/users/{id}
+      name: v2-users-id
+      description: REST surface for v2-users-id.
+      operations:
+      - method: DELETE
+        name: deleteuserv2
+        description: V2 Delete user
+        call: koyeb-users.deleteuserv2
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: koyeb-users-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Koyeb Rest API — Users. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: delete-user
+      description: Delete user
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: koyeb-users.deleteuser
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: v2-delete-user
+      description: V2 Delete user
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: koyeb-users.deleteuserv2
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.

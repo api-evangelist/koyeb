@@ -1,0 +1,195 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Koyeb Rest API — Repositories
+  description: 'Koyeb Rest API — Repositories. 3 operations. Lead operation: List Branches. Self-contained Naftiko capability
+    covering one Koyeb business surface.'
+  tags:
+  - Koyeb
+  - Repositories
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    KOYEB_API_KEY: KOYEB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: koyeb-repositories
+    baseUri: https://app.koyeb.com
+    description: Koyeb Rest API — Repositories business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-git-branches
+      path: /v1/git/branches
+      operations:
+      - name: listbranches
+        method: GET
+        description: List Branches
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: repository_id
+          in: query
+          type: string
+          description: (Optional) Filter on one repository.
+        - name: name
+          in: query
+          type: string
+          description: (Optional) Filter on branch name using a fuzzy search.
+        - name: limit
+          in: query
+          type: string
+          description: (Optional) The number of items to return.
+        - name: offset
+          in: query
+          type: string
+          description: (Optional) The offset in the list of item to return.
+    - name: v1-git-repositories
+      path: /v1/git/repositories
+      operations:
+      - name: listrepositories
+        method: GET
+        description: List Repositories
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: query
+          type: string
+          description: (Optional) Filter on repository name using a fuzzy search.
+        - name: name_search_op
+          in: query
+          type: string
+          description: (Optional) Define search operation for repository name. Accept either "fuzzy" or "equality", use "fuzzy"
+            by default.
+        - name: limit
+          in: query
+          type: string
+          description: (Optional) The number of items to return.
+        - name: offset
+          in: query
+          type: string
+          description: (Optional) The offset in the list of item to return.
+    - name: v1-git-sync-organization-organization_id
+      path: /v1/git/sync/organization/{organization_id}
+      operations:
+      - name: resyncorganization
+        method: POST
+        description: Resync Organization
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: organization_id
+          in: path
+          type: string
+          required: true
+  exposes:
+  - type: rest
+    namespace: koyeb-repositories-rest
+    port: 8080
+    description: REST adapter for Koyeb Rest API — Repositories. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/v1/git/branches
+      name: v1-git-branches
+      description: REST surface for v1-git-branches.
+      operations:
+      - method: GET
+        name: listbranches
+        description: List Branches
+        call: koyeb-repositories.listbranches
+        with:
+          repository_id: rest.repository_id
+          name: rest.name
+          limit: rest.limit
+          offset: rest.offset
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/git/repositories
+      name: v1-git-repositories
+      description: REST surface for v1-git-repositories.
+      operations:
+      - method: GET
+        name: listrepositories
+        description: List Repositories
+        call: koyeb-repositories.listrepositories
+        with:
+          name: rest.name
+          name_search_op: rest.name_search_op
+          limit: rest.limit
+          offset: rest.offset
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/git/sync/organization/{organization-id}
+      name: v1-git-sync-organization-organization-id
+      description: REST surface for v1-git-sync-organization-organization_id.
+      operations:
+      - method: POST
+        name: resyncorganization
+        description: Resync Organization
+        call: koyeb-repositories.resyncorganization
+        with:
+          organization_id: rest.organization_id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: koyeb-repositories-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Koyeb Rest API — Repositories. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: list-branches
+      description: List Branches
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: koyeb-repositories.listbranches
+      with:
+        repository_id: tools.repository_id
+        name: tools.name
+        limit: tools.limit
+        offset: tools.offset
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-repositories
+      description: List Repositories
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: koyeb-repositories.listrepositories
+      with:
+        name: tools.name
+        name_search_op: tools.name_search_op
+        limit: tools.limit
+        offset: tools.offset
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: resync-organization
+      description: Resync Organization
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: koyeb-repositories.resyncorganization
+      with:
+        organization_id: tools.organization_id
+      outputParameters:
+      - type: object
+        mapping: $.

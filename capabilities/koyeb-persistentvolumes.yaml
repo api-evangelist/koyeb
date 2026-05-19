@@ -1,0 +1,320 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Koyeb Rest API — PersistentVolumes
+  description: 'Koyeb Rest API — PersistentVolumes. 6 operations. Lead operation: List Persistent Volume events. Self-contained
+    Naftiko capability covering one Koyeb business surface.'
+  tags:
+  - Koyeb
+  - PersistentVolumes
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    KOYEB_API_KEY: KOYEB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: koyeb-persistentvolumes
+    baseUri: https://app.koyeb.com
+    description: Koyeb Rest API — PersistentVolumes business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-volume_events
+      path: /v1/volume_events
+      operations:
+      - name: listpersistentvolumeevents
+        method: GET
+        description: List Persistent Volume events
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: persistent_volume_id
+          in: query
+          type: string
+          description: (Optional) Filter on persistent volume id
+        - name: types
+          in: query
+          type: array
+          description: (Optional) Filter on persistent volume event types
+        - name: limit
+          in: query
+          type: string
+          description: (Optional) The number of items to return
+        - name: offset
+          in: query
+          type: string
+          description: (Optional) The offset in the list of item to return
+        - name: order
+          in: query
+          type: string
+          description: (Optional) Sorts the list in the ascending or the descending order
+    - name: v1-volumes
+      path: /v1/volumes
+      operations:
+      - name: listpersistentvolumes
+        method: GET
+        description: List all PersistentVolumes
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: limit
+          in: query
+          type: string
+          description: (Optional) The number of items to return
+        - name: offset
+          in: query
+          type: string
+          description: (Optional) The offset in the list of item to return
+        - name: service_id
+          in: query
+          type: string
+          description: (Optional) A filter for the service id
+        - name: region
+          in: query
+          type: string
+          description: (Optional) A filter for the region
+        - name: name
+          in: query
+          type: string
+          description: (Optional) A filter for the name
+        - name: project_id
+          in: query
+          type: string
+          description: (Optional) A filter for the project ID
+      - name: createpersistentvolume
+        method: POST
+        description: Create a PersistentVolume
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: string
+          required: true
+    - name: v1-volumes-id
+      path: /v1/volumes/{id}
+      operations:
+      - name: getpersistentvolume
+        method: GET
+        description: Get a PersistentVolume
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+      - name: deletepersistentvolume
+        method: DELETE
+        description: Delete a PersistentVolume
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+      - name: updatepersistentvolume
+        method: POST
+        description: Update a PersistentVolume
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          required: true
+  exposes:
+  - type: rest
+    namespace: koyeb-persistentvolumes-rest
+    port: 8080
+    description: REST adapter for Koyeb Rest API — PersistentVolumes. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/v1/volume-events
+      name: v1-volume-events
+      description: REST surface for v1-volume_events.
+      operations:
+      - method: GET
+        name: listpersistentvolumeevents
+        description: List Persistent Volume events
+        call: koyeb-persistentvolumes.listpersistentvolumeevents
+        with:
+          persistent_volume_id: rest.persistent_volume_id
+          types: rest.types
+          limit: rest.limit
+          offset: rest.offset
+          order: rest.order
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/volumes
+      name: v1-volumes
+      description: REST surface for v1-volumes.
+      operations:
+      - method: GET
+        name: listpersistentvolumes
+        description: List all PersistentVolumes
+        call: koyeb-persistentvolumes.listpersistentvolumes
+        with:
+          limit: rest.limit
+          offset: rest.offset
+          service_id: rest.service_id
+          region: rest.region
+          name: rest.name
+          project_id: rest.project_id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createpersistentvolume
+        description: Create a PersistentVolume
+        call: koyeb-persistentvolumes.createpersistentvolume
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/volumes/{id}
+      name: v1-volumes-id
+      description: REST surface for v1-volumes-id.
+      operations:
+      - method: GET
+        name: getpersistentvolume
+        description: Get a PersistentVolume
+        call: koyeb-persistentvolumes.getpersistentvolume
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletepersistentvolume
+        description: Delete a PersistentVolume
+        call: koyeb-persistentvolumes.deletepersistentvolume
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: updatepersistentvolume
+        description: Update a PersistentVolume
+        call: koyeb-persistentvolumes.updatepersistentvolume
+        with:
+          id: rest.id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: koyeb-persistentvolumes-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Koyeb Rest API — PersistentVolumes. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-persistent-volume-events
+      description: List Persistent Volume events
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: koyeb-persistentvolumes.listpersistentvolumeevents
+      with:
+        persistent_volume_id: tools.persistent_volume_id
+        types: tools.types
+        limit: tools.limit
+        offset: tools.offset
+        order: tools.order
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-all-persistentvolumes
+      description: List all PersistentVolumes
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: koyeb-persistentvolumes.listpersistentvolumes
+      with:
+        limit: tools.limit
+        offset: tools.offset
+        service_id: tools.service_id
+        region: tools.region
+        name: tools.name
+        project_id: tools.project_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-persistentvolume
+      description: Create a PersistentVolume
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: koyeb-persistentvolumes.createpersistentvolume
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-persistentvolume
+      description: Get a PersistentVolume
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: koyeb-persistentvolumes.getpersistentvolume
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-persistentvolume
+      description: Delete a PersistentVolume
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: koyeb-persistentvolumes.deletepersistentvolume
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-persistentvolume
+      description: Update a PersistentVolume
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: koyeb-persistentvolumes.updatepersistentvolume
+      with:
+        id: tools.id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
