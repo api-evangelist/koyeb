@@ -8,136 +8,138 @@ position: Consumer
 access: 3rd-Party
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
-- Cloud Platform
-- Deployment
-- PaaS
-- Serverless
+  - Cloud Platform
+  - Deployment
+  - PaaS
+  - Serverless
 created: '2025-01-08'
 modified: '2026-05-19'
 url: https://raw.githubusercontent.com/api-evangelist/koyeb/refs/heads/main/apis.yml
 specificationVersion: '0.19'
 apis:
-- aid: koyeb:koyeb-api
-  name: Koyeb API
-  description: The Koyeb API provides programmatic access to manage apps, services, deployments, secrets, domains, regions,
-    organizations and billing on the Koyeb serverless platform.
-  humanURL: https://www.koyeb.com/docs/api
-  baseURL: https://app.koyeb.com
-  tags:
-  - Deployment
-  - Serverless
-  properties:
-  - type: Documentation
-    url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
-  - type: OpenAPI
-    url: https://raw.githubusercontent.com/api-evangelist/koyeb/refs/heads/main/openapi/koyeb-openapi.json
-  - type: NaftikoCapability
-    url: capabilities/koyeb-apps.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-archives.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-catalogdatacenters.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-cataloginstanceusage.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-cataloginstances.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-catalogregions.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-compose.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-coupons.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-credentials.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-deployments.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-dockerhelper.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-domains.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-instances.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-intercom.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-logs.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-metrics.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-organizationconfirmations.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-organizationinvitations.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-organizationmembers.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-organizationquotas.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-paymentmethods.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-persistentvolumes.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-profile.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-projects.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-provisioning.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-quotas.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-regionaldeployments.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-repositories.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-search.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-secrets.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-services.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-sessions.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-snapshots.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-subscriptions.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-summary.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-usages.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-users.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-activity.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-billing.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-invite.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-organization.yaml
-  - type: NaftikoCapability
-    url: capabilities/koyeb-sso.yaml
+  - aid: koyeb:koyeb-api
+    name: Koyeb API
+    description: The Koyeb API provides programmatic access to manage apps, services, deployments, secrets, domains, regions,
+      organizations and billing on the Koyeb serverless platform.
+    humanURL: https://www.koyeb.com/docs/api
+    baseURL: https://app.koyeb.com
+    tags:
+    - Deployment
+    - Serverless
+    properties:
+    - type: Documentation
+      url: https://www.koyeb.com/docs/api
+    - type: Reference
+      url: https://www.koyeb.com/docs/reference
+    - type: OpenAPI
+      url: https://raw.githubusercontent.com/api-evangelist/koyeb/refs/heads/main/openapi/koyeb-openapi.json
+    - type: NaftikoCapability
+      url: capabilities/koyeb-apps.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-archives.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-catalogdatacenters.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-cataloginstanceusage.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-cataloginstances.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-catalogregions.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-compose.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-coupons.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-credentials.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-deployments.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-dockerhelper.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-domains.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-instances.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-intercom.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-logs.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-metrics.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-organizationconfirmations.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-organizationinvitations.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-organizationmembers.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-organizationquotas.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-paymentmethods.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-persistentvolumes.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-profile.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-projects.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-provisioning.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-quotas.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-regionaldeployments.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-repositories.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-search.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-secrets.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-services.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-sessions.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-snapshots.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-subscriptions.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-summary.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-usages.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-users.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-activity.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-billing.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-invite.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-organization.yaml
+    - type: NaftikoCapability
+      url: capabilities/koyeb-sso.yaml
 common:
-- type: LinkedIn
-  url: https://www.linkedin.com/company/koyeb
-- type: Website
-  url: https://www.koyeb.com
-- type: Documentation
-  url: https://www.koyeb.com/docs
-- type: GettingStarted
-  url: https://www.koyeb.com/docs/deploy
-- type: SignUp
-  url: https://app.koyeb.com/auth/signup
-- type: Integrations
-  url: https://www.koyeb.com/partners
+  - type: GitHubOrganization
+    url: https://github.com/koyeb
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/koyeb
+  - type: Website
+    url: https://www.koyeb.com
+  - type: Documentation
+    url: https://www.koyeb.com/docs
+  - type: GettingStarted
+    url: https://www.koyeb.com/docs/deploy
+  - type: SignUp
+    url: https://app.koyeb.com/auth/signup
+  - type: Integrations
+    url: https://www.koyeb.com/partners
 integrations:
-- name: Designed for scale
-- name: Stand out in your market
-- name: Hardware agnostic
-- name: Natively global
-- name: Exclusive technical resources and support
-- name: Expand your ecosystem
-- name: Jim Keller
+  - name: Designed for scale
+  - name: Stand out in your market
+  - name: Hardware agnostic
+  - name: Natively global
+  - name: Exclusive technical resources and support
+  - name: Expand your ecosystem
+  - name: Jim Keller
 maintainers:
-- FN: Kin Lane
-  email: kin@apievangelist.com
+  - FN: Kin Lane
+    email: kin@apievangelist.com
