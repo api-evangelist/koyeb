@@ -132,6 +132,8 @@ common:
     url: https://app.koyeb.com/auth/signup
   - type: Integrations
     url: https://www.koyeb.com/partners
+  - type: LLMsTxt
+    url: https://app.koyeb.com/llms.txt
 integrations:
   - name: Designed for scale
   - name: Stand out in your market
