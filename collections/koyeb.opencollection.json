@@ -1,0 +1,4262 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Koyeb Rest API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Repositories",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Branches",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/git/branches",
+            "params": [
+              {
+                "name": "repository_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on one repository."
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on branch name using a fuzzy search.\nRepository filter is required to enable this filter."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return."
+              }
+            ]
+          },
+          "docs": "List Branches"
+        },
+        {
+          "info": {
+            "name": "List Repositories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/git/repositories",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on repository name using a fuzzy search."
+              },
+              {
+                "name": "name_search_op",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Define search operation for repository name. Accept either \"fuzzy\" or \"equality\", use \"fuzzy\" by default."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return."
+              }
+            ]
+          },
+          "docs": "List Repositories"
+        },
+        {
+          "info": {
+            "name": "Resync Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/git/sync/organization/:organization_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Resync Organization"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Delete user",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/users/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the user"
+              }
+            ]
+          },
+          "docs": "Delete user"
+        },
+        {
+          "info": {
+            "name": "V2 Delete user",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v2/users/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the user"
+              }
+            ]
+          },
+          "docs": "V2 Delete user"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "activity",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GetAccountActivities",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/account/activities",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          }
+        },
+        {
+          "info": {
+            "name": "List Activities",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/activities",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "types",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on object type"
+              }
+            ]
+          },
+          "docs": "List Activities"
+        },
+        {
+          "info": {
+            "name": "List Notifications",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/notifications",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "mark_read",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "mark_seen",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "unread",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "unseen",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List Notifications"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Profile",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Begin a session with iDenfy, emit an authToken",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/account/idenfy"
+          },
+          "docs": "Begin a session with iDenfy, emit an authToken"
+        },
+        {
+          "info": {
+            "name": "ClearIdenfyVerificationResult marks the current result for idenfy as\nsuperseded",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/account/idenfy"
+          },
+          "docs": "ClearIdenfyVerificationResult marks the current result for idenfy as\nsuperseded"
+        },
+        {
+          "info": {
+            "name": "Get the login method for an email address",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/account/login_method",
+            "params": [
+              {
+                "name": "email",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get the login method for an email address"
+        },
+        {
+          "info": {
+            "name": "Get OAuth Providers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/account/oauth",
+            "params": [
+              {
+                "name": "action",
+                "value": "",
+                "type": "query",
+                "description": "Which authentication flow is being initiated"
+              },
+              {
+                "name": "metadata",
+                "value": "",
+                "type": "query",
+                "description": "A small (limited to 400 characters) string of arbitrary metadata which will\nbe encoded in the state"
+              }
+            ]
+          },
+          "docs": "Get OAuth Providers"
+        },
+        {
+          "info": {
+            "name": "Authenticate using OAuth",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/account/oauth",
+            "headers": [
+              {
+                "name": "seon-fp",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Authenticate using OAuth"
+        },
+        {
+          "info": {
+            "name": "Get Current Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/account/organization"
+          },
+          "docs": "Get Current Organization"
+        },
+        {
+          "info": {
+            "name": "List User Organization Invitations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/account/organization_invitations",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "statuses",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on organization invitation statuses"
+              }
+            ]
+          },
+          "docs": "List User Organization Invitations"
+        },
+        {
+          "info": {
+            "name": "Get User Organization Invitation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/account/organization_invitations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the organization invitation to get"
+              }
+            ]
+          },
+          "docs": "Get User Organization Invitation"
+        },
+        {
+          "info": {
+            "name": "Accept Organization Invitation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/account/organization_invitations/:id/accept",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the organization invitation to accept"
+              }
+            ]
+          },
+          "docs": "Accept Organization Invitation"
+        },
+        {
+          "info": {
+            "name": "Decline Organization Invitation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/account/organization_invitations/:id/decline",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the organization invitation to decline"
+              }
+            ]
+          },
+          "docs": "Decline Organization Invitation"
+        },
+        {
+          "info": {
+            "name": "List User Organizations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/account/organizations",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Define pagination limit"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Define pagination offset"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Sorts the list in the ascending or the descending order"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Fuzzy case-insensitive search based on organization name or\norganization id"
+              },
+              {
+                "name": "statuses",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Only return organizations which status match one in the list"
+              }
+            ]
+          },
+          "docs": "List all organizations that the current user is a member of."
+        },
+        {
+          "info": {
+            "name": "Get Current User",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/account/profile",
+            "headers": [
+              {
+                "name": "seon-fp",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Get Current User"
+        },
+        {
+          "info": {
+            "name": "Update User",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/account/profile",
+            "params": [
+              {
+                "name": "update_mask",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Update User"
+        },
+        {
+          "info": {
+            "name": "Update User",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v1/account/profile",
+            "params": [
+              {
+                "name": "update_mask",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Update User"
+        },
+        {
+          "info": {
+            "name": "Resend Email Verification",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/account/resend_validation"
+          },
+          "docs": "Resend Email Verification"
+        },
+        {
+          "info": {
+            "name": "Reset Password",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/account/reset_password"
+          },
+          "docs": "Reset Password"
+        },
+        {
+          "info": {
+            "name": "GetUserSettings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/account/settings"
+          }
+        },
+        {
+          "info": {
+            "name": "UpdateUserSettings",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v1/account/settings"
+          }
+        },
+        {
+          "info": {
+            "name": "Signup",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/account/signup",
+            "headers": [
+              {
+                "name": "seon-fp",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Signup"
+        },
+        {
+          "info": {
+            "name": "Update Password",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/account/update_password",
+            "headers": [
+              {
+                "name": "seon-fp",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Update Password"
+        },
+        {
+          "info": {
+            "name": "Validate",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/account/validate/:id",
+            "headers": [
+              {
+                "name": "seon-fp",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Validate"
+        },
+        {
+          "info": {
+            "name": "Update User V2",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v2/account/profile",
+            "params": [
+              {
+                "name": "update_mask",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Update User V2"
+        },
+        {
+          "info": {
+            "name": "Update User V2",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v2/account/profile",
+            "params": [
+              {
+                "name": "update_mask",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Update User V2"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "invite",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "CreateInvite",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/account/invite"
+          }
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "billing",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Experimental: Has unpaid invoices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/billing/has_unpaid_invoices"
+          },
+          "docs": "WARNING: Please don't use the following method.\nKoyeb doesn't guarantee backwards compatible breaking change and reserve\nthe right to completely drop it without notice. USE AT YOUR OWN RISK."
+        },
+        {
+          "info": {
+            "name": "Manage",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/billing/manage"
+          }
+        },
+        {
+          "info": {
+            "name": "Experimental: Fetch next invoice",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/billing/next_invoice"
+          },
+          "docs": "WARNING: Please don't use the following method.\nKoyeb doesn't guarantee backwards compatible breaking change and reserve\nthe right to completely drop it without notice. USE AT YOUR OWN RISK."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "organization",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Fetch Github Installation configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/github/installation"
+          },
+          "docs": "Fetch Github Installation configuration"
+        },
+        {
+          "info": {
+            "name": "Start Github Installation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/github/installation"
+          },
+          "docs": "Start Github Installation"
+        },
+        {
+          "info": {
+            "name": "Create Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/organizations"
+          },
+          "docs": "Create Organization"
+        },
+        {
+          "info": {
+            "name": "Get Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/organizations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Organization"
+        },
+        {
+          "info": {
+            "name": "Update Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/organizations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "update_mask",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Update Organization"
+        },
+        {
+          "info": {
+            "name": "Update Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v1/organizations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "update_mask",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Update Organization"
+        },
+        {
+          "info": {
+            "name": "Delete an Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/organizations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete an Organization"
+        },
+        {
+          "info": {
+            "name": "CreateAccessToken",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/organizations/:id/access_token",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Organization id for ephemeral credential"
+              }
+            ]
+          },
+          "docs": "CreateAccessToken creates a short-lived access token in the scope of the\nspecified organization, provided the user making the request is part of\nsaid organization.\n\nIt's possible to specify a validity for the token, which defaults to 1h\nand must be no more than 24h. The format is `<number>s`, where `<number>`\nis a floating point in seconds (so `123.456789012s` means 123 seconds and\n456789012 nanoseconds). See:\nhttps://protobuf.dev/reference/php/api-docs/Google/Protobuf/Duration.html."
+        },
+        {
+          "info": {
+            "name": "Deactivate an Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/organizations/:id/deactivate",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deactivate an Organization"
+        },
+        {
+          "info": {
+            "name": "Update Organization Name",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/organizations/:id/name",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Update Organization Name"
+        },
+        {
+          "info": {
+            "name": "Update Organization plan",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/organizations/:id/plan",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Update Organization plan"
+        },
+        {
+          "info": {
+            "name": "Reactivate an Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/organizations/:id/reactivate",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Reactivate an Organization"
+        },
+        {
+          "info": {
+            "name": "Upsert Organization's signup qualification",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/organizations/:id/signup_qualification",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Upsert Organization's signup qualification"
+        },
+        {
+          "info": {
+            "name": "Switch Organization context",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/organizations/:id/switch",
+            "headers": [
+              {
+                "name": "seon-fp",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Switch Organization context"
+        },
+        {
+          "info": {
+            "name": "Get Budget",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/organizations/:organization_id/budget",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Budget"
+        },
+        {
+          "info": {
+            "name": "Create Budget",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/organizations/:organization_id/budget",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Create Budget"
+        },
+        {
+          "info": {
+            "name": "Update Budget",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/organizations/:organization_id/budget",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Update Budget"
+        },
+        {
+          "info": {
+            "name": "Delete Budget",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/organizations/:organization_id/budget",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete Budget"
+        },
+        {
+          "info": {
+            "name": "Unscope Organization Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/unscope_organization_token",
+            "headers": [
+              {
+                "name": "seon-fp",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "UnscopeOrganizationToken removes the organization scope from a token. This\nendpoint is useful when a user wants to remove an organization: by\nunscoping the token first, the user can then delete the organization\nwithout invalidating his token."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "sso",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "CannyAuth",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/sso/canny"
+          }
+        },
+        {
+          "info": {
+            "name": "DiscourseAuth",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/sso/discourse"
+          }
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Summary",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get organization usage summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/organizations/:organization_id/summary",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              }
+            ]
+          },
+          "docs": "Get organization usage summary"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Credentials",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List credentials",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/credentials",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) A filter for type"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) A filter for name"
+              },
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter for an organization"
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter for an user"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              }
+            ]
+          },
+          "docs": "List credentials"
+        },
+        {
+          "info": {
+            "name": "Create credential",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/credentials"
+          },
+          "docs": "Create credential"
+        },
+        {
+          "info": {
+            "name": "Get credential",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/credentials/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get credential"
+        },
+        {
+          "info": {
+            "name": "Update credential",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/credentials/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "update_mask",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Update credential"
+        },
+        {
+          "info": {
+            "name": "Update credential",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v1/credentials/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "update_mask",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Update credential"
+        },
+        {
+          "info": {
+            "name": "Delete credential",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/credentials/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete credential"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Sessions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Login user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/account/login",
+            "headers": [
+              {
+                "name": "seon-fp",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Login user"
+        },
+        {
+          "info": {
+            "name": "Logout user",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/account/logout"
+          },
+          "docs": "Logout user"
+        },
+        {
+          "info": {
+            "name": "Refresh token",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/account/refresh"
+          },
+          "docs": "Refresh token"
+        },
+        {
+          "info": {
+            "name": "New session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/account/session"
+          },
+          "docs": "Creates a new session without an organization for current user.\nNOTE: If you want a session linked to another organization, please use \"Switch organization\"."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "OrganizationConfirmations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Confirm organization action",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/organization_confirmations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Confirm organization action"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Intercom",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get intercom profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/intercom/profile"
+          },
+          "docs": "Get intercom profile"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Coupons",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Redeem Coupon",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/coupons"
+          },
+          "docs": "This API allows to redeem a coupon. Pass the code you received in the body."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Projects",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List projects",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/projects",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              }
+            ]
+          },
+          "docs": "List projects"
+        },
+        {
+          "info": {
+            "name": "Create project",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/projects"
+          },
+          "docs": "Create project"
+        },
+        {
+          "info": {
+            "name": "Get project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/projects/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get project"
+        },
+        {
+          "info": {
+            "name": "Update project",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/projects/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "update_mask",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Update project"
+        },
+        {
+          "info": {
+            "name": "Update project",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v1/projects/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "update_mask",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Update project"
+        },
+        {
+          "info": {
+            "name": "Delete project",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/projects/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete project"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "OrganizationMembers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List organization members",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/organization_members",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter for an organization"
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter for an user"
+              },
+              {
+                "name": "organization_statuses",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter for organization statuses"
+              }
+            ]
+          },
+          "docs": "List organization members"
+        },
+        {
+          "info": {
+            "name": "Remove an organization member",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/organization_members/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Remove an organization member"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "PaymentMethods",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List payment methods",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/payment_methods",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "statuses",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on payment method statuses"
+              }
+            ]
+          },
+          "docs": "List payment methods"
+        },
+        {
+          "info": {
+            "name": "Create payment authorization",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/payment_methods"
+          },
+          "docs": "Create payment authorization"
+        },
+        {
+          "info": {
+            "name": "Get payment method",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/payment_methods/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get payment method"
+        },
+        {
+          "info": {
+            "name": "Delete payment method",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/payment_methods/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete payment method"
+        },
+        {
+          "info": {
+            "name": "Confirm payment authorization",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/payment_methods/:id/confirm",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Confirm payment authorization"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "OrganizationQuotas",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GetQuotas",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/organizations/:organization_id/quotas",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "OrganizationInvitations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Organization Invitations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/organization_invitations",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "statuses",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on organization invitation statuses"
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on invitee ID. Will match both invitations sent to\nthat user_id and invitations sent to the email of that user_id.\nThe only valid value is the requester's user_id"
+              }
+            ]
+          },
+          "docs": "List Organization Invitations"
+        },
+        {
+          "info": {
+            "name": "Create Organization Invitation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/organization_invitations"
+          },
+          "docs": "Create Organization Invitation"
+        },
+        {
+          "info": {
+            "name": "Get Organization Invitation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/organization_invitations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the invitation to get"
+              }
+            ]
+          },
+          "docs": "Get Organization Invitation"
+        },
+        {
+          "info": {
+            "name": "Delete Organization Invitation",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/organization_invitations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the organization invitation to delete"
+              }
+            ]
+          },
+          "docs": "Delete Organization Invitation"
+        },
+        {
+          "info": {
+            "name": "Resend Organization Invitation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/organization_invitations/:id/resend",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the organization invitation to resend"
+              }
+            ]
+          },
+          "docs": "Resend Organization Invitation"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Subscriptions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/subscriptions/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the instance"
+              }
+            ]
+          },
+          "docs": "Get Subscription"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Logs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Query logs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/streams/logs/query",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Type of logs to retrieve, either \"build\" or \"runtime\". Defaults to \"runtime\"."
+              },
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on the provided app_id. At least one of app_id, service_id, deployment_id, regional_deployment_id or instance_ids must be set."
+              },
+              {
+                "name": "service_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on the provided service_id. At least one of app_id, service_id, deployment_id, regional_deployment_id or instance_ids must be set."
+              },
+              {
+                "name": "deployment_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on the provided deployment_id. At least one of app_id, service_id, deployment_id, regional_deployment_id or instance_ids must be set."
+              },
+              {
+                "name": "regional_deployment_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on the provided regional_deployment_id. At least one of app_id, service_id, deployment_id, regional_deployment_id or instance_ids must be set."
+              },
+              {
+                "name": "instance_id",
+                "value": "",
+                "type": "query",
+                "description": "Deprecated, prefer using instance_ids instead."
+              },
+              {
+                "name": "instance_ids",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on the provided instance_ids. At least one of app_id, service_id, deployment_id, regional_deployment_id or instance_ids must be set."
+              },
+              {
+                "name": "stream",
+                "value": "",
+                "type": "query",
+                "description": "Deprecated, prefer using streams instead."
+              },
+              {
+                "name": "streams",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on stream: either \"stdout\", \"stderr\" or \"koyeb\" (for system logs)."
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Must always be before `end`. Defaults to 15 minutes ago."
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Must always be after `start`. Defaults to now."
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) `asc` or `desc`. Defaults to `desc`."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Defaults to 100. Maximum of 1000."
+              },
+              {
+                "name": "regex",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Apply a regex to filter logs. Can't be used with `text`."
+              },
+              {
+                "name": "text",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Looks for this string in logs. Can't be used with `regex`."
+              },
+              {
+                "name": "regions",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on the provided regions (e.g. [\"fra\", \"was\"])."
+              }
+            ]
+          },
+          "docs": "Query logs"
+        },
+        {
+          "info": {
+            "name": "Tails logs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/streams/logs/tail",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Type of logs to retrieve, either \"build\" or \"runtime\". Defaults to \"runtime\"."
+              },
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on the provided app_id. At least one of app_id, service_id, deployment_id, regional_deployment_id or instance_ids must be set."
+              },
+              {
+                "name": "service_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on the provided service_id. At least one of app_id, service_id, deployment_id, regional_deployment_id or instance_ids must be set."
+              },
+              {
+                "name": "deployment_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on the provided deployment_id. At least one of app_id, service_id, deployment_id, regional_deployment_id or instance_ids must be set."
+              },
+              {
+                "name": "regional_deployment_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on the provided regional_deployment_id. At least one of app_id, service_id, deployment_id, regional_deployment_id or instance_ids must be set."
+              },
+              {
+                "name": "instance_id",
+                "value": "",
+                "type": "query",
+                "description": "Deprecated, prefer using instance_ids instead."
+              },
+              {
+                "name": "instance_ids",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on the provided instance_ids. At least one of app_id, service_id, deployment_id, regional_deployment_id or instance_ids must be set."
+              },
+              {
+                "name": "stream",
+                "value": "",
+                "type": "query",
+                "description": "Deprecated, prefer using streams instead."
+              },
+              {
+                "name": "streams",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on stream: either \"stdout\", \"stderr\" or \"koyeb\" (for system logs)."
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Defaults to 24 hours ago."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Defaults to 1000. Maximum of 1000."
+              },
+              {
+                "name": "regex",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Apply a regex to filter logs. Can't be used with `text`."
+              },
+              {
+                "name": "text",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Looks for this string in logs. Can't be used with `regex`."
+              },
+              {
+                "name": "regions",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on the provided regions (e.g. [\"fra\", \"was\"])."
+              }
+            ]
+          },
+          "docs": "Tails logs"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Metrics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Metrics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/streams/metrics",
+            "params": [
+              {
+                "name": "service_id",
+                "value": "",
+                "type": "query",
+                "description": "ID of the service to query instances metrics for. Ignored if instance_id is set."
+              },
+              {
+                "name": "instance_id",
+                "value": "",
+                "type": "query",
+                "description": "ID of the instance to query metrics for."
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Metric to query."
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Defaults to an hour prior to end."
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Defaults to now."
+              },
+              {
+                "name": "step",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Must be a valid duration in hours (h) or minutes (m). Defaulst to 5m."
+              }
+            ]
+          },
+          "docs": "Get Metrics"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Instances",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Exec Command",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/streams/instances/exec",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "ID of the resource to exec on."
+              },
+              {
+                "name": "body.command",
+                "value": "",
+                "type": "query",
+                "description": "Command to exec. Mandatory in the first frame sent"
+              },
+              {
+                "name": "body.tty_size.height",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "body.tty_size.width",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "body.stdin.data",
+                "value": "",
+                "type": "query",
+                "description": "Data is base64 encoded"
+              },
+              {
+                "name": "body.stdin.close",
+                "value": "",
+                "type": "query",
+                "description": "Indicate last data frame"
+              },
+              {
+                "name": "body.disableTty",
+                "value": "",
+                "type": "query",
+                "description": "Disable TTY. It's enough to specify it in the first frame"
+              },
+              {
+                "name": "id_type",
+                "value": "",
+                "type": "query",
+                "description": "When specified, it is used to determine if the kind of resource the id refers to. If missing, defaults to the instance id."
+              }
+            ]
+          },
+          "docs": "This endpoint opens a websocket. Once open, all frames going through the websocket should be formatted in JSON. Input frames should match the format specified below. Output frames will match the response schema."
+        },
+        {
+          "info": {
+            "name": "List Instance events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/instance_events",
+            "params": [
+              {
+                "name": "instance_ids",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on list of instance id"
+              },
+              {
+                "name": "types",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on instance event types"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Sorts the list in the ascending or the descending order"
+              }
+            ]
+          },
+          "docs": "List Instance events"
+        },
+        {
+          "info": {
+            "name": "List Instances",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/instances",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on application id"
+              },
+              {
+                "name": "service_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on service id"
+              },
+              {
+                "name": "deployment_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on deployment id"
+              },
+              {
+                "name": "regional_deployment_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on regional deployment id"
+              },
+              {
+                "name": "allocation_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on allocation id"
+              },
+              {
+                "name": "replica_index",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on replica index"
+              },
+              {
+                "name": "statuses",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on instance statuses"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Sorts the list in the ascending or the descending order"
+              },
+              {
+                "name": "starting_time",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The starting time of the period of running instance"
+              },
+              {
+                "name": "ending_time",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The ending time of the period of running instance"
+              }
+            ]
+          },
+          "docs": "List Instances"
+        },
+        {
+          "info": {
+            "name": "Get Instance",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/instances/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the instance"
+              }
+            ]
+          },
+          "docs": "Get Instance"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "RegionalDeployments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Regional Deployment events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/regional_deployment_events",
+            "params": [
+              {
+                "name": "regional_deployment_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on regional deployment id"
+              },
+              {
+                "name": "types",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on regional deployment event types"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Sorts the list in the ascending or the descending order"
+              }
+            ]
+          },
+          "docs": "List Regional Deployment events"
+        },
+        {
+          "info": {
+            "name": "List Regional Deployments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/regional_deployments",
+            "params": [
+              {
+                "name": "deployment_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on deployment id"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              }
+            ]
+          },
+          "docs": "Experimental: use at your own risk"
+        },
+        {
+          "info": {
+            "name": "Get Regional Deployment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/regional_deployments/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the regional deployment"
+              }
+            ]
+          },
+          "docs": "Experimental: use at your own risk"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Snapshots",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all Snapshots",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/snapshots",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter by organization_id"
+              },
+              {
+                "name": "statuses",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter by status\n\n - SNAPSHOT_STATUS_INVALID: zero value, invalid\n - SNAPSHOT_STATUS_CREATING: the snapshot is being created\n - SNAPSHOT_STATUS_AVAILABLE: the snapshot is complete and available\n - SNAPSHOT_STATUS_MIGRATING: the snapshot is being migrated\n - SNAPSHOT_STATUS_DELETING: the snapshot is being deleted\n - SNAPSHOT_STATUS_DELETED: the snapshot is deleted"
+              },
+              {
+                "name": "region",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) A filter for the region"
+              }
+            ]
+          },
+          "docs": "List all Snapshots"
+        },
+        {
+          "info": {
+            "name": "Create a Snapshot",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/snapshots"
+          },
+          "docs": "Create a Snapshot"
+        },
+        {
+          "info": {
+            "name": "Get a Snapshot",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/snapshots/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a Snapshot"
+        },
+        {
+          "info": {
+            "name": "Update a Snapshot",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/snapshots/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the snapshot"
+              }
+            ]
+          },
+          "docs": "Update a Snapshot"
+        },
+        {
+          "info": {
+            "name": "Delete a Snapshot",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/snapshots/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a Snapshot"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Services",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Service events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/service_events",
+            "params": [
+              {
+                "name": "service_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on service id"
+              },
+              {
+                "name": "types",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on service event types"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Sorts the list in the ascending or the descending order"
+              }
+            ]
+          },
+          "docs": "List Service events"
+        },
+        {
+          "info": {
+            "name": "List Services",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/services",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The id of the app"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) A filter for name"
+              },
+              {
+                "name": "types",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on service types"
+              },
+              {
+                "name": "statuses",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on service statuses"
+              },
+              {
+                "name": "regions",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on regions"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) A filter for the project ID"
+              }
+            ]
+          },
+          "docs": "List Services"
+        },
+        {
+          "info": {
+            "name": "Create Service",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/services",
+            "params": [
+              {
+                "name": "dry_run",
+                "value": "",
+                "type": "query",
+                "description": "If set only run validation"
+              }
+            ]
+          },
+          "docs": "Create Service"
+        },
+        {
+          "info": {
+            "name": "Autocomplete definition",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/services-autocomplete"
+          },
+          "docs": "Generate autocomplete definition for a service"
+        },
+        {
+          "info": {
+            "name": "Get Service",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/services/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the Service"
+              }
+            ]
+          },
+          "docs": "Get Service"
+        },
+        {
+          "info": {
+            "name": "Update Service",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/services/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the entity to update"
+              },
+              {
+                "name": "update_mask",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "dry_run",
+                "value": "",
+                "type": "query",
+                "description": "If set, run validation and check that the service exists"
+              }
+            ]
+          },
+          "docs": "Update Service"
+        },
+        {
+          "info": {
+            "name": "Update Service",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v1/services/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the entity to update"
+              },
+              {
+                "name": "update_mask",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "dry_run",
+                "value": "",
+                "type": "query",
+                "description": "If set, run validation and check that the service exists"
+              }
+            ]
+          },
+          "docs": "Update Service"
+        },
+        {
+          "info": {
+            "name": "Delete Service",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/services/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the entity to delete"
+              }
+            ]
+          },
+          "docs": "Service deletion is allowed for all status."
+        },
+        {
+          "info": {
+            "name": "Pause Service",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/services/:id/pause",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the service to pause."
+              }
+            ]
+          },
+          "docs": "Service pause action is allowed for the following status:\n - starting\n - healthy\n - degraded\n - unhealthy\n - resuming"
+        },
+        {
+          "info": {
+            "name": "ReDeploy Service",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/services/:id/redeploy",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "ReDeploy Service"
+        },
+        {
+          "info": {
+            "name": "Resume Service",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/services/:id/resume",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the service to pause."
+              },
+              {
+                "name": "skip_build",
+                "value": "",
+                "type": "query",
+                "description": "If set to true, the build stage will be skipped and the image coming from the last successful build step will be used instead.\nThe call fails if no previous successful builds happened."
+              },
+              {
+                "name": "use_cache",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Service resume action is allowed for the following status:\n - paused"
+        },
+        {
+          "info": {
+            "name": "Get Service Scaling",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/services/:id/scale",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the service"
+              }
+            ]
+          },
+          "docs": "Returns the current scaling configuration for a service"
+        },
+        {
+          "info": {
+            "name": "Update Service Scaling",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/services/:id/scale",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the service to scale"
+              }
+            ]
+          },
+          "docs": "Stores or updates the scaling configuration for a service to use manual scaling"
+        },
+        {
+          "info": {
+            "name": "Delete Service Scaling",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/services/:id/scale",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the service"
+              }
+            ]
+          },
+          "docs": "Deletes the manual scaling configuration for a service, reverting to \nthe scaling defined in the deployment definition."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Deployments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Deployment Scaling",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/deployment/:id/scaling",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "region",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on region"
+              },
+              {
+                "name": "replica_index",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on replica_index"
+              }
+            ]
+          },
+          "docs": "Get Deployment Scaling"
+        },
+        {
+          "info": {
+            "name": "List Deployment events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/deployment_events",
+            "params": [
+              {
+                "name": "deployment_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on deployment id"
+              },
+              {
+                "name": "types",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on deployment event types"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Sorts the list in the ascending or the descending order"
+              }
+            ]
+          },
+          "docs": "List Deployment events"
+        },
+        {
+          "info": {
+            "name": "List Deployments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/deployments",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on application id"
+              },
+              {
+                "name": "service_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on service id"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "statuses",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on statuses"
+              }
+            ]
+          },
+          "docs": "List Deployments"
+        },
+        {
+          "info": {
+            "name": "Get Deployment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/deployments/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the deployment"
+              }
+            ]
+          },
+          "docs": "Get Deployment"
+        },
+        {
+          "info": {
+            "name": "Cancel Deployment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/deployments/:id/cancel",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the deployment to cancel."
+              }
+            ]
+          },
+          "docs": "Deployment cancellation is allowed for the following status:\n - pending\n - provisioning\n - scheduled"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Provisioning",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create an attempt for a stage",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/provisioning/:deployment_id/status/:stage/:attempt",
+            "params": [
+              {
+                "name": "deployment_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "stage",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "attempt",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Create an attempt for a stage"
+        },
+        {
+          "info": {
+            "name": "Declare stage progress",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v1/provisioning/:deployment_id/status/:stage/:attempt",
+            "params": [
+              {
+                "name": "deployment_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "stage",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "attempt",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Declare stage progress"
+        },
+        {
+          "info": {
+            "name": "Declare step progress",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v1/provisioning/:deployment_id/status/:stage/:attempt/:step",
+            "params": [
+              {
+                "name": "deployment_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "stage",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "attempt",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "step",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Declare step progress"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "DockerHelper",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Verify Docker Image",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/docker-helper/verify",
+            "params": [
+              {
+                "name": "image",
+                "value": "",
+                "type": "query",
+                "description": "The full image uri to be verified"
+              },
+              {
+                "name": "secret_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) the id of the secret to use to authenticate to the registry"
+              }
+            ]
+          },
+          "docs": "Verify if a docker image is reachable"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Secrets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Secrets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/secrets",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "types",
+                "value": "",
+                "type": "query",
+                "description": "Filter by secret types"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) A filter for the project ID"
+              }
+            ]
+          },
+          "docs": "List Secrets"
+        },
+        {
+          "info": {
+            "name": "Create Secret",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/secrets"
+          },
+          "docs": "Create Secret"
+        },
+        {
+          "info": {
+            "name": "Get Secret",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/secrets/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Secret"
+        },
+        {
+          "info": {
+            "name": "Update Secret",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/secrets/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "update_mask",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Update Secret"
+        },
+        {
+          "info": {
+            "name": "Update Secret",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v1/secrets/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "update_mask",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Update Secret"
+        },
+        {
+          "info": {
+            "name": "Delete Secret",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/secrets/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete Secret"
+        },
+        {
+          "info": {
+            "name": "Reveal Secret",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/secrets/:id/reveal",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Reveal Secret"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Domains",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Domains",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/domains",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "types",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) A filter for types\n\n - AUTOASSIGNED: Domain like <appName>-<orgName>.koyeb.app"
+              },
+              {
+                "name": "statuses",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) A filter for statuses"
+              },
+              {
+                "name": "app_ids",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) A filter for apps"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) A filter for name"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) A filter for the project ID"
+              }
+            ]
+          },
+          "docs": "List Domains"
+        },
+        {
+          "info": {
+            "name": "Create Domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/domains"
+          },
+          "docs": "Create Domain"
+        },
+        {
+          "info": {
+            "name": "Get Domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/domains/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Domain"
+        },
+        {
+          "info": {
+            "name": "Update Domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v1/domains/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "update_mask",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "dry_run",
+                "value": "",
+                "type": "query",
+                "description": "If set, run validation and check that the domain is available."
+              }
+            ]
+          },
+          "docs": "Update Domain"
+        },
+        {
+          "info": {
+            "name": "Delete Domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/domains/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete Domain"
+        },
+        {
+          "info": {
+            "name": "Refresh Domain Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/domains/:id/refresh",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Refresh Domain Status"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Apps",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List App events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/app_events",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on app id"
+              },
+              {
+                "name": "types",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on app event types"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Sorts the list in the ascending or the descending order"
+              }
+            ]
+          },
+          "docs": "List App events"
+        },
+        {
+          "info": {
+            "name": "List App",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/apps",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) A filter for name"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) A filter for the project ID"
+              }
+            ]
+          },
+          "docs": "List App"
+        },
+        {
+          "info": {
+            "name": "Create App",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/apps"
+          },
+          "docs": "Create App"
+        },
+        {
+          "info": {
+            "name": "Get App",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/apps/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the App"
+              }
+            ]
+          },
+          "docs": "Get App"
+        },
+        {
+          "info": {
+            "name": "Update App",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/apps/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the app to update."
+              },
+              {
+                "name": "update_mask",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Update App"
+        },
+        {
+          "info": {
+            "name": "Update App",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v1/apps/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the app to update."
+              },
+              {
+                "name": "update_mask",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Update App"
+        },
+        {
+          "info": {
+            "name": "Delete App",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/apps/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the App to delete"
+              }
+            ]
+          },
+          "docs": "App deletion is allowed for all status."
+        },
+        {
+          "info": {
+            "name": "Pause App",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/apps/:id/pause",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the app to pause."
+              }
+            ]
+          },
+          "docs": "App pause action is allowed for the following status:\n - starting\n - healthy\n - degraded\n - unhealthy\n - resuming"
+        },
+        {
+          "info": {
+            "name": "Resume App",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/apps/:id/resume",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the app to resume."
+              }
+            ]
+          },
+          "docs": "App resume action is allowed for the following status:\n - paused"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "PersistentVolumes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Persistent Volume events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/volume_events",
+            "params": [
+              {
+                "name": "persistent_volume_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on persistent volume id"
+              },
+              {
+                "name": "types",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on persistent volume event types"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Sorts the list in the ascending or the descending order"
+              }
+            ]
+          },
+          "docs": "List Persistent Volume events"
+        },
+        {
+          "info": {
+            "name": "List all PersistentVolumes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/volumes",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "service_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) A filter for the service id"
+              },
+              {
+                "name": "region",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) A filter for the region"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) A filter for the name"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) A filter for the project ID"
+              }
+            ]
+          },
+          "docs": "List all PersistentVolumes"
+        },
+        {
+          "info": {
+            "name": "Create a PersistentVolume",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/volumes"
+          },
+          "docs": "Create a PersistentVolume"
+        },
+        {
+          "info": {
+            "name": "Get a PersistentVolume",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/volumes/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a PersistentVolume"
+        },
+        {
+          "info": {
+            "name": "Update a PersistentVolume",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/volumes/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Update a PersistentVolume"
+        },
+        {
+          "info": {
+            "name": "Delete a PersistentVolume",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/volumes/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a PersistentVolume"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Archives",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Archive",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/archives"
+          },
+          "docs": "Create a signed URL to upload an archive."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Quotas",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "DEPRECATED: Review Organization Capacity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/quotas/capacity"
+          },
+          "docs": "DEPRECATED: Review Organization Capacity"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Compose",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create resources from compose.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/compose"
+          },
+          "docs": "Create resources from compose."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Usages",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get organization usage",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/usages",
+            "params": [
+              {
+                "name": "starting_time",
+                "value": "",
+                "type": "query",
+                "description": "The starting time of the period to get data from"
+              },
+              {
+                "name": "ending_time",
+                "value": "",
+                "type": "query",
+                "description": "The ending time of the period to get data from"
+              }
+            ]
+          },
+          "docs": "Get organization usage"
+        },
+        {
+          "info": {
+            "name": "Get organization usage details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/usages/details",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "starting_time",
+                "value": "",
+                "type": "query",
+                "description": "The starting time of the period to get data from"
+              },
+              {
+                "name": "ending_time",
+                "value": "",
+                "type": "query",
+                "description": "The ending time of the period to get data from"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Sorts the list in the ascending or the descending order"
+              }
+            ]
+          },
+          "docs": "Get organization usage details"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "CatalogRegions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Region",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/catalog/regions",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) A filter for regions"
+              }
+            ]
+          },
+          "docs": "List Region"
+        },
+        {
+          "info": {
+            "name": "Get Region",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/catalog/regions/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The name of the region"
+              }
+            ]
+          },
+          "docs": "Get Region"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "CatalogInstanceUsage",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "ListUsage",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/catalog/usage",
+            "params": [
+              {
+                "name": "region",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "CatalogInstances",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Instances",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/catalog/instances",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) A filter for instances"
+              }
+            ]
+          },
+          "docs": "List Instances"
+        },
+        {
+          "info": {
+            "name": "Get Instance",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/catalog/instances/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The name of the instance"
+              }
+            ]
+          },
+          "docs": "Get Instance"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "CatalogDatacenters",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List datacenters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/catalog/datacenters"
+          },
+          "docs": "List datacenters"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Search",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/search",
+            "params": [
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Search query"
+              }
+            ]
+          },
+          "docs": "Search"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
