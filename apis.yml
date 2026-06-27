@@ -46,11 +46,11 @@ common:
     url: https://www.koyeb.com/docs
   - type: GettingStarted
     url: https://www.koyeb.com/docs/deploy
-  - type: SignUp
+  - type: Signup
     url: https://app.koyeb.com/auth/signup
   - type: Integrations
     url: https://www.koyeb.com/partners
-  - type: LLMsTxt
+  - type: LlmsText
     url: https://app.koyeb.com/llms.txt
 integrations:
   - name: Designed for scale
