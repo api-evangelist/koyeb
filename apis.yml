@@ -36,6 +36,10 @@ apis:
       - type: OpenAPI
         url: https://raw.githubusercontent.com/api-evangelist/koyeb/refs/heads/main/openapi/koyeb-openapi.json
 common:
+  - type: DomainSecurity
+    url: security/koyeb-domain-security.yml
+  - type: Authentication
+    url: authentication/koyeb-authentication.yml
   - type: GitHubOrganization
     url: https://github.com/koyeb
   - type: LinkedIn
@@ -52,6 +56,8 @@ common:
     url: https://www.koyeb.com/partners
   - type: LlmsText
     url: https://app.koyeb.com/llms.txt
+  - url: https://www.koyeb.com/feed.xml
+    type: Blog
 integrations:
   - name: Designed for scale
   - name: Stand out in your market
