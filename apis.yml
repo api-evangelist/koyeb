@@ -36,6 +36,8 @@ apis:
       - type: OpenAPI
         url: https://raw.githubusercontent.com/api-evangelist/koyeb/refs/heads/main/openapi/koyeb-openapi.json
 common:
+  - type: AgenticAccess
+    url: agentic-access/koyeb-agentic-access.yml
   - type: DomainSecurity
     url: security/koyeb-domain-security.yml
   - type: Authentication
