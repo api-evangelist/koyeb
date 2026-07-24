@@ -1,0 +1,448 @@
+swagger: '2.0'
+info:
+  title: Koyeb Rest activity Projects API
+  description: 'The Koyeb API allows you to interact with the Koyeb platform in a simple, programmatic way using conventional HTTP requests.
+
+    '
+  version: 1.0.0
+host: app.koyeb.com
+schemes:
+- https
+security:
+- Bearer: []
+tags:
+- name: Projects
+paths:
+  /v1/projects:
+    get:
+      summary: List projects
+      operationId: ListProjects
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/ListProjectsReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: limit
+        description: (Optional) The number of items to return
+        in: query
+        required: false
+        type: string
+      - name: offset
+        description: (Optional) The offset in the list of item to return
+        in: query
+        required: false
+        type: string
+      tags:
+      - Projects
+    post:
+      summary: Create project
+      operationId: CreateProject
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/CreateProjectReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: project
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/CreateProject'
+      tags:
+      - Projects
+  /v1/projects/{id}:
+    get:
+      summary: Get project
+      operationId: GetProject
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/GetProjectReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      tags:
+      - Projects
+    delete:
+      summary: Delete project
+      operationId: DeleteProject
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/DeleteProjectReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      tags:
+      - Projects
+    put:
+      summary: Update project
+      operationId: UpdateProject
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/UpdateProjectReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      - name: project
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Project'
+      - name: update_mask
+        in: query
+        required: false
+        type: string
+      tags:
+      - Projects
+    patch:
+      summary: Update project
+      operationId: UpdateProject2
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/UpdateProjectReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      - name: project
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Project'
+      - name: update_mask
+        in: query
+        required: false
+        type: string
+      tags:
+      - Projects
+definitions:
+  UpdateProjectReply:
+    type: object
+    properties:
+      project:
+        $ref: '#/definitions/Project'
+  CreateProject:
+    type: object
+    properties:
+      name:
+        type: string
+        title: Project name
+      description:
+        type: string
+        title: Project description
+  DeleteProjectReply:
+    type: object
+  google.rpc.Status:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          $ref: '#/definitions/google.protobuf.Any'
+  ListProjectsReply:
+    type: object
+    properties:
+      projects:
+        type: array
+        items:
+          $ref: '#/definitions/Project'
+      limit:
+        type: integer
+        format: int64
+      offset:
+        type: integer
+        format: int64
+  CreateProjectReply:
+    type: object
+    properties:
+      project:
+        $ref: '#/definitions/Project'
+  ErrorWithFields:
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      code:
+        type: string
+      message:
+        type: string
+      fields:
+        type: array
+        items:
+          $ref: '#/definitions/ErrorField'
+  google.protobuf.Any:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  GetProjectReply:
+    type: object
+    properties:
+      project:
+        $ref: '#/definitions/Project'
+  ErrorField:
+    type: object
+    properties:
+      field:
+        type: string
+      description:
+        type: string
+  Error:
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      code:
+        type: string
+      message:
+        type: string
+  Project:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      organization_id:
+        type: string
+      updated_at:
+        type: string
+        format: date-time
+      created_at:
+        type: string
+        format: date-time
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+x-tagGroups:
+- name: Introduction
+  tags:
+  - intro
+- name: API
+  tags:
+  - Profile
+  - Sessions
+  - Users
+  - organization
+  - OrganizationMembers
+  - OrganizationInvitations
+  - OrganizationConfirmations
+  - Subscriptions
+  - Coupons
+  - Credentials
+  - Secrets
+  - activity
+  - Apps
+  - Services
+  - Deployments
+  - Archives
+  - RegionalDeployments
+  - Instances
+  - Domains
+  - PersistentVolumes
+  - Snapshots
+  - Compose
+  - Repositories
+  - Logs
+  - Metrics
+  - Catalog
+  - CatalogRegions
+  - CatalogInstances
+  - Usages
+  - Summary
+  - DockerHelper

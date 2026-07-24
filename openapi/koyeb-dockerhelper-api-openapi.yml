@@ -1,0 +1,189 @@
+swagger: '2.0'
+info:
+  title: Koyeb Rest activity DockerHelper API
+  description: 'The Koyeb API allows you to interact with the Koyeb platform in a simple, programmatic way using conventional HTTP requests.
+
+    '
+  version: 1.0.0
+host: app.koyeb.com
+schemes:
+- https
+security:
+- Bearer: []
+tags:
+- name: DockerHelper
+paths:
+  /v1/docker-helper/verify:
+    get:
+      summary: Verify Docker Image
+      description: Verify if a docker image is reachable
+      operationId: VerifyDockerImage
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/VerifyDockerImageReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: image
+        description: The full image uri to be verified
+        in: query
+        required: false
+        type: string
+      - name: secret_id
+        description: (Optional) the id of the secret to use to authenticate to the registry
+        in: query
+        required: false
+        type: string
+      tags:
+      - DockerHelper
+definitions:
+  google.rpc.Status:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          $ref: '#/definitions/google.protobuf.Any'
+  VerifyDockerImageReply.ErrCode:
+    type: string
+    enum:
+    - UNKNOWN
+    - AUTH_ACCESS_DENIED
+    - ANON_ACCESS_DENIED
+    - AUTH_NOT_FOUND
+    - ANON_NOT_FOUND
+    - REGISTRY_ERROR
+    - TIMEOUT
+    - DNS
+    - MALFORMED
+    - INVALID_OS
+    - INVALID_ARCH
+    - INVALID_SCHEME
+    - GENERIC
+    default: UNKNOWN
+    description: "- UNKNOWN: Default value\n - AUTH_ACCESS_DENIED: The registry denied access to an authenticated request\n - ANON_ACCESS_DENIED: The registry denied access to an anonymous request\n - AUTH_NOT_FOUND: The image has not been found after an authenticated request\n - ANON_NOT_FOUND: The image has not been found after an anonymous request\n - REGISTRY_ERROR: The registry returned an error\n - TIMEOUT: The request to the registry timed out\n - DNS: There was an error trying to resolve the name of the registry\n - MALFORMED: The provided image name is malformed\n - INVALID_OS: The operating system is not supported\n - INVALID_ARCH: The architecture is not supported\n - INVALID_SCHEME: The scheme is not https\n - GENERIC: Generic catch-all error code"
+    title: The error code associated to each specific failure mode
+  ErrorWithFields:
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      code:
+        type: string
+      message:
+        type: string
+      fields:
+        type: array
+        items:
+          $ref: '#/definitions/ErrorField'
+  google.protobuf.Any:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  ErrorField:
+    type: object
+    properties:
+      field:
+        type: string
+      description:
+        type: string
+  Error:
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      code:
+        type: string
+      message:
+        type: string
+  VerifyDockerImageReply:
+    type: object
+    properties:
+      success:
+        type: boolean
+        title: Whether the image is accessible or not
+      reason:
+        type: string
+        title: (Optional) If the image is not accessible, the reason
+      code:
+        $ref: '#/definitions/VerifyDockerImageReply.ErrCode'
+        title: (Optional) If the image is not accessible, return an error code
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+x-tagGroups:
+- name: Introduction
+  tags:
+  - intro
+- name: API
+  tags:
+  - Profile
+  - Sessions
+  - Users
+  - organization
+  - OrganizationMembers
+  - OrganizationInvitations
+  - OrganizationConfirmations
+  - Subscriptions
+  - Coupons
+  - Credentials
+  - Secrets
+  - activity
+  - Apps
+  - Services
+  - Deployments
+  - Archives
+  - RegionalDeployments
+  - Instances
+  - Domains
+  - PersistentVolumes
+  - Snapshots
+  - Compose
+  - Repositories
+  - Logs
+  - Metrics
+  - Catalog
+  - CatalogRegions
+  - CatalogInstances
+  - Usages
+  - Summary
+  - DockerHelper

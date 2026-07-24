@@ -1,0 +1,910 @@
+swagger: '2.0'
+info:
+  title: Koyeb Rest activity Compose API
+  description: 'The Koyeb API allows you to interact with the Koyeb platform in a simple, programmatic way using conventional HTTP requests.
+
+    '
+  version: 1.0.0
+host: app.koyeb.com
+schemes:
+- https
+security:
+- Bearer: []
+tags:
+- name: Compose
+paths:
+  /v1/compose:
+    post:
+      summary: Create resources from compose.
+      operationId: Compose
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/ComposeReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: compose
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/CreateCompose'
+      tags:
+      - Compose
+definitions:
+  GitSource:
+    type: object
+    properties:
+      repository:
+        type: string
+        description: 'A url to a git repository (contains the provider as well) .e.g: github.com/koyeb/test.'
+      branch:
+        type: string
+        title: A git branch that will be tracked for new commits and deployments will be created
+      tag:
+        type: string
+        title: A git tag that should be built
+      sha:
+        type: string
+        title: A git commit that should be built (useful for pinning to a commit, this will always be set when a deployment is created by a code push)
+      build_command:
+        type: string
+        title: A command used to override the build command, run after all build steps — deprecated, use buildpack.build_command instead
+      run_command:
+        type: string
+        title: A command used to override the default run command - deprecated, use buildpack.run_command instead
+      no_deploy_on_push:
+        type: boolean
+        title: A flag to disable a new deployment when a push event is detected
+      workdir:
+        type: string
+        title: A subdirectory to use as the build directory
+      buildpack:
+        $ref: '#/definitions/BuildpackBuilder'
+      docker:
+        $ref: '#/definitions/DockerBuilder'
+  DesiredDeployment.Group:
+    type: object
+    properties:
+      name:
+        type: string
+      deployment_ids:
+        type: array
+        items:
+          type: string
+  NeonPostgresDatabase.NeonRole:
+    type: object
+    properties:
+      name:
+        type: string
+      secret:
+        type: string
+  BasicAuthPolicy:
+    type: object
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+  ServiceState:
+    type: object
+    properties:
+      desired_deployment:
+        $ref: '#/definitions/DesiredDeployment'
+      auto_release:
+        $ref: '#/definitions/AutoRelease'
+  AutoRelease:
+    type: object
+    properties:
+      groups:
+        type: array
+        items:
+          $ref: '#/definitions/AutoRelease.Group'
+  DeploymentScalingTargetSleepIdleDelay:
+    type: object
+    properties:
+      value:
+        type: integer
+        format: int64
+        description: 'DEPRECATED: use deep_sleep_value instead.
+
+          Delay in seconds after which a service which received 0 request is put to deep sleep.'
+      deep_sleep_value:
+        type: integer
+        format: int64
+        description: Delay in seconds after which a service which received 0 request is put to deep sleep.
+      light_sleep_value:
+        type: integer
+        format: int64
+        description: Delay in seconds after which a service which received 0 request is put to light sleep.
+  Domain.LoadBalancerKoyeb:
+    type: object
+    properties:
+      request_timeout_seconds:
+        type: integer
+        format: int64
+        title: Between 100 and 900
+  DeploymentStrategy:
+    type: object
+    properties:
+      type:
+        $ref: '#/definitions/DeploymentStrategyType'
+        title: Strategy type
+  DesiredDeployment:
+    type: object
+    properties:
+      groups:
+        type: array
+        items:
+          $ref: '#/definitions/DesiredDeployment.Group'
+  DeploymentDefinition:
+    type: object
+    properties:
+      name:
+        type: string
+      type:
+        $ref: '#/definitions/DeploymentDefinition.Type'
+      strategy:
+        $ref: '#/definitions/DeploymentStrategy'
+      routes:
+        type: array
+        items:
+          $ref: '#/definitions/DeploymentRoute'
+      ports:
+        type: array
+        items:
+          $ref: '#/definitions/DeploymentPort'
+      proxy_ports:
+        type: array
+        items:
+          $ref: '#/definitions/DeploymentProxyPort'
+      env:
+        type: array
+        items:
+          $ref: '#/definitions/DeploymentEnv'
+      regions:
+        type: array
+        items:
+          type: string
+      scalings:
+        type: array
+        items:
+          $ref: '#/definitions/DeploymentScaling'
+      instance_types:
+        type: array
+        items:
+          $ref: '#/definitions/DeploymentInstanceType'
+      health_checks:
+        type: array
+        items:
+          $ref: '#/definitions/DeploymentHealthCheck'
+      volumes:
+        type: array
+        items:
+          $ref: '#/definitions/DeploymentVolume'
+      config_files:
+        type: array
+        items:
+          $ref: '#/definitions/ConfigFile'
+      skip_cache:
+        type: boolean
+      docker:
+        $ref: '#/definitions/DockerSource'
+      git:
+        $ref: '#/definitions/GitSource'
+      database:
+        $ref: '#/definitions/DatabaseSource'
+      archive:
+        $ref: '#/definitions/ArchiveSource'
+  ProxyPortProtocol:
+    type: string
+    enum:
+    - tcp
+    default: tcp
+  DockerSource:
+    type: object
+    properties:
+      image:
+        type: string
+      command:
+        type: string
+      args:
+        type: array
+        items:
+          type: string
+      image_registry_secret:
+        type: string
+      entrypoint:
+        type: array
+        items:
+          type: string
+      privileged:
+        type: boolean
+        title: A flag to run the container in privileged mode
+  DeploymentProxyPort:
+    type: object
+    properties:
+      port:
+        type: integer
+        format: int64
+      protocol:
+        $ref: '#/definitions/ProxyPortProtocol'
+  DeploymentPort:
+    type: object
+    properties:
+      port:
+        type: integer
+        format: int64
+      protocol:
+        type: string
+        title: One of http, http2, tcp
+  Domain.LoadBalancerCloudflare:
+    type: object
+  BuildpackBuilder:
+    type: object
+    properties:
+      build_command:
+        type: string
+        title: A command used to override the build command, run after all build steps
+      run_command:
+        type: string
+        title: A command used to override the default run command
+      privileged:
+        type: boolean
+        title: A flag to run the container in privileged mode
+  DeploymentScalingTargetAverageCPU:
+    type: object
+    properties:
+      value:
+        type: integer
+        format: int64
+  DeploymentScaling:
+    type: object
+    properties:
+      scopes:
+        type: array
+        items:
+          type: string
+      min:
+        type: integer
+        format: int64
+      max:
+        type: integer
+        format: int64
+      targets:
+        type: array
+        items:
+          $ref: '#/definitions/DeploymentScalingTarget'
+  DeploymentScalingTarget:
+    type: object
+    properties:
+      average_cpu:
+        $ref: '#/definitions/DeploymentScalingTargetAverageCPU'
+      average_mem:
+        $ref: '#/definitions/DeploymentScalingTargetAverageMem'
+      requests_per_second:
+        $ref: '#/definitions/DeploymentScalingTargetRequestsPerSecond'
+      concurrent_requests:
+        $ref: '#/definitions/DeploymentScalingTargetConcurrentRequests'
+      requests_response_time:
+        $ref: '#/definitions/DeploymentScalingTargetRequestsResponseTime'
+      sleep_idle_delay:
+        $ref: '#/definitions/DeploymentScalingTargetSleepIdleDelay'
+  DeploymentScalingTargetConcurrentRequests:
+    type: object
+    properties:
+      value:
+        type: integer
+        format: int64
+  NeonPostgresDatabase:
+    type: object
+    properties:
+      pg_version:
+        type: integer
+        format: int64
+      region:
+        type: string
+      instance_type:
+        type: string
+      roles:
+        type: array
+        items:
+          $ref: '#/definitions/NeonPostgresDatabase.NeonRole'
+      databases:
+        type: array
+        items:
+          $ref: '#/definitions/NeonPostgresDatabase.NeonDatabase'
+  CreateService:
+    type: object
+    properties:
+      app_id:
+        type: string
+      definition:
+        $ref: '#/definitions/DeploymentDefinition'
+      life_cycle:
+        $ref: '#/definitions/ServiceLifeCycle'
+      project_id:
+        type: string
+        title: (Optional) The project ID to associate with the service
+  AutoRelease.Group:
+    type: object
+    properties:
+      name:
+        type: string
+      repository:
+        type: string
+      git_ref:
+        type: string
+        title: 'A git ref to track (.e.g: refs/tags/<tag> or refs/heads/<branch>'
+      latest_sha:
+        type: string
+        title: The last hash that was resolved (used to avoid triggering releases when things haven't changed)
+    title: Configuration extracted from the latest deployment in this deployment_group
+  DeploymentStrategyType:
+    type: string
+    enum:
+    - DEPLOYMENT_STRATEGY_TYPE_INVALID
+    - DEPLOYMENT_STRATEGY_TYPE_DEFAULT
+    - DEPLOYMENT_STRATEGY_TYPE_CANARY
+    - DEPLOYMENT_STRATEGY_TYPE_ROLLING
+    - DEPLOYMENT_STRATEGY_TYPE_BLUE_GREEN
+    - DEPLOYMENT_STRATEGY_TYPE_IMMEDIATE
+    default: DEPLOYMENT_STRATEGY_TYPE_INVALID
+    description: " - DEPLOYMENT_STRATEGY_TYPE_INVALID: DEPRECATED: Use DEPLOYMENT_STRATEGY_TYPE_DEFAULT instead.\n - DEPLOYMENT_STRATEGY_TYPE_DEFAULT: Default/unspecified strategy (resolves to platform default, currently ROLLING).\n - DEPLOYMENT_STRATEGY_TYPE_CANARY: Use canary strategy.\n - DEPLOYMENT_STRATEGY_TYPE_ROLLING: Use rolling strategy.\n - DEPLOYMENT_STRATEGY_TYPE_BLUE_GREEN: Use blue green strategy.\n - DEPLOYMENT_STRATEGY_TYPE_IMMEDIATE: Use immediate strategy."
+  ErrorWithFields:
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      code:
+        type: string
+      message:
+        type: string
+      fields:
+        type: array
+        items:
+          $ref: '#/definitions/ErrorField'
+  NeonPostgresDatabase.NeonDatabase:
+    type: object
+    properties:
+      name:
+        type: string
+      owner:
+        type: string
+  AppLifeCycle:
+    type: object
+    properties:
+      delete_when_empty:
+        type: boolean
+  ComposeReply:
+    type: object
+    properties:
+      app:
+        $ref: '#/definitions/App'
+      services:
+        type: array
+        items:
+          $ref: '#/definitions/Service'
+  CreateCompose:
+    type: object
+    properties:
+      app:
+        $ref: '#/definitions/CreateApp'
+      services:
+        type: array
+        items:
+          $ref: '#/definitions/CreateService'
+  App:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      organization_id:
+        type: string
+      created_at:
+        type: string
+        format: date-time
+      updated_at:
+        type: string
+        format: date-time
+      started_at:
+        type: string
+        format: date-time
+      succeeded_at:
+        type: string
+        format: date-time
+      paused_at:
+        type: string
+        format: date-time
+      resumed_at:
+        type: string
+        format: date-time
+      terminated_at:
+        type: string
+        format: date-time
+      status:
+        $ref: '#/definitions/App.Status'
+      messages:
+        type: array
+        items:
+          type: string
+      version:
+        type: string
+        format: uint64
+      domains:
+        type: array
+        items:
+          $ref: '#/definitions/Domain'
+      life_cycle:
+        $ref: '#/definitions/AppLifeCycle'
+  Service.Type:
+    type: string
+    enum:
+    - INVALID_TYPE
+    - WEB
+    - WORKER
+    - DATABASE
+    - SANDBOX
+    default: INVALID_TYPE
+  DeploymentInstanceType:
+    type: object
+    properties:
+      scopes:
+        type: array
+        items:
+          type: string
+      type:
+        type: string
+  ErrorField:
+    type: object
+    properties:
+      field:
+        type: string
+      description:
+        type: string
+  Error:
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      code:
+        type: string
+      message:
+        type: string
+  ArchiveSource:
+    type: object
+    properties:
+      id:
+        type: string
+        title: The ID of the archive to deploy
+      buildpack:
+        $ref: '#/definitions/BuildpackBuilder'
+      docker:
+        $ref: '#/definitions/DockerBuilder'
+  DeploymentRoute:
+    type: object
+    properties:
+      port:
+        type: integer
+        format: int64
+      path:
+        type: string
+      security_policies:
+        $ref: '#/definitions/SecurityPolicies'
+  google.rpc.Status:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          $ref: '#/definitions/google.protobuf.Any'
+  App.Status:
+    type: string
+    enum:
+    - STARTING
+    - HEALTHY
+    - DEGRADED
+    - UNHEALTHY
+    - DELETING
+    - DELETED
+    - PAUSING
+    - PAUSED
+    - RESUMING
+    default: STARTING
+  Domain.Type:
+    type: string
+    enum:
+    - AUTOASSIGNED
+    - CUSTOM
+    default: AUTOASSIGNED
+    title: '- AUTOASSIGNED: Domain like <appName>-<orgName>.koyeb.app'
+  Domain.Status:
+    type: string
+    enum:
+    - PENDING
+    - ACTIVE
+    - ERROR
+    - DELETING
+    - DELETED
+    default: PENDING
+  DeploymentEnv:
+    type: object
+    properties:
+      scopes:
+        type: array
+        items:
+          type: string
+      key:
+        type: string
+      value:
+        type: string
+      secret:
+        type: string
+  DatabaseSource:
+    type: object
+    properties:
+      neon_postgres:
+        $ref: '#/definitions/NeonPostgresDatabase'
+  DeploymentDefinition.Type:
+    type: string
+    enum:
+    - INVALID
+    - WEB
+    - WORKER
+    - DATABASE
+    - SANDBOX
+    default: INVALID
+  CreateApp:
+    type: object
+    properties:
+      name:
+        type: string
+      life_cycle:
+        $ref: '#/definitions/AppLifeCycle'
+      project_id:
+        type: string
+        title: (Optional) The project ID to associate with the app
+  Domain:
+    type: object
+    properties:
+      id:
+        type: string
+      organization_id:
+        type: string
+      name:
+        type: string
+      created_at:
+        type: string
+        format: date-time
+      updated_at:
+        type: string
+        format: date-time
+      status:
+        $ref: '#/definitions/Domain.Status'
+      type:
+        $ref: '#/definitions/Domain.Type'
+      app_id:
+        type: string
+      deployment_group:
+        type: string
+      verified_at:
+        type: string
+        format: date-time
+      intended_cname:
+        type: string
+      messages:
+        type: array
+        items:
+          type: string
+      version:
+        type: string
+        format: uint64
+      cloudflare:
+        $ref: '#/definitions/Domain.LoadBalancerCloudflare'
+      koyeb:
+        $ref: '#/definitions/Domain.LoadBalancerKoyeb'
+  DockerBuilder:
+    type: object
+    properties:
+      dockerfile:
+        type: string
+        title: A path to the Dockerfile
+      entrypoint:
+        type: array
+        items:
+          type: string
+        title: The docker ENTRYPOINT
+      command:
+        type: string
+        title: The docker CMD
+      args:
+        type: array
+        items:
+          type: string
+        title: The docker CMD args
+      target:
+        type: string
+        title: The target for multi-stage builds
+      privileged:
+        type: boolean
+        title: A flag to run the container in privileged mode
+  DeploymentScalingTargetRequestsPerSecond:
+    type: object
+    properties:
+      value:
+        type: integer
+        format: int64
+  HTTPHeader:
+    type: object
+    properties:
+      key:
+        type: string
+      value:
+        type: string
+  DeploymentHealthCheck:
+    type: object
+    properties:
+      grace_period:
+        type: integer
+        format: int64
+        title: An optional initial period in seconds to wait for the instance to become healthy, default is 5s
+      interval:
+        type: integer
+        format: int64
+        title: An optional period in seconds between two health checks, default is 60s
+      restart_limit:
+        type: integer
+        format: int64
+        title: An optional number of consecutive failures before attempting to restart the service, default is 3
+      timeout:
+        type: integer
+        format: int64
+        title: An optional maximum time to wait in seconds before considering the check as a failure, default is 5s
+      tcp:
+        $ref: '#/definitions/TCPHealthCheck'
+      http:
+        $ref: '#/definitions/HTTPHealthCheck'
+  TCPHealthCheck:
+    type: object
+    properties:
+      port:
+        type: integer
+        format: int64
+        title: The port to use to perform the health check, must be declared in the ports section
+  DeploymentScalingTargetAverageMem:
+    type: object
+    properties:
+      value:
+        type: integer
+        format: int64
+  ConfigFile:
+    type: object
+    properties:
+      path:
+        type: string
+        title: the path where the file is copied
+      permissions:
+        type: string
+        title: the permissions of the file in format 0644
+      content:
+        type: string
+        title: the content of the file
+  Service.Status:
+    type: string
+    enum:
+    - STARTING
+    - HEALTHY
+    - DEGRADED
+    - UNHEALTHY
+    - DELETING
+    - DELETED
+    - PAUSING
+    - PAUSED
+    - RESUMING
+    default: STARTING
+  HTTPHealthCheck:
+    type: object
+    properties:
+      port:
+        type: integer
+        format: int64
+        title: The port to use to perform the health check, must be declared in the ports section
+      path:
+        type: string
+        title: The path to use to perform the HTTP health check
+      method:
+        type: string
+        title: An optional HTTP method to use to perform the health check, default is GET
+      headers:
+        type: array
+        items:
+          $ref: '#/definitions/HTTPHeader'
+        title: An optional list of HTTP headers to provide when performing the request, default is empty
+  DeploymentVolume:
+    type: object
+    properties:
+      id:
+        type: string
+        title: the id of the volume
+      path:
+        type: string
+        title: the path where the volume is mounted to
+      replica_index:
+        type: integer
+        format: int64
+        title: optionally, explicitly choose the replica index to mount the volume to
+      scopes:
+        type: array
+        items:
+          type: string
+        title: scope of the associated
+  DeploymentScalingTargetRequestsResponseTime:
+    type: object
+    properties:
+      value:
+        type: integer
+        format: int64
+      quantile:
+        type: integer
+        format: int64
+        description: 'The quantile to use for autoscaling. For example, set to 95 to use the 95th
+
+          percentile (p95) for autoscaling.  Valid values are between 0 and 100.'
+  SecurityPolicies:
+    type: object
+    properties:
+      basic_auths:
+        type: array
+        items:
+          $ref: '#/definitions/BasicAuthPolicy'
+      api_keys:
+        type: array
+        items:
+          type: string
+  google.protobuf.Any:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  ServiceLifeCycle:
+    type: object
+    properties:
+      delete_after_sleep:
+        type: integer
+        format: int64
+      delete_after_create:
+        type: integer
+        format: int64
+  Service:
+    type: object
+    properties:
+      id:
+        type: string
+      created_at:
+        type: string
+        format: date-time
+      updated_at:
+        type: string
+        format: date-time
+      started_at:
+        type: string
+        format: date-time
+      succeeded_at:
+        type: string
+        format: date-time
+      paused_at:
+        type: string
+        format: date-time
+      resumed_at:
+        type: string
+        format: date-time
+      terminated_at:
+        type: string
+        format: date-time
+      name:
+        type: string
+      type:
+        $ref: '#/definitions/Service.Type'
+      organization_id:
+        type: string
+      app_id:
+        type: string
+      status:
+        $ref: '#/definitions/Service.Status'
+      messages:
+        type: array
+        items:
+          type: string
+      version:
+        type: string
+        format: uint64
+      active_deployment_id:
+        type: string
+      latest_deployment_id:
+        type: string
+      last_provisioned_deployment_id:
+        type: string
+      state:
+        $ref: '#/definitions/ServiceState'
+        title: Legacy stuff
+      life_cycle:
+        $ref: '#/definitions/ServiceLifeCycle'
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+x-tagGroups:
+- name: Introduction
+  tags:
+  - intro
+- name: API
+  tags:
+  - Profile
+  - Sessions
+  - Users
+  - organization
+  - OrganizationMembers
+  - OrganizationInvitations
+  - OrganizationConfirmations
+  - Subscriptions
+  - Coupons
+  - Credentials
+  - Secrets
+  - activity
+  - Apps
+  - Services
+  - Deployments
+  - Archives
+  - RegionalDeployments
+  - Instances
+  - Domains
+  - PersistentVolumes
+  - Snapshots
+  - Compose
+  - Repositories
+  - Logs
+  - Metrics
+  - Catalog
+  - CatalogRegions
+  - CatalogInstances
+  - Usages
+  - Summary
+  - DockerHelper

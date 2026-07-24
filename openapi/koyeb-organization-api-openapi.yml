@@ -1,0 +1,1359 @@
+swagger: '2.0'
+info:
+  title: Koyeb Rest activity organization API
+  description: 'The Koyeb API allows you to interact with the Koyeb platform in a simple, programmatic way using conventional HTTP requests.
+
+    '
+  version: 1.0.0
+host: app.koyeb.com
+schemes:
+- https
+security:
+- Bearer: []
+tags:
+- name: organization
+paths:
+  /v1/github/installation:
+    get:
+      summary: Fetch Github Installation configuration
+      operationId: GetGithubInstallation
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/GetGithubInstallationReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      tags:
+      - organization
+    post:
+      summary: Start Github Installation
+      operationId: GithubInstallation
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/GithubInstallationReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: body
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/GithubInstallationRequest'
+      tags:
+      - organization
+  /v1/organizations:
+    post:
+      summary: Create Organization
+      operationId: CreateOrganization
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/CreateOrganizationReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: body
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/CreateOrganizationRequest'
+      tags:
+      - organization
+  /v1/organizations/{id}:
+    get:
+      summary: Get Organization
+      operationId: GetOrganization
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/GetOrganizationReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      tags:
+      - organization
+    delete:
+      summary: Delete an Organization
+      operationId: DeleteOrganization
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/DeleteOrganizationReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      tags:
+      - organization
+    put:
+      summary: Update Organization
+      operationId: UpdateOrganization
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/UpdateOrganizationReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      - name: organization
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Organization'
+      - name: update_mask
+        in: query
+        required: false
+        type: string
+      tags:
+      - organization
+    patch:
+      summary: Update Organization
+      operationId: UpdateOrganization2
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/UpdateOrganizationReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      - name: organization
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Organization'
+      - name: update_mask
+        in: query
+        required: false
+        type: string
+      tags:
+      - organization
+  /v1/organizations/{id}/access_token:
+    post:
+      summary: CreateAccessToken
+      description: 'CreateAccessToken creates a short-lived access token in the scope of the
+
+        specified organization, provided the user making the request is part of
+
+        said organization.
+
+
+        It''s possible to specify a validity for the token, which defaults to 1h
+
+        and must be no more than 24h. The format is `<number>s`, where `<number>`
+
+        is a floating point in seconds (so `123.456789012s` means 123 seconds and
+
+        456789012 nanoseconds). See:
+
+        https://protobuf.dev/reference/php/api-docs/Google/Protobuf/Duration.html.'
+      operationId: CreateAccessToken
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/CreateAccessTokenReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: id
+        description: Organization id for ephemeral credential
+        in: path
+        required: true
+        type: string
+      - name: body
+        in: body
+        required: true
+        schema:
+          type: object
+          properties:
+            validity:
+              type: string
+              title: Validity of the credential
+      tags:
+      - organization
+  /v1/organizations/{id}/deactivate:
+    post:
+      summary: Deactivate an Organization
+      operationId: DeactivateOrganization
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/DeactivateOrganizationReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      - name: body
+        in: body
+        required: true
+        schema:
+          type: object
+          properties:
+            skip_confirmation:
+              type: boolean
+              description: 'if set to true, skip_confirmation will directly start the deactivation
+
+                process, without sending a confirmation email beforehand.'
+      tags:
+      - organization
+  /v1/organizations/{id}/name:
+    put:
+      summary: Update Organization Name
+      operationId: UpdateOrganizationName
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/UpdateOrganizationNameReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      - name: body
+        in: body
+        required: true
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+      tags:
+      - organization
+  /v1/organizations/{id}/plan:
+    post:
+      summary: Update Organization plan
+      operationId: UpdateOrganizationPlan
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/UpdateOrganizationPlanReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      - name: body
+        in: body
+        required: true
+        schema:
+          type: object
+          properties:
+            plan:
+              $ref: '#/definitions/Plan'
+      tags:
+      - organization
+  /v1/organizations/{id}/reactivate:
+    post:
+      summary: Reactivate an Organization
+      operationId: ReactivateOrganization
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/ReactivateOrganizationReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      - name: body
+        in: body
+        required: true
+        schema:
+          type: object
+      tags:
+      - organization
+  /v1/organizations/{id}/signup_qualification:
+    post:
+      summary: Upsert Organization's signup qualification
+      operationId: UpsertSignupQualification
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/UpsertSignupQualificationReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      - name: body
+        in: body
+        required: true
+        schema:
+          type: object
+          properties:
+            signup_qualification:
+              type: object
+      tags:
+      - organization
+  /v1/organizations/{id}/switch:
+    post:
+      summary: Switch Organization context
+      operationId: SwitchOrganization
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/LoginReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      - name: body
+        in: body
+        required: true
+        schema:
+          type: object
+      - name: seon-fp
+        description: Seon Fingerprint
+        in: header
+        required: false
+        type: string
+      tags:
+      - organization
+  /v1/organizations/{organization_id}/budget:
+    get:
+      summary: Get Budget
+      operationId: GetBudget
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/GetBudgetReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: organization_id
+        in: path
+        required: true
+        type: string
+      tags:
+      - organization
+    delete:
+      summary: Delete Budget
+      operationId: DeleteBudget
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/DeleteBudgetReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: organization_id
+        in: path
+        required: true
+        type: string
+      tags:
+      - organization
+    post:
+      summary: Create Budget
+      operationId: CreateBudget
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/CreateBudgetReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: organization_id
+        in: path
+        required: true
+        type: string
+      - name: body
+        in: body
+        required: true
+        schema:
+          type: object
+          properties:
+            amount:
+              type: string
+              format: int64
+              description: In cents.
+      tags:
+      - organization
+    put:
+      summary: Update Budget
+      operationId: UpdateBudget
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/UpdateBudgetReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: organization_id
+        in: path
+        required: true
+        type: string
+      - name: body
+        in: body
+        required: true
+        schema:
+          type: object
+          properties:
+            amount:
+              type: string
+              format: int64
+              description: In cents.
+      tags:
+      - organization
+  /v1/unscope_organization_token:
+    post:
+      summary: Unscope Organization Token
+      description: 'UnscopeOrganizationToken removes the organization scope from a token. This
+
+        endpoint is useful when a user wants to remove an organization: by
+
+        unscoping the token first, the user can then delete the organization
+
+        without invalidating his token.'
+      operationId: UnscopeOrganizationToken
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/LoginReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: body
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/UnscopeOrganizationTokenRequest'
+      - name: seon-fp
+        description: Seon Fingerprint
+        in: header
+        required: false
+        type: string
+      tags:
+      - organization
+definitions:
+  DeleteOrganizationReply:
+    type: object
+    properties:
+      organization:
+        $ref: '#/definitions/Organization'
+  GetBudgetReply:
+    type: object
+    properties:
+      budget:
+        $ref: '#/definitions/Budget'
+  CreateOrganizationRequest:
+    type: object
+    properties:
+      name:
+        type: string
+  GithubInstallationReply:
+    type: object
+    properties:
+      app_name:
+        type: string
+        title: The github app name
+      app_id:
+        type: string
+        format: int64
+        title: The github app id
+      url:
+        type: string
+        title: The url to start the installation flow
+      state:
+        type: string
+        title: 'The state required by the protocol, it is only valid 10 minutes and encodes
+
+          information about the type of flow'
+  CreateAccessTokenReply:
+    type: object
+    properties:
+      token:
+        type: string
+  CreateBudgetReply:
+    type: object
+    properties:
+      budget:
+        $ref: '#/definitions/Budget'
+  ReactivateOrganizationReply:
+    type: object
+    properties:
+      organization:
+        $ref: '#/definitions/Organization'
+  Token:
+    type: object
+    example:
+      id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+      expires: '2022-09-08T14:00:00Z'
+      user_id: 996d7822-6b58-11e9-956f-32001b70f000
+      organization_id: 9f33b2c6-6b58-11e9-883c-32001b70f000
+    properties:
+      id:
+        type: string
+      user_id:
+        type: string
+      organization_id:
+        type: string
+      expires_at:
+        type: string
+        format: date-time
+  UpdateOrganizationPlanReply:
+    type: object
+    properties:
+      organization:
+        $ref: '#/definitions/Organization'
+  GithubInstallationRequest:
+    type: object
+    properties:
+      metadata:
+        type: string
+        title: 'A small (limited to 400 characters) string of arbitrary metadata which will
+
+          be encoded in the state'
+  GetGithubInstallationReply:
+    type: object
+    properties:
+      installation_id:
+        type: string
+      installation_url:
+        type: string
+      name:
+        type: string
+      avatar_url:
+        type: string
+      status:
+        $ref: '#/definitions/kgitproxy.GithubInstallation.Status'
+      installed_at:
+        type: string
+        format: date-time
+      suspended_at:
+        type: string
+        format: date-time
+      indexing_status:
+        $ref: '#/definitions/kgitproxy.IndexingStatus'
+      indexed_repositories:
+        type: integer
+        format: int64
+      total_repositories:
+        type: integer
+        format: int64
+  DeactivateOrganizationReply:
+    type: object
+    properties:
+      organization:
+        $ref: '#/definitions/Organization'
+  ErrorWithFields:
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      code:
+        type: string
+      message:
+        type: string
+      fields:
+        type: array
+        items:
+          $ref: '#/definitions/ErrorField'
+  Budget:
+    type: object
+    properties:
+      amount:
+        type: string
+        format: int64
+      thresholds:
+        type: array
+        items:
+          type: string
+          format: int64
+  ErrorField:
+    type: object
+    properties:
+      field:
+        type: string
+      description:
+        type: string
+  Error:
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      code:
+        type: string
+      message:
+        type: string
+  UnscopeOrganizationTokenRequest:
+    type: object
+  Plan:
+    type: string
+    enum:
+    - hobby
+    - starter
+    - startup
+    - business
+    - enterprise
+    - internal
+    - hobby23
+    - no_plan
+    - pro
+    - scale
+    - partner_csp
+    - partner_csp_unit
+    default: hobby
+  OrganizationDetailedStatus:
+    type: string
+    enum:
+    - NEW
+    - EMAIL_NOT_VALIDATED
+    - BILLING_INFO_MISSING
+    - LOCKED
+    - PAYMENT_FAILURE
+    - VALID
+    - PENDING_VERIFICATION
+    - VERIFICATION_FAILED
+    - REVIEWING_ACCOUNT
+    - PLAN_UPGRADE_REQUIRED
+    default: NEW
+  UpdateOrganizationReply:
+    type: object
+    properties:
+      organization:
+        $ref: '#/definitions/Organization'
+  kgitproxy.IndexingStatus:
+    type: string
+    enum:
+    - INVALID_INDEXING_STATUS
+    - NOT_STARTED
+    - IN_PROGRESS
+    - COMPLETED
+    default: INVALID_INDEXING_STATUS
+  UpdateOrganizationNameReply:
+    type: object
+    properties:
+      organization:
+        $ref: '#/definitions/Organization'
+  google.rpc.Status:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          $ref: '#/definitions/google.protobuf.Any'
+  Organization:
+    type: object
+    properties:
+      id:
+        type: string
+      external_id:
+        type: string
+      provisioning:
+        type: boolean
+      address1:
+        type: string
+      address2:
+        type: string
+      city:
+        type: string
+      postal_code:
+        type: string
+      state:
+        type: string
+      country:
+        type: string
+      company:
+        type: boolean
+      vat_number:
+        type: string
+      billing_name:
+        type: string
+      billing_email:
+        type: string
+      name:
+        type: string
+      plan:
+        $ref: '#/definitions/Plan'
+      plan_updated_at:
+        type: string
+        format: date-time
+      has_payment_method:
+        type: boolean
+      subscription_id:
+        type: string
+      current_subscription_id:
+        type: string
+      latest_subscription_id:
+        type: string
+      signup_qualification:
+        type: object
+      status:
+        $ref: '#/definitions/Organization.Status'
+      status_message:
+        $ref: '#/definitions/OrganizationDetailedStatus'
+      deactivation_reason:
+        $ref: '#/definitions/Organization.DeactivationReason'
+      verified:
+        type: boolean
+      qualifies_for_hobby23:
+        type: boolean
+      reprocess_after:
+        type: string
+        format: date-time
+      trialing:
+        type: boolean
+      trial_starts_at:
+        type: string
+        format: date-time
+      trial_ends_at:
+        type: string
+        format: date-time
+      email_domain_allowlist:
+        type: array
+        items:
+          type: string
+    title: Represent an Organization
+  UpdateBudgetReply:
+    type: object
+    properties:
+      budget:
+        $ref: '#/definitions/Budget'
+  Organization.Status:
+    type: string
+    enum:
+    - WARNING
+    - LOCKED
+    - ACTIVE
+    - DEACTIVATING
+    - DEACTIVATED
+    - DELETING
+    - DELETED
+    default: WARNING
+  LoginReply:
+    type: object
+    properties:
+      token:
+        $ref: '#/definitions/Token'
+  GetOrganizationReply:
+    type: object
+    properties:
+      organization:
+        $ref: '#/definitions/Organization'
+  DeleteBudgetReply:
+    type: object
+  CreateOrganizationReply:
+    type: object
+    properties:
+      organization:
+        $ref: '#/definitions/Organization'
+  kgitproxy.GithubInstallation.Status:
+    type: string
+    enum:
+    - INVALID
+    - INSTALLED
+    - SUSPENDED
+    - DELETED
+    default: INVALID
+  Organization.DeactivationReason:
+    type: string
+    enum:
+    - INVALID
+    - REQUESTED_BY_OWNER
+    - SUBSCRIPTION_TERMINATION
+    - LOCKED_BY_ADMIN
+    - VERIFICATION_FAILED
+    - TRIAL_DID_NOT_CONVERT
+    default: INVALID
+  google.protobuf.Any:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  UpsertSignupQualificationReply:
+    type: object
+    properties:
+      organization:
+        $ref: '#/definitions/Organization'
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+x-tagGroups:
+- name: Introduction
+  tags:
+  - intro
+- name: API
+  tags:
+  - Profile
+  - Sessions
+  - Users
+  - organization
+  - OrganizationMembers
+  - OrganizationInvitations
+  - OrganizationConfirmations
+  - Subscriptions
+  - Coupons
+  - Credentials
+  - Secrets
+  - activity
+  - Apps
+  - Services
+  - Deployments
+  - Archives
+  - RegionalDeployments
+  - Instances
+  - Domains
+  - PersistentVolumes
+  - Snapshots
+  - Compose
+  - Repositories
+  - Logs
+  - Metrics
+  - Catalog
+  - CatalogRegions
+  - CatalogInstances
+  - Usages
+  - Summary
+  - DockerHelper

@@ -1,0 +1,317 @@
+swagger: '2.0'
+info:
+  title: Koyeb Rest activity Usages API
+  description: 'The Koyeb API allows you to interact with the Koyeb platform in a simple, programmatic way using conventional HTTP requests.
+
+    '
+  version: 1.0.0
+host: app.koyeb.com
+schemes:
+- https
+security:
+- Bearer: []
+tags:
+- name: Usages
+paths:
+  /v1/usages:
+    get:
+      summary: Get organization usage
+      operationId: GetOrganizationUsage
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/GetOrganizationUsageReply'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: starting_time
+        description: The starting time of the period to get data from
+        in: query
+        required: false
+        type: string
+        format: date-time
+      - name: ending_time
+        description: The ending time of the period to get data from
+        in: query
+        required: false
+        type: string
+        format: date-time
+      tags:
+      - Usages
+  /v1/usages/details:
+    get:
+      summary: Get organization usage details
+      operationId: GetOrganizationUsageDetails
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/GetOrganizationUsageDetailsReply'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: starting_time
+        description: The starting time of the period to get data from
+        in: query
+        required: false
+        type: string
+        format: date-time
+      - name: ending_time
+        description: The ending time of the period to get data from
+        in: query
+        required: false
+        type: string
+        format: date-time
+      - name: limit
+        description: (Optional) The number of items to return
+        in: query
+        required: false
+        type: string
+      - name: offset
+        description: (Optional) The offset in the list of item to return
+        in: query
+        required: false
+        type: string
+      - name: order
+        description: (Optional) Sorts the list in the ascending or the descending order
+        in: query
+        required: false
+        type: string
+      - name: Accept
+        description: If defined with the value 'text/csv', a csv file is returned
+        in: header
+        required: false
+        type: string
+      tags:
+      - Usages
+definitions:
+  PeriodUsage:
+    type: object
+    properties:
+      starting_time:
+        type: string
+        format: date-time
+      ending_time:
+        type: string
+        format: date-time
+      apps:
+        type: array
+        items:
+          $ref: '#/definitions/AppUsage'
+  DatabaseUsage:
+    type: object
+    properties:
+      service_id:
+        type: string
+      service_name:
+        type: string
+      compute_time_seconds:
+        type: integer
+        format: int64
+      data_storage_megabytes_hours:
+        type: integer
+        format: int64
+  UsageDetails:
+    type: object
+    properties:
+      organization_id:
+        type: string
+      instance_id:
+        type: string
+      app_id:
+        type: string
+      app_name:
+        type: string
+      service_id:
+        type: string
+      service_name:
+        type: string
+      regional_deployment_id:
+        type: string
+      region:
+        type: string
+      deployment_id:
+        type: string
+      instance_type:
+        type: string
+      duration_seconds:
+        type: integer
+        format: int64
+      started_at:
+        type: string
+        format: date-time
+      terminated_at:
+        type: string
+        format: date-time
+  google.rpc.Status:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          $ref: '#/definitions/google.protobuf.Any'
+  GetOrganizationUsageDetailsReply:
+    type: object
+    properties:
+      usage_details:
+        type: array
+        items:
+          $ref: '#/definitions/UsageDetails'
+        title: The collection of usage instances
+      database_details:
+        type: array
+        items:
+          $ref: '#/definitions/DatabaseUsageDetails'
+        title: The collection of database deployments used during the month
+      limit:
+        type: integer
+        format: int64
+        title: The limit in the request
+      offset:
+        type: integer
+        format: int64
+        title: The offset in the request
+      count:
+        type: integer
+        format: int64
+        title: The total number of items
+      order:
+        type: string
+        title: The order in the request
+  GetOrganizationUsageReply:
+    type: object
+    properties:
+      usage:
+        $ref: '#/definitions/Usage'
+        title: The computed usage of instances per month
+  Usage:
+    type: object
+    properties:
+      organization_id:
+        type: string
+      periods:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/PeriodUsage'
+  RegionUsage:
+    type: object
+    properties:
+      instances:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/InstanceUsage'
+  google.protobuf.Any:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  ServiceUsage:
+    type: object
+    properties:
+      service_id:
+        type: string
+      service_name:
+        type: string
+      regions:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/RegionUsage'
+  InstanceUsage:
+    type: object
+    properties:
+      duration_seconds:
+        type: integer
+        format: int64
+  AppUsage:
+    type: object
+    properties:
+      app_id:
+        type: string
+      app_name:
+        type: string
+      services:
+        type: array
+        items:
+          $ref: '#/definitions/ServiceUsage'
+      databases:
+        type: array
+        items:
+          $ref: '#/definitions/DatabaseUsage'
+  DatabaseUsageDetails:
+    type: object
+    properties:
+      organization_id:
+        type: string
+      app_id:
+        type: string
+      app_name:
+        type: string
+      service_id:
+        type: string
+      service_name:
+        type: string
+      compute_time_seconds:
+        type: integer
+        format: int64
+      data_storage_megabytes_hour:
+        type: integer
+        format: int64
+      started_at:
+        type: string
+        format: date-time
+      terminated_at:
+        type: string
+        format: date-time
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+x-tagGroups:
+- name: Introduction
+  tags:
+  - intro
+- name: API
+  tags:
+  - Profile
+  - Sessions
+  - Users
+  - organization
+  - OrganizationMembers
+  - OrganizationInvitations
+  - OrganizationConfirmations
+  - Subscriptions
+  - Coupons
+  - Credentials
+  - Secrets
+  - activity
+  - Apps
+  - Services
+  - Deployments
+  - Archives
+  - RegionalDeployments
+  - Instances
+  - Domains
+  - PersistentVolumes
+  - Snapshots
+  - Compose
+  - Repositories
+  - Logs
+  - Metrics
+  - Catalog
+  - CatalogRegions
+  - CatalogInstances
+  - Usages
+  - Summary
+  - DockerHelper

@@ -1,0 +1,822 @@
+swagger: '2.0'
+info:
+  title: Koyeb Rest activity Apps API
+  description: 'The Koyeb API allows you to interact with the Koyeb platform in a simple, programmatic way using conventional HTTP requests.
+
+    '
+  version: 1.0.0
+host: app.koyeb.com
+schemes:
+- https
+security:
+- Bearer: []
+tags:
+- name: Apps
+paths:
+  /v1/app_events:
+    get:
+      summary: List App events
+      operationId: ListAppEvents
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/ListAppEventsReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: app_id
+        description: (Optional) Filter on app id
+        in: query
+        required: false
+        type: string
+      - name: types
+        description: (Optional) Filter on app event types
+        in: query
+        required: false
+        type: array
+        items:
+          type: string
+        collectionFormat: multi
+      - name: limit
+        description: (Optional) The number of items to return
+        in: query
+        required: false
+        type: string
+      - name: offset
+        description: (Optional) The offset in the list of item to return
+        in: query
+        required: false
+        type: string
+      - name: order
+        description: (Optional) Sorts the list in the ascending or the descending order
+        in: query
+        required: false
+        type: string
+      tags:
+      - Apps
+  /v1/apps:
+    get:
+      summary: List App
+      operationId: ListApps
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/ListAppsReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: limit
+        description: (Optional) The number of items to return
+        in: query
+        required: false
+        type: string
+      - name: offset
+        description: (Optional) The offset in the list of item to return
+        in: query
+        required: false
+        type: string
+      - name: name
+        description: (Optional) A filter for name
+        in: query
+        required: false
+        type: string
+      - name: project_id
+        description: (Optional) A filter for the project ID
+        in: query
+        required: false
+        type: string
+      tags:
+      - Apps
+    post:
+      summary: Create App
+      operationId: CreateApp
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/CreateAppReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: app
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/CreateApp'
+      tags:
+      - Apps
+  /v1/apps/{id}:
+    get:
+      summary: Get App
+      operationId: GetApp
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/GetAppReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: id
+        description: The id of the App
+        in: path
+        required: true
+        type: string
+      tags:
+      - Apps
+    delete:
+      summary: Delete App
+      description: App deletion is allowed for all status.
+      operationId: DeleteApp
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/DeleteAppReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: id
+        description: The id of the App to delete
+        in: path
+        required: true
+        type: string
+      tags:
+      - Apps
+    put:
+      summary: Update App
+      operationId: UpdateApp
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/UpdateAppReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: id
+        description: The id of the app to update.
+        in: path
+        required: true
+        type: string
+      - name: app
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/UpdateApp'
+      - name: update_mask
+        in: query
+        required: false
+        type: string
+      tags:
+      - Apps
+    patch:
+      summary: Update App
+      operationId: UpdateApp2
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/UpdateAppReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: id
+        description: The id of the app to update.
+        in: path
+        required: true
+        type: string
+      - name: app
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/UpdateApp'
+      - name: update_mask
+        in: query
+        required: false
+        type: string
+      tags:
+      - Apps
+  /v1/apps/{id}/pause:
+    post:
+      summary: Pause App
+      description: "App pause action is allowed for the following status:\n - starting\n - healthy\n - degraded\n - unhealthy\n - resuming"
+      operationId: PauseApp
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/PauseAppReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: id
+        description: The id of the app to pause.
+        in: path
+        required: true
+        type: string
+      tags:
+      - Apps
+  /v1/apps/{id}/resume:
+    post:
+      summary: Resume App
+      description: "App resume action is allowed for the following status:\n - paused"
+      operationId: ResumeApp
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/ResumeAppReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: id
+        description: The id of the app to resume.
+        in: path
+        required: true
+        type: string
+      tags:
+      - Apps
+definitions:
+  GetAppReply:
+    type: object
+    properties:
+      app:
+        $ref: '#/definitions/App'
+        title: The App retrieved
+  AppListItem:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      organization_id:
+        type: string
+      updated_at:
+        type: string
+        format: date-time
+      created_at:
+        type: string
+        format: date-time
+      domains:
+        type: array
+        items:
+          $ref: '#/definitions/Domain'
+      status:
+        $ref: '#/definitions/App.Status'
+      messages:
+        type: array
+        items:
+          type: string
+  Domain.LoadBalancerKoyeb:
+    type: object
+    properties:
+      request_timeout_seconds:
+        type: integer
+        format: int64
+        title: Between 100 and 900
+  CreateAppReply:
+    type: object
+    properties:
+      app:
+        $ref: '#/definitions/App'
+        title: The entity created
+  Domain.LoadBalancerCloudflare:
+    type: object
+  DeleteAppReply:
+    type: object
+  ErrorWithFields:
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      code:
+        type: string
+      message:
+        type: string
+      fields:
+        type: array
+        items:
+          $ref: '#/definitions/ErrorField'
+  AppLifeCycle:
+    type: object
+    properties:
+      delete_when_empty:
+        type: boolean
+  App:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      organization_id:
+        type: string
+      created_at:
+        type: string
+        format: date-time
+      updated_at:
+        type: string
+        format: date-time
+      started_at:
+        type: string
+        format: date-time
+      succeeded_at:
+        type: string
+        format: date-time
+      paused_at:
+        type: string
+        format: date-time
+      resumed_at:
+        type: string
+        format: date-time
+      terminated_at:
+        type: string
+        format: date-time
+      status:
+        $ref: '#/definitions/App.Status'
+      messages:
+        type: array
+        items:
+          type: string
+      version:
+        type: string
+        format: uint64
+      domains:
+        type: array
+        items:
+          $ref: '#/definitions/Domain'
+      life_cycle:
+        $ref: '#/definitions/AppLifeCycle'
+  ErrorField:
+    type: object
+    properties:
+      field:
+        type: string
+      description:
+        type: string
+  Error:
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      code:
+        type: string
+      message:
+        type: string
+  AppEvent:
+    type: object
+    properties:
+      id:
+        type: string
+      when:
+        type: string
+        format: date-time
+      organization_id:
+        type: string
+      app_id:
+        type: string
+      type:
+        type: string
+      message:
+        type: string
+      metadata:
+        type: object
+  google.rpc.Status:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          $ref: '#/definitions/google.protobuf.Any'
+  ListAppsReply:
+    type: object
+    properties:
+      apps:
+        type: array
+        items:
+          $ref: '#/definitions/AppListItem'
+      limit:
+        type: integer
+        format: int64
+        title: The limit in the request
+      offset:
+        type: integer
+        format: int64
+        title: The offset in the request
+      count:
+        type: integer
+        format: int64
+        title: The total number of items
+      has_next:
+        type: boolean
+        title: If there is more items after in the collection
+  App.Status:
+    type: string
+    enum:
+    - STARTING
+    - HEALTHY
+    - DEGRADED
+    - UNHEALTHY
+    - DELETING
+    - DELETED
+    - PAUSING
+    - PAUSED
+    - RESUMING
+    default: STARTING
+  Domain.Type:
+    type: string
+    enum:
+    - AUTOASSIGNED
+    - CUSTOM
+    default: AUTOASSIGNED
+    title: '- AUTOASSIGNED: Domain like <appName>-<orgName>.koyeb.app'
+  Domain.Status:
+    type: string
+    enum:
+    - PENDING
+    - ACTIVE
+    - ERROR
+    - DELETING
+    - DELETED
+    default: PENDING
+  ResumeAppReply:
+    type: object
+  ListAppEventsReply:
+    type: object
+    properties:
+      events:
+        type: array
+        items:
+          $ref: '#/definitions/AppEvent'
+        title: The collection of events
+      limit:
+        type: integer
+        format: int64
+        title: The limit in the request
+      offset:
+        type: integer
+        format: int64
+        title: The offset in the request
+      order:
+        type: string
+        title: The order in the request
+      has_next:
+        type: boolean
+        title: If there is more items after in the collection
+  CreateApp:
+    type: object
+    properties:
+      name:
+        type: string
+      life_cycle:
+        $ref: '#/definitions/AppLifeCycle'
+      project_id:
+        type: string
+        title: (Optional) The project ID to associate with the app
+  Domain:
+    type: object
+    properties:
+      id:
+        type: string
+      organization_id:
+        type: string
+      name:
+        type: string
+      created_at:
+        type: string
+        format: date-time
+      updated_at:
+        type: string
+        format: date-time
+      status:
+        $ref: '#/definitions/Domain.Status'
+      type:
+        $ref: '#/definitions/Domain.Type'
+      app_id:
+        type: string
+      deployment_group:
+        type: string
+      verified_at:
+        type: string
+        format: date-time
+      intended_cname:
+        type: string
+      messages:
+        type: array
+        items:
+          type: string
+      version:
+        type: string
+        format: uint64
+      cloudflare:
+        $ref: '#/definitions/Domain.LoadBalancerCloudflare'
+      koyeb:
+        $ref: '#/definitions/Domain.LoadBalancerKoyeb'
+  UpdateApp:
+    type: object
+    properties:
+      name:
+        type: string
+      life_cycle:
+        $ref: '#/definitions/AppLifeCycle'
+  PauseAppReply:
+    type: object
+  google.protobuf.Any:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  UpdateAppReply:
+    type: object
+    properties:
+      app:
+        $ref: '#/definitions/App'
+        title: The entity updated
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+x-tagGroups:
+- name: Introduction
+  tags:
+  - intro
+- name: API
+  tags:
+  - Profile
+  - Sessions
+  - Users
+  - organization
+  - OrganizationMembers
+  - OrganizationInvitations
+  - OrganizationConfirmations
+  - Subscriptions
+  - Coupons
+  - Credentials
+  - Secrets
+  - activity
+  - Apps
+  - Services
+  - Deployments
+  - Archives
+  - RegionalDeployments
+  - Instances
+  - Domains
+  - PersistentVolumes
+  - Snapshots
+  - Compose
+  - Repositories
+  - Logs
+  - Metrics
+  - Catalog
+  - CatalogRegions
+  - CatalogInstances
+  - Usages
+  - Summary
+  - DockerHelper

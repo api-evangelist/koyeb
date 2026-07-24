@@ -1,0 +1,290 @@
+swagger: '2.0'
+info:
+  title: Koyeb Rest activity OrganizationQuotas API
+  description: 'The Koyeb API allows you to interact with the Koyeb platform in a simple, programmatic way using conventional HTTP requests.
+
+    '
+  version: 1.0.0
+host: app.koyeb.com
+schemes:
+- https
+security:
+- Bearer: []
+tags:
+- name: OrganizationQuotas
+paths:
+  /v1/organizations/{organization_id}/quotas:
+    get:
+      operationId: GetQuotas
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/GetQuotasReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: organization_id
+        in: path
+        required: true
+        type: string
+      tags:
+      - OrganizationQuotas
+definitions:
+  ScaleToZeroQuotas:
+    type: object
+    properties:
+      is_deep_sleep_enabled:
+        type: boolean
+        title: deep sleep limits
+      deep_sleep_idle_delay_min:
+        type: integer
+        format: int64
+      deep_sleep_idle_delay_max:
+        type: integer
+        format: int64
+      is_light_sleep_enabled:
+        type: boolean
+        title: light sleep limits
+      light_sleep_idle_delay_min:
+        type: integer
+        format: int64
+      light_sleep_idle_delay_max:
+        type: integer
+        format: int64
+  PersistentVolumeQuotas:
+    type: object
+    properties:
+      max_total_size:
+        type: integer
+        format: int64
+        description: MaxTotalSize for all volumes on a region (in Gigabyte / GB).
+      max_volume_size:
+        type: integer
+        format: int64
+        description: MaxVolumeSize for one volume (in Gigabyte / GB).
+      max_per_instance_size:
+        type: integer
+        format: int64
+        description: MaxPerInstanceSize for all volumes on an instance (in Gigabyte / GB).
+  google.rpc.Status:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          $ref: '#/definitions/google.protobuf.Any'
+  GetQuotasReply:
+    type: object
+    properties:
+      quotas:
+        $ref: '#/definitions/Quotas'
+  ErrorWithFields:
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      code:
+        type: string
+      message:
+        type: string
+      fields:
+        type: array
+        items:
+          $ref: '#/definitions/ErrorField'
+  DomainLoadBalancerQuotas:
+    type: object
+    properties:
+      max_koyeb:
+        type: integer
+        format: int64
+  LifecycleQuotas:
+    type: object
+    properties:
+      delete_after_sleep_min:
+        type: integer
+        format: int64
+        title: delete after sleep limits
+      delete_after_sleep_max:
+        type: integer
+        format: int64
+      delete_after_create_min:
+        type: integer
+        format: int64
+        title: delete after create limits
+      delete_after_create_max:
+        type: integer
+        format: int64
+  google.protobuf.Any:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  ErrorField:
+    type: object
+    properties:
+      field:
+        type: string
+      description:
+        type: string
+  Quotas:
+    type: object
+    properties:
+      apps:
+        type: string
+        format: int64
+      services:
+        type: string
+        format: int64
+      domains:
+        type: string
+        format: int64
+        title: Deprecated, use custom_domains instead
+      services_by_app:
+        type: string
+        format: int64
+      service_provisioning_concurrency:
+        type: string
+        format: int64
+      memory_mb:
+        type: string
+        format: int64
+      instance_types:
+        type: array
+        items:
+          type: string
+      regions:
+        type: array
+        items:
+          type: string
+      max_organization_members:
+        type: string
+        format: int64
+      max_instances_by_type:
+        type: object
+        additionalProperties:
+          type: string
+          format: int64
+      persistent_volumes_by_region:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/PersistentVolumeQuotas'
+      custom_domains:
+        type: string
+        format: int64
+      domains_load_balancer:
+        $ref: '#/definitions/DomainLoadBalancerQuotas'
+      metrics_retention:
+        type: integer
+        format: int32
+        title: Time in days
+      logs_retention:
+        type: integer
+        format: int32
+        title: Time in days
+      access_reserved_subdomains:
+        type: array
+        items:
+          type: string
+        title: The mapping between reserved_subdomain names and their value is in the code
+      proxy_ports:
+        type: integer
+        format: int64
+      scale_to_zero:
+        $ref: '#/definitions/ScaleToZeroQuotas'
+      archives:
+        type: string
+        format: int64
+      archive_max_size_mb:
+        type: string
+        format: int64
+      lifecycle:
+        $ref: '#/definitions/LifecycleQuotas'
+      max_projects:
+        type: string
+        format: int64
+  Error:
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      code:
+        type: string
+      message:
+        type: string
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+x-tagGroups:
+- name: Introduction
+  tags:
+  - intro
+- name: API
+  tags:
+  - Profile
+  - Sessions
+  - Users
+  - organization
+  - OrganizationMembers
+  - OrganizationInvitations
+  - OrganizationConfirmations
+  - Subscriptions
+  - Coupons
+  - Credentials
+  - Secrets
+  - activity
+  - Apps
+  - Services
+  - Deployments
+  - Archives
+  - RegionalDeployments
+  - Instances
+  - Domains
+  - PersistentVolumes
+  - Snapshots
+  - Compose
+  - Repositories
+  - Logs
+  - Metrics
+  - Catalog
+  - CatalogRegions
+  - CatalogInstances
+  - Usages
+  - Summary
+  - DockerHelper

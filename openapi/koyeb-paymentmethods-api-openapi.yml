@@ -1,0 +1,457 @@
+swagger: '2.0'
+info:
+  title: Koyeb Rest activity PaymentMethods API
+  description: 'The Koyeb API allows you to interact with the Koyeb platform in a simple, programmatic way using conventional HTTP requests.
+
+    '
+  version: 1.0.0
+host: app.koyeb.com
+schemes:
+- https
+security:
+- Bearer: []
+tags:
+- name: PaymentMethods
+paths:
+  /v1/payment_methods:
+    get:
+      summary: List payment methods
+      operationId: ListPaymentMethods
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/ListPaymentMethodsReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: limit
+        description: (Optional) The number of items to return
+        in: query
+        required: false
+        type: string
+      - name: offset
+        description: (Optional) The offset in the list of item to return
+        in: query
+        required: false
+        type: string
+      - name: statuses
+        description: (Optional) Filter on payment method statuses
+        in: query
+        required: false
+        type: array
+        items:
+          type: string
+          enum:
+          - INVALID
+          - CREATED
+          - AUTHORIZED
+          - DECLINED
+          - CANCELED
+          - EXPIRED
+          - UNCHECKED
+        collectionFormat: multi
+      tags:
+      - PaymentMethods
+    post:
+      summary: Create payment authorization
+      operationId: CreatePaymentAuthorization
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/CreatePaymentAuthorizationReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: body
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/CreatePaymentAuthorizationRequest'
+      tags:
+      - PaymentMethods
+  /v1/payment_methods/{id}:
+    get:
+      summary: Get payment method
+      operationId: GetPaymentMethod
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/GetPaymentMethodReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      tags:
+      - PaymentMethods
+    delete:
+      summary: Delete payment method
+      operationId: DeletePaymentMethod
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/DeletePaymentMethodReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      tags:
+      - PaymentMethods
+  /v1/payment_methods/{id}/confirm:
+    post:
+      summary: Confirm payment authorization
+      operationId: ConfirmPaymentAuthorization
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/ConfirmPaymentAuthorizationReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      - name: body
+        in: body
+        required: true
+        schema:
+          type: object
+      tags:
+      - PaymentMethods
+definitions:
+  ErrorField:
+    type: object
+    properties:
+      field:
+        type: string
+      description:
+        type: string
+  PaymentMethod.Status:
+    type: string
+    enum:
+    - INVALID
+    - CREATED
+    - AUTHORIZED
+    - DECLINED
+    - CANCELED
+    - EXPIRED
+    - UNCHECKED
+    default: INVALID
+  CreatePaymentAuthorizationReply:
+    type: object
+    properties:
+      payment_method:
+        $ref: '#/definitions/PaymentMethod'
+  google.rpc.Status:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          $ref: '#/definitions/google.protobuf.Any'
+  DeletePaymentMethodReply:
+    type: object
+  GetPaymentMethodReply:
+    type: object
+    properties:
+      payment_method:
+        $ref: '#/definitions/PaymentMethod'
+  ListPaymentMethodsReply:
+    type: object
+    properties:
+      payment_methods:
+        type: array
+        items:
+          $ref: '#/definitions/PaymentMethod'
+        title: The collection of payment methods
+      limit:
+        type: integer
+        format: int64
+        title: The limit in the request
+      offset:
+        type: integer
+        format: int64
+        title: The offset in the request
+      count:
+        type: integer
+        format: int64
+        title: The total number of items
+  ErrorWithFields:
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      code:
+        type: string
+      message:
+        type: string
+      fields:
+        type: array
+        items:
+          $ref: '#/definitions/ErrorField'
+  PaymentMethod:
+    type: object
+    properties:
+      id:
+        type: string
+      created_at:
+        type: string
+        format: date-time
+      updated_at:
+        type: string
+        format: date-time
+      version:
+        type: string
+        format: uint64
+      organization_id:
+        type: string
+      type:
+        type: string
+      provider:
+        type: string
+      status:
+        $ref: '#/definitions/PaymentMethod.Status'
+      messages:
+        type: array
+        items:
+          type: string
+      stripe_payment_method_id:
+        type: string
+      authorization_verified_at:
+        type: string
+        format: date-time
+      authorization_canceled_at:
+        type: string
+        format: date-time
+      authorization_stripe_payment_intent_id:
+        type: string
+      authorization_stripe_payment_intent_client_secret:
+        type: string
+      card_brand:
+        type: string
+      card_country:
+        type: string
+      card_funding:
+        type: string
+      card_fingerprint:
+        type: string
+      card_last_digits:
+        type: string
+      card_expiration_month:
+        type: integer
+        format: int64
+      card_expiration_year:
+        type: integer
+        format: int64
+  google.protobuf.Any:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  ConfirmPaymentAuthorizationReply:
+    type: object
+    properties:
+      payment_method:
+        $ref: '#/definitions/PaymentMethod'
+  Error:
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      code:
+        type: string
+      message:
+        type: string
+  CreatePaymentAuthorizationRequest:
+    type: object
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+x-tagGroups:
+- name: Introduction
+  tags:
+  - intro
+- name: API
+  tags:
+  - Profile
+  - Sessions
+  - Users
+  - organization
+  - OrganizationMembers
+  - OrganizationInvitations
+  - OrganizationConfirmations
+  - Subscriptions
+  - Coupons
+  - Credentials
+  - Secrets
+  - activity
+  - Apps
+  - Services
+  - Deployments
+  - Archives
+  - RegionalDeployments
+  - Instances
+  - Domains
+  - PersistentVolumes
+  - Snapshots
+  - Compose
+  - Repositories
+  - Logs
+  - Metrics
+  - Catalog
+  - CatalogRegions
+  - CatalogInstances
+  - Usages
+  - Summary
+  - DockerHelper

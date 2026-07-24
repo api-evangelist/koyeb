@@ -1,0 +1,369 @@
+swagger: '2.0'
+info:
+  title: Koyeb Rest activity Repositories API
+  description: 'The Koyeb API allows you to interact with the Koyeb platform in a simple, programmatic way using conventional HTTP requests.
+
+    '
+  version: 1.0.0
+host: app.koyeb.com
+schemes:
+- https
+security:
+- Bearer: []
+tags:
+- name: Repositories
+paths:
+  /v1/git/branches:
+    get:
+      summary: List Branches
+      operationId: ListBranches
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/kgitproxy.ListBranchesReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: repository_id
+        description: (Optional) Filter on one repository.
+        in: query
+        required: false
+        type: string
+      - name: name
+        description: '(Optional) Filter on branch name using a fuzzy search.
+
+          Repository filter is required to enable this filter.'
+        in: query
+        required: false
+        type: string
+      - name: limit
+        description: (Optional) The number of items to return.
+        in: query
+        required: false
+        type: string
+      - name: offset
+        description: (Optional) The offset in the list of item to return.
+        in: query
+        required: false
+        type: string
+      tags:
+      - Repositories
+  /v1/git/repositories:
+    get:
+      summary: List Repositories
+      operationId: ListRepositories
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/kgitproxy.ListRepositoriesReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: name
+        description: (Optional) Filter on repository name using a fuzzy search.
+        in: query
+        required: false
+        type: string
+      - name: name_search_op
+        description: (Optional) Define search operation for repository name. Accept either "fuzzy" or "equality", use "fuzzy" by default.
+        in: query
+        required: false
+        type: string
+      - name: limit
+        description: (Optional) The number of items to return.
+        in: query
+        required: false
+        type: string
+      - name: offset
+        description: (Optional) The offset in the list of item to return.
+        in: query
+        required: false
+        type: string
+      tags:
+      - Repositories
+  /v1/git/sync/organization/{organization_id}:
+    post:
+      summary: Resync Organization
+      operationId: ResyncOrganization
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/kgitproxy.ResyncOrganizationReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: organization_id
+        in: path
+        required: true
+        type: string
+      tags:
+      - Repositories
+definitions:
+  kgitproxy.ListBranchesReply:
+    type: object
+    properties:
+      branches:
+        type: array
+        items:
+          $ref: '#/definitions/kgitproxy.Branch'
+        description: The collection of branches.
+      limit:
+        type: integer
+        format: int64
+        description: The limit in the request.
+      offset:
+        type: integer
+        format: int64
+        description: The offset in the request.
+      count:
+        type: integer
+        format: int64
+        description: The total number of items.
+  kgitproxy.Repository:
+    type: object
+    properties:
+      id:
+        type: string
+      organization_id:
+        type: string
+      name:
+        type: string
+      url:
+        type: string
+      description:
+        type: string
+      is_private:
+        type: boolean
+      is_disabled:
+        type: boolean
+      default_branch:
+        type: string
+      provider:
+        $ref: '#/definitions/kgitproxy.RepositoryProvider'
+      last_push_date:
+        type: string
+        format: date-time
+      github:
+        $ref: '#/definitions/kgitproxy.GitHubRepository'
+  google.rpc.Status:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          $ref: '#/definitions/google.protobuf.Any'
+  kgitproxy.GitHubRepository:
+    type: object
+    properties:
+      github_id:
+        type: string
+  ErrorWithFields:
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      code:
+        type: string
+      message:
+        type: string
+      fields:
+        type: array
+        items:
+          $ref: '#/definitions/ErrorField'
+  kgitproxy.ResyncOrganizationReply:
+    type: object
+  google.protobuf.Any:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  kgitproxy.Branch:
+    type: object
+    properties:
+      id:
+        type: string
+      organization_id:
+        type: string
+      repository_id:
+        type: string
+      name:
+        type: string
+      is_default:
+        type: boolean
+      is_protected:
+        type: boolean
+      provider:
+        $ref: '#/definitions/kgitproxy.RepositoryProvider'
+  kgitproxy.RepositoryProvider:
+    type: string
+    enum:
+    - INVALID_PROVIDER
+    - GITHUB
+    default: INVALID_PROVIDER
+  ErrorField:
+    type: object
+    properties:
+      field:
+        type: string
+      description:
+        type: string
+  Error:
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      code:
+        type: string
+      message:
+        type: string
+  kgitproxy.ListRepositoriesReply:
+    type: object
+    properties:
+      repositories:
+        type: array
+        items:
+          $ref: '#/definitions/kgitproxy.Repository'
+        description: The collection of repositories.
+      limit:
+        type: integer
+        format: int64
+        description: The limit in the request.
+      offset:
+        type: integer
+        format: int64
+        description: The offset in the request.
+      count:
+        type: integer
+        format: int64
+        description: The total number of items.
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+x-tagGroups:
+- name: Introduction
+  tags:
+  - intro
+- name: API
+  tags:
+  - Profile
+  - Sessions
+  - Users
+  - organization
+  - OrganizationMembers
+  - OrganizationInvitations
+  - OrganizationConfirmations
+  - Subscriptions
+  - Coupons
+  - Credentials
+  - Secrets
+  - activity
+  - Apps
+  - Services
+  - Deployments
+  - Archives
+  - RegionalDeployments
+  - Instances
+  - Domains
+  - PersistentVolumes
+  - Snapshots
+  - Compose
+  - Repositories
+  - Logs
+  - Metrics
+  - Catalog
+  - CatalogRegions
+  - CatalogInstances
+  - Usages
+  - Summary
+  - DockerHelper

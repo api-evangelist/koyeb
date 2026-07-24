@@ -1,0 +1,219 @@
+swagger: '2.0'
+info:
+  title: Koyeb Rest activity CatalogRegions API
+  description: 'The Koyeb API allows you to interact with the Koyeb platform in a simple, programmatic way using conventional HTTP requests.
+
+    '
+  version: 1.0.0
+host: app.koyeb.com
+schemes:
+- https
+security:
+- Bearer: []
+tags:
+- name: CatalogRegions
+paths:
+  /v1/catalog/regions:
+    get:
+      summary: List Region
+      operationId: ListRegions
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/ListRegionsReply'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: limit
+        description: (Optional) The number of items to return
+        in: query
+        required: false
+        type: string
+      - name: offset
+        description: (Optional) The offset in the list of item to return
+        in: query
+        required: false
+        type: string
+      - name: id
+        description: (Optional) A filter for regions
+        in: query
+        required: false
+        type: string
+      tags:
+      - CatalogRegions
+  /v1/catalog/regions/{id}:
+    get:
+      summary: Get Region
+      operationId: GetRegion
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/GetRegionReply'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: id
+        description: The name of the region
+        in: path
+        required: true
+        type: string
+      tags:
+      - CatalogRegions
+definitions:
+  GetRegionReply:
+    type: object
+    properties:
+      region:
+        $ref: '#/definitions/Region'
+        title: The Region retrieved
+  ListRegionsReply:
+    type: object
+    properties:
+      regions:
+        type: array
+        items:
+          $ref: '#/definitions/RegionListItem'
+      limit:
+        type: integer
+        format: int64
+        title: The limit in the request
+      offset:
+        type: integer
+        format: int64
+        title: The offset in the request
+      count:
+        type: integer
+        format: int64
+        title: The total number of items
+  google.rpc.Status:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          $ref: '#/definitions/google.protobuf.Any'
+  Region:
+    type: object
+    properties:
+      id:
+        type: string
+        title: The id of the region
+      name:
+        type: string
+        title: The name of the region
+      coordinates:
+        type: array
+        items:
+          type: string
+        title: The coordinates of the region (lat/long)
+      status:
+        type: string
+        title: The status of the region
+      instances:
+        type: array
+        items:
+          type: string
+        title: A list of instances available in this region
+      datacenters:
+        type: array
+        items:
+          type: string
+        title: A list of datacenters available in this region
+      volumes_enabled:
+        type: boolean
+        title: Are the volumes enabled for this instance type
+      scope:
+        type: string
+        description: The scope of the region, continent, metropolitan area, etc.
+  google.protobuf.Any:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  RegionListItem:
+    type: object
+    properties:
+      id:
+        type: string
+        title: The id of the region
+      name:
+        type: string
+        title: The name of the region
+      coordinates:
+        type: array
+        items:
+          type: string
+        title: The coordinates of the region (lat/long)
+      status:
+        type: string
+        title: The status of the region
+      instances:
+        type: array
+        items:
+          type: string
+        title: A list of instances available in this region
+      datacenters:
+        type: array
+        items:
+          type: string
+        title: A list of datacenters available in this region
+      volumes_enabled:
+        type: boolean
+        title: Are the volumes enabled for this instance type
+      scope:
+        type: string
+        description: The scope of the region, continent, metropolitan area, etc.
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+x-tagGroups:
+- name: Introduction
+  tags:
+  - intro
+- name: API
+  tags:
+  - Profile
+  - Sessions
+  - Users
+  - organization
+  - OrganizationMembers
+  - OrganizationInvitations
+  - OrganizationConfirmations
+  - Subscriptions
+  - Coupons
+  - Credentials
+  - Secrets
+  - activity
+  - Apps
+  - Services
+  - Deployments
+  - Archives
+  - RegionalDeployments
+  - Instances
+  - Domains
+  - PersistentVolumes
+  - Snapshots
+  - Compose
+  - Repositories
+  - Logs
+  - Metrics
+  - Catalog
+  - CatalogRegions
+  - CatalogInstances
+  - Usages
+  - Summary
+  - DockerHelper

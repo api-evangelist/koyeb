@@ -1,0 +1,123 @@
+swagger: '2.0'
+info:
+  title: Koyeb Rest activity CatalogDatacenters API
+  description: 'The Koyeb API allows you to interact with the Koyeb platform in a simple, programmatic way using conventional HTTP requests.
+
+    '
+  version: 1.0.0
+host: app.koyeb.com
+schemes:
+- https
+security:
+- Bearer: []
+tags:
+- name: CatalogDatacenters
+paths:
+  /v1/catalog/datacenters:
+    get:
+      summary: List datacenters
+      operationId: ListDatacenters
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/ListDatacentersReply'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      tags:
+      - CatalogDatacenters
+definitions:
+  DatacenterListItem:
+    type: object
+    properties:
+      id:
+        type: string
+        title: e.g. "par1"
+      region_id:
+        type: string
+        title: e.g. "par"
+      domain:
+        type: string
+        title: e.g. "all-par1.infra.prod.koyeb.com"
+      coordinates:
+        type: array
+        items:
+          type: string
+        title: e.g. "8.856614" ,"2.352221"?
+      use_gpu:
+        type: boolean
+        title: e.g. true
+      regions:
+        type: array
+        items:
+          type: string
+        title: e.g. "par", "fra"
+  ListDatacentersReply:
+    type: object
+    properties:
+      datacenters:
+        type: array
+        items:
+          $ref: '#/definitions/DatacenterListItem'
+  google.protobuf.Any:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  google.rpc.Status:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          $ref: '#/definitions/google.protobuf.Any'
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+x-tagGroups:
+- name: Introduction
+  tags:
+  - intro
+- name: API
+  tags:
+  - Profile
+  - Sessions
+  - Users
+  - organization
+  - OrganizationMembers
+  - OrganizationInvitations
+  - OrganizationConfirmations
+  - Subscriptions
+  - Coupons
+  - Credentials
+  - Secrets
+  - activity
+  - Apps
+  - Services
+  - Deployments
+  - Archives
+  - RegionalDeployments
+  - Instances
+  - Domains
+  - PersistentVolumes
+  - Snapshots
+  - Compose
+  - Repositories
+  - Logs
+  - Metrics
+  - Catalog
+  - CatalogRegions
+  - CatalogInstances
+  - Usages
+  - Summary
+  - DockerHelper

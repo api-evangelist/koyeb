@@ -1,0 +1,342 @@
+swagger: '2.0'
+info:
+  title: Koyeb Rest activity OrganizationMembers API
+  description: 'The Koyeb API allows you to interact with the Koyeb platform in a simple, programmatic way using conventional HTTP requests.
+
+    '
+  version: 1.0.0
+host: app.koyeb.com
+schemes:
+- https
+security:
+- Bearer: []
+tags:
+- name: OrganizationMembers
+paths:
+  /v1/organization_members:
+    get:
+      summary: List organization members
+      operationId: ListOrganizationMembers
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/ListOrganizationMembersReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: limit
+        description: (Optional) The number of items to return
+        in: query
+        required: false
+        type: string
+      - name: offset
+        description: (Optional) The offset in the list of item to return
+        in: query
+        required: false
+        type: string
+      - name: organization_id
+        description: (Optional) Filter for an organization
+        in: query
+        required: false
+        type: string
+      - name: user_id
+        description: (Optional) Filter for an user
+        in: query
+        required: false
+        type: string
+      - name: organization_statuses
+        description: (Optional) Filter for organization statuses
+        in: query
+        required: false
+        type: array
+        items:
+          type: string
+          enum:
+          - WARNING
+          - LOCKED
+          - ACTIVE
+          - DEACTIVATING
+          - DEACTIVATED
+          - DELETING
+          - DELETED
+        collectionFormat: multi
+      tags:
+      - OrganizationMembers
+  /v1/organization_members/{id}:
+    delete:
+      summary: Remove an organization member
+      operationId: RemoveOrganizationMember
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/RemoveOrganizationMemberReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      tags:
+      - OrganizationMembers
+definitions:
+  RemoveOrganizationMemberReply:
+    type: object
+    properties:
+      member:
+        $ref: '#/definitions/OrganizationMember'
+  google.rpc.Status:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          $ref: '#/definitions/google.protobuf.Any'
+  PublicOrganization:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      plan:
+        $ref: '#/definitions/Plan'
+      status:
+        $ref: '#/definitions/Organization.Status'
+      external_id:
+        type: string
+  PublicUser:
+    type: object
+    properties:
+      id:
+        type: string
+      email:
+        type: string
+      name:
+        type: string
+      avatar_url:
+        type: string
+      github_id:
+        type: string
+      github_user:
+        type: string
+  OrganizationMember:
+    type: object
+    properties:
+      id:
+        type: string
+      organization_id:
+        type: string
+      user_id:
+        type: string
+      external_id:
+        type: string
+      joined_at:
+        type: string
+        format: date-time
+      role:
+        $ref: '#/definitions/UserRole.Role'
+      status:
+        $ref: '#/definitions/OrganizationMember.Status'
+      user:
+        $ref: '#/definitions/PublicUser'
+      organization:
+        $ref: '#/definitions/PublicOrganization'
+  UserRole.Role:
+    type: string
+    enum:
+    - INVALID
+    - OWNER
+    default: INVALID
+  Organization.Status:
+    type: string
+    enum:
+    - WARNING
+    - LOCKED
+    - ACTIVE
+    - DEACTIVATING
+    - DEACTIVATED
+    - DELETING
+    - DELETED
+    default: WARNING
+  ErrorWithFields:
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      code:
+        type: string
+      message:
+        type: string
+      fields:
+        type: array
+        items:
+          $ref: '#/definitions/ErrorField'
+  Plan:
+    type: string
+    enum:
+    - hobby
+    - starter
+    - startup
+    - business
+    - enterprise
+    - internal
+    - hobby23
+    - no_plan
+    - pro
+    - scale
+    - partner_csp
+    - partner_csp_unit
+    default: hobby
+  OrganizationMember.Status:
+    type: string
+    enum:
+    - INVALID
+    - ACTIVE
+    - DELETED
+    default: INVALID
+  ListOrganizationMembersReply:
+    type: object
+    properties:
+      members:
+        type: array
+        items:
+          $ref: '#/definitions/OrganizationMember'
+        title: The collection of organization members
+      limit:
+        type: integer
+        format: int64
+        title: The limit in the request
+      offset:
+        type: integer
+        format: int64
+        title: The offset in the request
+      count:
+        type: integer
+        format: int64
+        title: The total number of items
+  google.protobuf.Any:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  ErrorField:
+    type: object
+    properties:
+      field:
+        type: string
+      description:
+        type: string
+  Error:
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      code:
+        type: string
+      message:
+        type: string
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+x-tagGroups:
+- name: Introduction
+  tags:
+  - intro
+- name: API
+  tags:
+  - Profile
+  - Sessions
+  - Users
+  - organization
+  - OrganizationMembers
+  - OrganizationInvitations
+  - OrganizationConfirmations
+  - Subscriptions
+  - Coupons
+  - Credentials
+  - Secrets
+  - activity
+  - Apps
+  - Services
+  - Deployments
+  - Archives
+  - RegionalDeployments
+  - Instances
+  - Domains
+  - PersistentVolumes
+  - Snapshots
+  - Compose
+  - Repositories
+  - Logs
+  - Metrics
+  - Catalog
+  - CatalogRegions
+  - CatalogInstances
+  - Usages
+  - Summary
+  - DockerHelper

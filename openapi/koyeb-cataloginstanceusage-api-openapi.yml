@@ -1,0 +1,130 @@
+swagger: '2.0'
+info:
+  title: Koyeb Rest activity CatalogInstanceUsage API
+  description: 'The Koyeb API allows you to interact with the Koyeb platform in a simple, programmatic way using conventional HTTP requests.
+
+    '
+  version: 1.0.0
+host: app.koyeb.com
+schemes:
+- https
+security:
+- Bearer: []
+tags:
+- name: CatalogInstanceUsage
+paths:
+  /v1/catalog/usage:
+    get:
+      operationId: ListUsage
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/ListUsageReply'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: region
+        in: query
+        required: false
+        type: string
+      tags:
+      - CatalogInstanceUsage
+definitions:
+  google.rpc.Status:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          $ref: '#/definitions/google.protobuf.Any'
+  RegionAvailability:
+    type: object
+    properties:
+      availability:
+        $ref: '#/definitions/AvailabilityLevel'
+  AvailabilityLevel:
+    type: string
+    enum:
+    - UNKNOWN
+    - LOW
+    - MEDIUM
+    - HIGH
+    default: UNKNOWN
+  CatalogUsage:
+    type: object
+    properties:
+      instances:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/InstanceAvailability'
+  ListUsageReply:
+    type: object
+    properties:
+      usage:
+        $ref: '#/definitions/CatalogUsage'
+        title: The Usage retrieved
+  google.protobuf.Any:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  InstanceAvailability:
+    type: object
+    properties:
+      regions:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/RegionAvailability'
+      availability:
+        $ref: '#/definitions/AvailabilityLevel'
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+x-tagGroups:
+- name: Introduction
+  tags:
+  - intro
+- name: API
+  tags:
+  - Profile
+  - Sessions
+  - Users
+  - organization
+  - OrganizationMembers
+  - OrganizationInvitations
+  - OrganizationConfirmations
+  - Subscriptions
+  - Coupons
+  - Credentials
+  - Secrets
+  - activity
+  - Apps
+  - Services
+  - Deployments
+  - Archives
+  - RegionalDeployments
+  - Instances
+  - Domains
+  - PersistentVolumes
+  - Snapshots
+  - Compose
+  - Repositories
+  - Logs
+  - Metrics
+  - Catalog
+  - CatalogRegions
+  - CatalogInstances
+  - Usages
+  - Summary
+  - DockerHelper

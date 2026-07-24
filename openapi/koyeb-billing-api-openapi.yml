@@ -1,0 +1,302 @@
+swagger: '2.0'
+info:
+  title: Koyeb Rest activity billing API
+  description: 'The Koyeb API allows you to interact with the Koyeb platform in a simple, programmatic way using conventional HTTP requests.
+
+    '
+  version: 1.0.0
+host: app.koyeb.com
+schemes:
+- https
+security:
+- Bearer: []
+tags:
+- name: billing
+paths:
+  /v1/billing/has_unpaid_invoices:
+    get:
+      summary: 'Experimental: Has unpaid invoices'
+      description: 'WARNING: Please don''t use the following method.
+
+        Koyeb doesn''t guarantee backwards compatible breaking change and reserve
+
+        the right to completely drop it without notice. USE AT YOUR OWN RISK.'
+      operationId: HasUnpaidInvoices
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/HasUnpaidInvoicesReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      tags:
+      - billing
+  /v1/billing/manage:
+    get:
+      operationId: Manage
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/ManageReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      tags:
+      - billing
+  /v1/billing/next_invoice:
+    get:
+      summary: 'Experimental: Fetch next invoice'
+      description: 'WARNING: Please don''t use the following method.
+
+        Koyeb doesn''t guarantee backwards compatible breaking change and reserve
+
+        the right to completely drop it without notice. USE AT YOUR OWN RISK.'
+      operationId: NextInvoice
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/NextInvoiceReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      tags:
+      - billing
+definitions:
+  google.rpc.Status:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          $ref: '#/definitions/google.protobuf.Any'
+  ManageReply:
+    type: object
+    properties:
+      url:
+        type: string
+  NextInvoiceReply.Discount.Type:
+    type: string
+    enum:
+    - PERCENT_OFF
+    - AMOUNT_OFF
+    default: PERCENT_OFF
+  HasUnpaidInvoicesReply:
+    type: object
+    properties:
+      has_unpaid_invoices:
+        type: boolean
+  NextInvoiceReply.Discount:
+    type: object
+    properties:
+      type:
+        $ref: '#/definitions/NextInvoiceReply.Discount.Type'
+      name:
+        type: string
+      amount:
+        type: string
+        format: int64
+  ErrorWithFields:
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      code:
+        type: string
+      message:
+        type: string
+      fields:
+        type: array
+        items:
+          $ref: '#/definitions/ErrorField'
+  NextInvoiceReply.Line.Period:
+    type: object
+    properties:
+      start:
+        type: string
+        format: date-time
+      end:
+        type: string
+        format: date-time
+  NextInvoiceReply:
+    type: object
+    properties:
+      stripe_invoice:
+        type: object
+      lines:
+        type: array
+        items:
+          $ref: '#/definitions/NextInvoiceReply.Line'
+      discounts:
+        type: array
+        items:
+          $ref: '#/definitions/NextInvoiceReply.Discount'
+  NextInvoiceReply.Line.Price:
+    type: object
+    properties:
+      unit_amount_decimal:
+        type: number
+        format: double
+  google.protobuf.Any:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  NextInvoiceReply.Line:
+    type: object
+    properties:
+      amount_excluding_tax:
+        type: integer
+        format: int32
+      period:
+        $ref: '#/definitions/NextInvoiceReply.Line.Period'
+      plan_nickname:
+        type: string
+      price:
+        $ref: '#/definitions/NextInvoiceReply.Line.Price'
+      quantity:
+        type: integer
+        format: int32
+  ErrorField:
+    type: object
+    properties:
+      field:
+        type: string
+      description:
+        type: string
+  Error:
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      code:
+        type: string
+      message:
+        type: string
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+x-tagGroups:
+- name: Introduction
+  tags:
+  - intro
+- name: API
+  tags:
+  - Profile
+  - Sessions
+  - Users
+  - organization
+  - OrganizationMembers
+  - OrganizationInvitations
+  - OrganizationConfirmations
+  - Subscriptions
+  - Coupons
+  - Credentials
+  - Secrets
+  - activity
+  - Apps
+  - Services
+  - Deployments
+  - Archives
+  - RegionalDeployments
+  - Instances
+  - Domains
+  - PersistentVolumes
+  - Snapshots
+  - Compose
+  - Repositories
+  - Logs
+  - Metrics
+  - Catalog
+  - CatalogRegions
+  - CatalogInstances
+  - Usages
+  - Summary
+  - DockerHelper

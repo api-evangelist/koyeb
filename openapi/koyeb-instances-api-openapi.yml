@@ -1,0 +1,632 @@
+swagger: '2.0'
+info:
+  title: Koyeb Rest activity Instances API
+  description: 'The Koyeb API allows you to interact with the Koyeb platform in a simple, programmatic way using conventional HTTP requests.
+
+    '
+  version: 1.0.0
+host: app.koyeb.com
+schemes:
+- https
+security:
+- Bearer: []
+tags:
+- name: Instances
+paths:
+  /v1/streams/instances/exec:
+    get:
+      summary: Exec Command
+      description: This endpoint opens a websocket. Once open, all frames going through the websocket should be formatted in JSON. Input frames should match the format specified below. Output frames will match the response schema.
+      operationId: ExecCommand
+      responses:
+        '200':
+          description: A successful response.(streaming responses)
+          schema:
+            type: object
+            properties:
+              result:
+                $ref: '#/definitions/ExecCommandReply'
+              error:
+                $ref: '#/definitions/google.rpc.Status'
+            title: Stream result of ExecCommandReply
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: id
+        description: ID of the resource to exec on.
+        in: query
+        required: false
+        type: string
+      - name: body.command
+        description: Command to exec. Mandatory in the first frame sent
+        in: query
+        required: false
+        type: array
+        items:
+          type: string
+        collectionFormat: multi
+      - name: body.tty_size.height
+        in: query
+        required: false
+        type: integer
+        format: int32
+      - name: body.tty_size.width
+        in: query
+        required: false
+        type: integer
+        format: int32
+      - name: body.stdin.data
+        description: Data is base64 encoded
+        in: query
+        required: false
+        type: string
+        format: byte
+      - name: body.stdin.close
+        description: Indicate last data frame
+        in: query
+        required: false
+        type: boolean
+      - name: body.disableTty
+        description: Disable TTY. It's enough to specify it in the first frame
+        in: query
+        required: false
+        type: boolean
+      - name: id_type
+        description: When specified, it is used to determine if the kind of resource the id refers to. If missing, defaults to the instance id.
+        in: query
+        required: false
+        type: string
+        enum:
+        - INVALID
+        - INSTANCE_ID
+        - SERVICE_ID
+        default: INVALID
+      tags:
+      - Instances
+  /v1/instance_events:
+    get:
+      summary: List Instance events
+      operationId: ListInstanceEvents
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/ListInstanceEventsReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: instance_ids
+        description: (Optional) Filter on list of instance id
+        in: query
+        required: false
+        type: array
+        items:
+          type: string
+        collectionFormat: multi
+      - name: types
+        description: (Optional) Filter on instance event types
+        in: query
+        required: false
+        type: array
+        items:
+          type: string
+        collectionFormat: multi
+      - name: limit
+        description: (Optional) The number of items to return
+        in: query
+        required: false
+        type: string
+      - name: offset
+        description: (Optional) The offset in the list of item to return
+        in: query
+        required: false
+        type: string
+      - name: order
+        description: (Optional) Sorts the list in the ascending or the descending order
+        in: query
+        required: false
+        type: string
+      tags:
+      - Instances
+  /v1/instances:
+    get:
+      summary: List Instances
+      operationId: ListInstances
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/ListInstancesReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: app_id
+        description: (Optional) Filter on application id
+        in: query
+        required: false
+        type: string
+      - name: service_id
+        description: (Optional) Filter on service id
+        in: query
+        required: false
+        type: string
+      - name: deployment_id
+        description: (Optional) Filter on deployment id
+        in: query
+        required: false
+        type: string
+      - name: regional_deployment_id
+        description: (Optional) Filter on regional deployment id
+        in: query
+        required: false
+        type: string
+      - name: allocation_id
+        description: (Optional) Filter on allocation id
+        in: query
+        required: false
+        type: string
+      - name: replica_index
+        description: (Optional) Filter on replica index
+        in: query
+        required: false
+        type: string
+      - name: statuses
+        description: (Optional) Filter on instance statuses
+        in: query
+        required: false
+        type: array
+        items:
+          type: string
+          enum:
+          - ALLOCATING
+          - STARTING
+          - HEALTHY
+          - UNHEALTHY
+          - STOPPING
+          - STOPPED
+          - ERROR
+          - SLEEPING
+        collectionFormat: multi
+      - name: limit
+        description: (Optional) The number of items to return
+        in: query
+        required: false
+        type: string
+      - name: offset
+        description: (Optional) The offset in the list of item to return
+        in: query
+        required: false
+        type: string
+      - name: order
+        description: (Optional) Sorts the list in the ascending or the descending order
+        in: query
+        required: false
+        type: string
+      - name: starting_time
+        description: (Optional) The starting time of the period of running instance
+        in: query
+        required: false
+        type: string
+        format: date-time
+      - name: ending_time
+        description: (Optional) The ending time of the period of running instance
+        in: query
+        required: false
+        type: string
+        format: date-time
+      tags:
+      - Instances
+  /v1/instances/{id}:
+    get:
+      summary: Get Instance
+      operationId: GetInstance
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/GetInstanceReply'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorWithFields'
+        '401':
+          description: Returned when the token is not valid.
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Returned when the resource does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Returned in case of server error.
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/google.rpc.Status'
+      parameters:
+      - name: id
+        description: The id of the instance
+        in: path
+        required: true
+        type: string
+      tags:
+      - Instances
+definitions:
+  google.rpc.Status:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          $ref: '#/definitions/google.protobuf.Any'
+  GetInstanceReply:
+    type: object
+    properties:
+      instance:
+        $ref: '#/definitions/Instance'
+  InstanceEvent:
+    type: object
+    properties:
+      id:
+        type: string
+      when:
+        type: string
+        format: date-time
+      organization_id:
+        type: string
+      instance_id:
+        type: string
+      type:
+        type: string
+      message:
+        type: string
+      metadata:
+        type: object
+  Instance.Status:
+    type: string
+    enum:
+    - ALLOCATING
+    - STARTING
+    - HEALTHY
+    - UNHEALTHY
+    - STOPPING
+    - STOPPED
+    - ERROR
+    - SLEEPING
+    default: ALLOCATING
+  InstanceListItem:
+    type: object
+    properties:
+      id:
+        type: string
+      created_at:
+        type: string
+        format: date-time
+      updated_at:
+        type: string
+        format: date-time
+      organization_id:
+        type: string
+      app_id:
+        type: string
+      service_id:
+        type: string
+      regional_deployment_id:
+        type: string
+      allocation_id:
+        type: string
+      type:
+        type: string
+      replica_index:
+        type: integer
+        format: int64
+      region:
+        type: string
+      datacenter:
+        type: string
+      status:
+        $ref: '#/definitions/Instance.Status'
+      messages:
+        type: array
+        items:
+          type: string
+      xyz_deployment_id:
+        type: string
+        description: 'WARNING: Please don''t use the following attribute.
+
+          Koyeb doesn''t guarantee backwards compatible breaking change and reserve the right to completely drop it without notice.
+
+          USE AT YOUR OWN RISK.'
+  ErrorWithFields:
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      code:
+        type: string
+      message:
+        type: string
+      fields:
+        type: array
+        items:
+          $ref: '#/definitions/ErrorField'
+  Instance:
+    type: object
+    properties:
+      id:
+        type: string
+      created_at:
+        type: string
+        format: date-time
+      updated_at:
+        type: string
+        format: date-time
+      organization_id:
+        type: string
+      app_id:
+        type: string
+      service_id:
+        type: string
+      regional_deployment_id:
+        type: string
+      allocation_id:
+        type: string
+      type:
+        type: string
+      replica_index:
+        type: integer
+        format: int64
+      region:
+        type: string
+      datacenter:
+        type: string
+      hypervisor:
+        type: string
+      status:
+        $ref: '#/definitions/Instance.Status'
+      messages:
+        type: array
+        items:
+          type: string
+      started_at:
+        type: string
+        format: date-time
+      succeeded_at:
+        type: string
+        format: date-time
+      terminated_at:
+        type: string
+        format: date-time
+      xyz_deployment_id:
+        type: string
+        description: 'WARNING: Please don''t use the following attribute.
+
+          Koyeb doesn''t guarantee backwards compatible breaking change and reserve the right to completely drop it without notice.
+
+          USE AT YOUR OWN RISK.'
+  ListInstanceEventsReply:
+    type: object
+    properties:
+      events:
+        type: array
+        items:
+          $ref: '#/definitions/InstanceEvent'
+        title: The collection of events
+      limit:
+        type: integer
+        format: int64
+        title: The limit in the request
+      offset:
+        type: integer
+        format: int64
+        title: The offset in the request
+      order:
+        type: string
+        title: The order in the request
+      has_next:
+        type: boolean
+        title: If there is more items after in the collection
+  google.protobuf.Any:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  ExecCommandIO:
+    type: object
+    properties:
+      data:
+        type: string
+        format: byte
+        description: Data is base64 encoded
+      close:
+        type: boolean
+        description: Indicate last data frame
+  ErrorField:
+    type: object
+    properties:
+      field:
+        type: string
+      description:
+        type: string
+  ExecCommandReply:
+    type: object
+    properties:
+      stdout:
+        $ref: '#/definitions/ExecCommandIO'
+      stderr:
+        $ref: '#/definitions/ExecCommandIO'
+      exited:
+        type: boolean
+      exit_code:
+        type: integer
+        format: int32
+  Error:
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      code:
+        type: string
+      message:
+        type: string
+  ListInstancesReply:
+    type: object
+    properties:
+      instances:
+        type: array
+        items:
+          $ref: '#/definitions/InstanceListItem'
+        title: The collection of instances
+      limit:
+        type: integer
+        format: int64
+        title: The limit in the request
+      offset:
+        type: integer
+        format: int64
+        title: The offset in the request
+      count:
+        type: integer
+        format: int64
+        title: The total number of items
+      order:
+        type: string
+        title: The order in the request
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+x-tagGroups:
+- name: Introduction
+  tags:
+  - intro
+- name: API
+  tags:
+  - Profile
+  - Sessions
+  - Users
+  - organization
+  - OrganizationMembers
+  - OrganizationInvitations
+  - OrganizationConfirmations
+  - Subscriptions
+  - Coupons
+  - Credentials
+  - Secrets
+  - activity
+  - Apps
+  - Services
+  - Deployments
+  - Archives
+  - RegionalDeployments
+  - Instances
+  - Domains
+  - PersistentVolumes
+  - Snapshots
+  - Compose
+  - Repositories
+  - Logs
+  - Metrics
+  - Catalog
+  - CatalogRegions
+  - CatalogInstances
+  - Usages
+  - Summary
+  - DockerHelper
