@@ -5,9 +5,22 @@ description: >-
   with the Koyeb platform in a simple, programmatic way using conventional HTTP requests for managing apps, services,
   deployments, and secrets.
 type: Index
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 position: Consumer
 access: 3rd-Party
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/koyeb.png
 tags:
   - Cloud Platform
   - Deployment
@@ -18,23 +31,595 @@ modified: '2026-05-19'
 url: https://raw.githubusercontent.com/api-evangelist/koyeb/refs/heads/main/apis.yml
 specificationVersion: '0.19'
 apis:
-  - aid: koyeb:koyeb-api
-    name: Koyeb API
-    description: >-
-      The Koyeb API provides programmatic access to manage apps, services, deployments, secrets, domains, regions,
-      organizations and billing on the Koyeb serverless platform.
-    humanURL: https://www.koyeb.com/docs/api
-    baseURL: https://app.koyeb.com
-    tags:
-      - Deployment
-      - Serverless
-    properties:
-      - type: Documentation
-        url: https://www.koyeb.com/docs/api
-      - type: Reference
-        url: https://www.koyeb.com/docs/reference
-      - type: OpenAPI
-        url: https://raw.githubusercontent.com/api-evangelist/koyeb/refs/heads/main/openapi/koyeb-openapi.json
+- aid: koyeb:koyeb-activity-api
+  name: Koyeb activity API
+  description: The activity API from Koyeb — 3 operation(s) for activity.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - activity
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-activity-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-apps-api
+  name: Koyeb Apps API
+  description: The Apps API from Koyeb — 5 operation(s) for apps.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - Apps
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-apps-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-archives-api
+  name: Koyeb Archives API
+  description: The Archives API from Koyeb — 1 operation(s) for archives.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - Archives
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-archives-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-billing-api
+  name: Koyeb billing API
+  description: The billing API from Koyeb — 3 operation(s) for billing.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - billing
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-billing-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-catalogdatacenters-api
+  name: Koyeb CatalogDatacenters API
+  description: The CatalogDatacenters API from Koyeb — 1 operation(s) for catalogdatacenters.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - CatalogDatacenters
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-catalogdatacenters-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-cataloginstances-api
+  name: Koyeb CatalogInstances API
+  description: The CatalogInstances API from Koyeb — 2 operation(s) for cataloginstances.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - CatalogInstances
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-cataloginstances-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-cataloginstanceusage-api
+  name: Koyeb CatalogInstanceUsage API
+  description: The CatalogInstanceUsage API from Koyeb — 1 operation(s) for cataloginstanceusage.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - CatalogInstanceUsage
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-cataloginstanceusage-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-catalogregions-api
+  name: Koyeb CatalogRegions API
+  description: The CatalogRegions API from Koyeb — 2 operation(s) for catalogregions.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - CatalogRegions
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-catalogregions-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-compose-api
+  name: Koyeb Compose API
+  description: The Compose API from Koyeb — 1 operation(s) for compose.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - Compose
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-compose-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-coupons-api
+  name: Koyeb Coupons API
+  description: The Coupons API from Koyeb — 1 operation(s) for coupons.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - Coupons
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-coupons-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-credentials-api
+  name: Koyeb Credentials API
+  description: The Credentials API from Koyeb — 2 operation(s) for credentials.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - Credentials
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-credentials-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-deployments-api
+  name: Koyeb Deployments API
+  description: The Deployments API from Koyeb — 5 operation(s) for deployments.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - Deployments
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-deployments-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-dockerhelper-api
+  name: Koyeb DockerHelper API
+  description: The DockerHelper API from Koyeb — 1 operation(s) for dockerhelper.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - DockerHelper
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-dockerhelper-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-domains-api
+  name: Koyeb Domains API
+  description: The Domains API from Koyeb — 3 operation(s) for domains.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - Domains
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-domains-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-instances-api
+  name: Koyeb Instances API
+  description: The Instances API from Koyeb — 4 operation(s) for instances.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - Instances
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-instances-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-intercom-api
+  name: Koyeb Intercom API
+  description: The Intercom API from Koyeb — 1 operation(s) for intercom.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - Intercom
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-intercom-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-invite-api
+  name: Koyeb invite API
+  description: The invite API from Koyeb — 1 operation(s) for invite.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - invite
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-invite-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-logs-api
+  name: Koyeb Logs API
+  description: The Logs API from Koyeb — 2 operation(s) for logs.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - Logs
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-logs-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-metrics-api
+  name: Koyeb Metrics API
+  description: The Metrics API from Koyeb — 1 operation(s) for metrics.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - Metrics
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-metrics-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-organization-api
+  name: Koyeb organization API
+  description: The organization API from Koyeb — 12 operation(s) for organization.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - organization
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-organization-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-organizationconfirmations-api
+  name: Koyeb OrganizationConfirmations API
+  description: >-
+    The OrganizationConfirmations API from Koyeb — 1 operation(s) for organizationconfirmations.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - OrganizationConfirmations
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-organizationconfirmations-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-organizationinvitations-api
+  name: Koyeb OrganizationInvitations API
+  description: The OrganizationInvitations API from Koyeb — 3 operation(s) for organizationinvitations.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - OrganizationInvitations
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-organizationinvitations-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-organizationmembers-api
+  name: Koyeb OrganizationMembers API
+  description: The OrganizationMembers API from Koyeb — 2 operation(s) for organizationmembers.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - OrganizationMembers
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-organizationmembers-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-organizationquotas-api
+  name: Koyeb OrganizationQuotas API
+  description: The OrganizationQuotas API from Koyeb — 1 operation(s) for organizationquotas.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - OrganizationQuotas
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-organizationquotas-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-paymentmethods-api
+  name: Koyeb PaymentMethods API
+  description: The PaymentMethods API from Koyeb — 3 operation(s) for paymentmethods.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - PaymentMethods
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-paymentmethods-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-persistentvolumes-api
+  name: Koyeb PersistentVolumes API
+  description: The PersistentVolumes API from Koyeb — 3 operation(s) for persistentvolumes.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - PersistentVolumes
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-persistentvolumes-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-profile-api
+  name: Koyeb Profile API
+  description: The Profile API from Koyeb — 17 operation(s) for profile.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - Profile
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-profile-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-projects-api
+  name: Koyeb Projects API
+  description: The Projects API from Koyeb — 2 operation(s) for projects.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - Projects
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-projects-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-provisioning-api
+  name: Koyeb Provisioning API
+  description: The Provisioning API from Koyeb — 2 operation(s) for provisioning.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - Provisioning
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-provisioning-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-quotas-api
+  name: Koyeb Quotas API
+  description: The Quotas API from Koyeb — 1 operation(s) for quotas.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - Quotas
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-quotas-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-regionaldeployments-api
+  name: Koyeb RegionalDeployments API
+  description: The RegionalDeployments API from Koyeb — 3 operation(s) for regionaldeployments.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - RegionalDeployments
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-regionaldeployments-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-repositories-api
+  name: Koyeb Repositories API
+  description: The Repositories API from Koyeb — 3 operation(s) for repositories.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - Repositories
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-repositories-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-search-api
+  name: Koyeb Search API
+  description: The Search API from Koyeb — 1 operation(s) for search.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - Search
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-search-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-secrets-api
+  name: Koyeb Secrets API
+  description: The Secrets API from Koyeb — 3 operation(s) for secrets.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - Secrets
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-secrets-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-services-api
+  name: Koyeb Services API
+  description: The Services API from Koyeb — 8 operation(s) for services.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - Services
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-services-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-sessions-api
+  name: Koyeb Sessions API
+  description: The Sessions API from Koyeb — 4 operation(s) for sessions.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - Sessions
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-sessions-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-snapshots-api
+  name: Koyeb Snapshots API
+  description: The Snapshots API from Koyeb — 2 operation(s) for snapshots.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - Snapshots
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-snapshots-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-sso-api
+  name: Koyeb sso API
+  description: The sso API from Koyeb — 2 operation(s) for sso.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - sso
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-sso-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-subscriptions-api
+  name: Koyeb Subscriptions API
+  description: The Subscriptions API from Koyeb — 1 operation(s) for subscriptions.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - Subscriptions
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-subscriptions-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-summary-api
+  name: Koyeb Summary API
+  description: The Summary API from Koyeb — 1 operation(s) for summary.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - Summary
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-summary-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-usages-api
+  name: Koyeb Usages API
+  description: The Usages API from Koyeb — 2 operation(s) for usages.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - Usages
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-usages-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
+- aid: koyeb:koyeb-users-api
+  name: Koyeb Users API
+  description: The Users API from Koyeb — 2 operation(s) for users.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-users-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: Reference
+    url: https://www.koyeb.com/docs/reference
 common:
   - type: AgenticAccess
     url: agentic-access/koyeb-agentic-access.yml
