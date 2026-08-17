@@ -1,0 +1,224 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Koyeb Rest activity Logs API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Logs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Query logs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/streams/logs/query",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Type of logs to retrieve, either \"build\" or \"runtime\". Defaults to \"runtime\"."
+              },
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on the provided app_id. At least one of app_id, service_id, deployment_id, regional_deployment_id or instance_ids must be set."
+              },
+              {
+                "name": "service_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on the provided service_id. At least one of app_id, service_id, deployment_id, regional_deployment_id or instance_ids must be set."
+              },
+              {
+                "name": "deployment_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on the provided deployment_id. At least one of app_id, service_id, deployment_id, regional_deployment_id or instance_ids must be set."
+              },
+              {
+                "name": "regional_deployment_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on the provided regional_deployment_id. At least one of app_id, service_id, deployment_id, regional_deployment_id or instance_ids must be set."
+              },
+              {
+                "name": "instance_id",
+                "value": "",
+                "type": "query",
+                "description": "Deprecated, prefer using instance_ids instead."
+              },
+              {
+                "name": "instance_ids",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on the provided instance_ids. At least one of app_id, service_id, deployment_id, regional_deployment_id or instance_ids must be set."
+              },
+              {
+                "name": "stream",
+                "value": "",
+                "type": "query",
+                "description": "Deprecated, prefer using streams instead."
+              },
+              {
+                "name": "streams",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on stream: either \"stdout\", \"stderr\" or \"koyeb\" (for system logs)."
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Must always be before `end`. Defaults to 15 minutes ago."
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Must always be after `start`. Defaults to now."
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) `asc` or `desc`. Defaults to `desc`."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Defaults to 100. Maximum of 1000."
+              },
+              {
+                "name": "regex",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Apply a regex to filter logs. Can't be used with `text`."
+              },
+              {
+                "name": "text",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Looks for this string in logs. Can't be used with `regex`."
+              },
+              {
+                "name": "regions",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on the provided regions (e.g. [\"fra\", \"was\"])."
+              }
+            ]
+          },
+          "docs": "Query logs"
+        },
+        {
+          "info": {
+            "name": "Tails logs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/streams/logs/tail",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Type of logs to retrieve, either \"build\" or \"runtime\". Defaults to \"runtime\"."
+              },
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on the provided app_id. At least one of app_id, service_id, deployment_id, regional_deployment_id or instance_ids must be set."
+              },
+              {
+                "name": "service_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on the provided service_id. At least one of app_id, service_id, deployment_id, regional_deployment_id or instance_ids must be set."
+              },
+              {
+                "name": "deployment_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on the provided deployment_id. At least one of app_id, service_id, deployment_id, regional_deployment_id or instance_ids must be set."
+              },
+              {
+                "name": "regional_deployment_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on the provided regional_deployment_id. At least one of app_id, service_id, deployment_id, regional_deployment_id or instance_ids must be set."
+              },
+              {
+                "name": "instance_id",
+                "value": "",
+                "type": "query",
+                "description": "Deprecated, prefer using instance_ids instead."
+              },
+              {
+                "name": "instance_ids",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on the provided instance_ids. At least one of app_id, service_id, deployment_id, regional_deployment_id or instance_ids must be set."
+              },
+              {
+                "name": "stream",
+                "value": "",
+                "type": "query",
+                "description": "Deprecated, prefer using streams instead."
+              },
+              {
+                "name": "streams",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on stream: either \"stdout\", \"stderr\" or \"koyeb\" (for system logs)."
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Defaults to 24 hours ago."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Defaults to 1000. Maximum of 1000."
+              },
+              {
+                "name": "regex",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Apply a regex to filter logs. Can't be used with `text`."
+              },
+              {
+                "name": "text",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Looks for this string in logs. Can't be used with `regex`."
+              },
+              {
+                "name": "regions",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on the provided regions (e.g. [\"fra\", \"was\"])."
+              }
+            ]
+          },
+          "docs": "Tails logs"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

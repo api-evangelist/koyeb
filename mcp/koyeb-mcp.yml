@@ -1,0 +1,152 @@
+generated: '2026-08-17'
+method: searched
+source: >-
+  https://github.com/koyeb/mcp-server-koyeb (src/tools/*.ts, README.md, package.json) +
+  https://www.koyeb.com/docs/integrations/coding-agents +
+  https://www.koyeb.com/blog/koyeb-mcp-server-interact-with-your-koyeb-resources-in-natural-language
+status: published
+maturity: public-beta
+maturity_source: >-
+  README.md — "Koyeb MCP is currently a beta pre-release"; announced in public beta on 2025-07-24.
+deployment:
+  mode: local-stdio
+  endpoint: null
+  install: npx -y @koyeb/mcp-server
+  package: https://www.npmjs.com/package/@koyeb/mcp-server
+  auth: api-key
+  verified: searched
+deployment_note: >-
+  Koyeb ships NO hosted/remote MCP endpoint. There is nothing an MCP client can POST to: the server is a
+  Node stdio process a human installs and runs on a machine before any agent can see it. mcp.koyeb.com does
+  not resolve, /.well-known/oauth-protected-resource 404s on every Koyeb host, and neither the docs page
+  nor the announcement blog post names a URL. An agent cannot reach Koyeb over MCP without local setup.
+server:
+  name: koyebApi
+  transport: stdio
+  package: '@koyeb/mcp-server'
+  version: 1.0.9
+  version_published: '2026-03-19'
+  bin: koyeb-mcp
+  repository: https://github.com/koyeb/mcp-server-koyeb
+  license: MIT
+  runtime: node >=20
+  registry_listing: smithery (smithery.yaml present in the repo)
+  built_on: '@koyeb/api-client-js ^1.1.6 + @modelcontextprotocol/sdk ^1.27.1'
+authentication:
+  env_var: KOYEB_TOKEN
+  token_creation_url: https://app.koyeb.com/user/settings/api
+  scheme: >-
+    The token is forwarded to the Koyeb REST API as "Authorization: Bearer <token>". Same credential as the
+    REST API and the CLI (which reads KOYEB_API_TOKEN) — note the MCP server uses KOYEB_TOKEN, the CLI uses
+    KOYEB_API_TOKEN, and the docs publish both spellings.
+  oauth: false
+  scopes: >-
+    None. The token is organization-wide and unscoped, so an agent running this server holds full read AND
+    write authority over every app, service and secret in the organization.
+client_configuration:
+  file: .cursor/mcp.json or claude_desktop_config.json
+  verbatim: |
+    {
+      "mcpServers": {
+        "koyebApi": {
+          "command": "npx",
+          "args": ["-y", "@koyeb/mcp-server"],
+          "env": {
+            "KOYEB_TOKEN": "your_token_here"
+          }
+        }
+      }
+    }
+tool_count: 15
+tools:
+  - name: list-apps
+    description: List apps
+    category: apps
+    source_operation: openapi/_original/koyeb-openapi.json#ListApps
+  - name: get-app
+    description: Get an app by its id
+    category: apps
+    source_operation: openapi/_original/koyeb-openapi.json#GetApp
+  - name: create-app
+    description: Create an app
+    category: apps
+    source_operation: openapi/_original/koyeb-openapi.json#CreateApp
+  - name: list-services
+    description: Get the list of services
+    category: services
+    source_operation: openapi/_original/koyeb-openapi.json#ListServices
+  - name: get-service
+    description: Get a specific service by its id
+    category: services
+    source_operation: openapi/_original/koyeb-openapi.json#GetService
+  - name: create-service
+    description: Create a new service inside an existing app
+    category: services
+    source_operation: openapi/_original/koyeb-openapi.json#CreateService
+  - name: update-service
+    description: Update a service's configuration by creating a new deployment
+    category: services
+    source_operation: openapi/_original/koyeb-openapi.json#UpdateService
+  - name: list-deployments
+    description: Get the list of deployments
+    category: deployments
+    source_operation: openapi/_original/koyeb-openapi.json#ListDeployments
+  - name: get-deployment
+    description: Get a specific deployment by its id
+    category: deployments
+    source_operation: openapi/_original/koyeb-openapi.json#GetDeployment
+  - name: list-instances
+    description: Get the list of instances
+    category: instances
+    source_operation: openapi/_original/koyeb-openapi.json#ListInstances
+  - name: get-instance
+    description: Get a specific instance by its id
+    category: instances
+    source_operation: openapi/_original/koyeb-openapi.json#GetInstance
+  - name: query-logs
+    description: Get the build or runtime logs
+    category: observability
+    source_operation: openapi/_original/koyeb-openapi.json#QueryLogs
+  - name: deploy
+    description: Deploy a directory to Koyeb
+    category: deploy
+    composite: true
+    source_operation: >-
+      openapi/_original/koyeb-openapi.json#ListApps + CreateApp + ListServices + GetService + GetDeployment
+      + CreateArchive + CreateService + UpdateService
+    note: >-
+      Server-side composite: tars the local directory, creates an archive, uploads it to the signed
+      upload_url, then creates or updates the service. No single REST operation is equivalent.
+  - name: exec
+    description: Execute a command in a running deployment
+    category: instances
+    mcp_only: true
+    source_operation: null
+    note: >-
+      Backed by the WebSocket stream wss://app.koyeb.com/v1/streams/instances/exec, not by a plain REST
+      operation. The Swagger document declares GET /v1/streams/instances/exec but it is a streaming upgrade,
+      not a request/response operation.
+  - name: list-one-click-apps
+    description: List one-click apps (example applications) that can be deployed on Koyeb
+    category: catalog
+    mcp_only: true
+    source_operation: null
+    note: >-
+      Fetches https://koyeb.com/api/one-click-apps.json — a website JSON endpoint that is not part of the
+      published Swagger document.
+coverage:
+  api_surface_operations: 177
+  operations_exposed_as_tools: 12
+  api_coverage_percent: 6.8
+  gaps_declared_by_provider: >-
+    README.md "Planned features": Secrets, volumes, domains, pause/resume, update app, cancel deployment,
+    metrics, log tailing. All of these already exist as REST operations.
+crosswalk: mcp/koyeb-tool-crosswalk.yml
+alternative_agent_surface: >-
+  Koyeb's stronger agent surface is not MCP but the 16 first-party Agent Skills at
+  github.com/koyeb/koyeb-skills, captured verbatim in skills/. Those wrap the CLI and the Sandbox SDKs and
+  cover secrets, volumes, domains, databases and archives — everything the MCP server still lists as
+  planned.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

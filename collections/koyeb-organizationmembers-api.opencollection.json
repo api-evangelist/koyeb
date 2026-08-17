@@ -1,0 +1,79 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Koyeb Rest activity OrganizationMembers API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "OrganizationMembers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List organization members",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/organization_members",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter for an organization"
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter for an user"
+              },
+              {
+                "name": "organization_statuses",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter for organization statuses"
+              }
+            ]
+          },
+          "docs": "List organization members"
+        },
+        {
+          "info": {
+            "name": "Remove an organization member",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/organization_members/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Remove an organization member"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

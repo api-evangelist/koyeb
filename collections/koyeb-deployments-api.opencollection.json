@@ -1,0 +1,172 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Koyeb Rest activity Deployments API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Deployments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Deployment Scaling",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/deployment/:id/scaling",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "region",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on region"
+              },
+              {
+                "name": "replica_index",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on replica_index"
+              }
+            ]
+          },
+          "docs": "Get Deployment Scaling"
+        },
+        {
+          "info": {
+            "name": "List Deployment events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/deployment_events",
+            "params": [
+              {
+                "name": "deployment_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on deployment id"
+              },
+              {
+                "name": "types",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on deployment event types"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Sorts the list in the ascending or the descending order"
+              }
+            ]
+          },
+          "docs": "List Deployment events"
+        },
+        {
+          "info": {
+            "name": "List Deployments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/deployments",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on application id"
+              },
+              {
+                "name": "service_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on service id"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "statuses",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on statuses"
+              }
+            ]
+          },
+          "docs": "List Deployments"
+        },
+        {
+          "info": {
+            "name": "Get Deployment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/deployments/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the deployment"
+              }
+            ]
+          },
+          "docs": "Get Deployment"
+        },
+        {
+          "info": {
+            "name": "Cancel Deployment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/deployments/:id/cancel",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the deployment to cancel."
+              }
+            ]
+          },
+          "docs": "Deployment cancellation is allowed for the following status:\n - pending\n - provisioning\n - scheduled"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

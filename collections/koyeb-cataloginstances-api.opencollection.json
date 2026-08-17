@@ -1,0 +1,68 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Koyeb Rest activity CatalogInstances API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "CatalogInstances",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Instances",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/catalog/instances",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) A filter for instances"
+              }
+            ]
+          },
+          "docs": "List Instances"
+        },
+        {
+          "info": {
+            "name": "Get Instance",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/catalog/instances/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The name of the instance"
+              }
+            ]
+          },
+          "docs": "Get Instance"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

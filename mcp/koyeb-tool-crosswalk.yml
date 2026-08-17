@@ -1,0 +1,440 @@
+generated: '2026-08-17'
+method: derived
+source: mcp/koyeb-mcp.yml + openapi/_original/koyeb-openapi.json
+provider: Koyeb
+providerId: koyeb
+description: Binds each Koyeb MCP tool to the REST operation(s) that actually back it, so a tool inherits a real inputSchema
+  from the published Swagger document instead of a guessed one. Derived by reading the MCP server source (src/tools/*.ts
+  on github.com/koyeb/mcp-server-koyeb@master), which names its backing operationId explicitly via createApiTool(<operationId>)
+  — the mapping is read, not inferred, so every bound row is high confidence.
+surfaces:
+  openapi:
+    artifact: openapi/_original/koyeb-openapi.json
+    published_url: https://api.prod.koyeb.com/public.swagger.json
+    format: Swagger 2.0 (grpc-gateway generated)
+    base_url: https://app.koyeb.com
+    operations: 177
+    gated: false
+  graphql:
+    endpoint: null
+    note: Koyeb publishes no GraphQL API.
+  mcp:
+    artifact: mcp/koyeb-mcp.yml
+    mode: local-stdio
+    endpoint: null
+    package: '@koyeb/mcp-server'
+    tools: 15
+    gated: tools/list could not be probed live — there is no remote endpoint to POST to. The tool list and every backing
+      operationId were read from the MIT-licensed source instead, which is a stronger signal than an introspection
+      round-trip.
+  streaming:
+    note: wss://app.koyeb.com/v1/streams/instances/exec and /v1/streams/logs/tail are WebSocket surfaces reachable
+      from neither REST-as-request/response nor a published AsyncAPI.
+coverage:
+  tools_named: 15
+  tools_bound_to_rest: 13
+  tools_mcp_only: 2
+  rest_operations_total: 177
+  rest_operations_with_a_tool: 13
+  rest_operations_without_a_tool: 164
+  rest_coverage_percent: 7.3
+  reading: The Koyeb MCP server exposes 13 of 177 REST operations. Everything an agent needs to run production infrastructure
+    safely — secrets, volumes, domains, snapshots, quotas, budgets, pause/resume, cancel-deployment, metrics — is
+    REST-only. The provider says so itself in README.md under "Planned features".
+crosswalk:
+- tool: list-apps
+  category: apps
+  rest:
+  - ListApps
+  binding: rest
+  confidence: high
+- tool: get-app
+  category: apps
+  rest:
+  - GetApp
+  binding: rest
+  confidence: high
+- tool: create-app
+  category: apps
+  rest:
+  - CreateApp
+  binding: rest
+  confidence: high
+- tool: list-services
+  category: services
+  rest:
+  - ListServices
+  binding: rest
+  confidence: high
+- tool: get-service
+  category: services
+  rest:
+  - GetService
+  binding: rest
+  confidence: high
+- tool: create-service
+  category: services
+  rest:
+  - CreateService
+  binding: rest
+  confidence: high
+  note: Tool exposes the dry_run query parameter and the full DeploymentDefinition body verbatim.
+- tool: update-service
+  category: services
+  rest:
+  - UpdateService
+  binding: rest
+  confidence: high
+  note: Bound to PUT /v1/services/{id} (UpdateService). The spec also carries UpdateService2 (PATCH /v1/services/{id},
+    partial update via update_mask, shipped 2026-01-23) which the tool does not use, so agents cannot do partial service
+    updates through MCP.
+- tool: list-deployments
+  category: deployments
+  rest:
+  - ListDeployments
+  binding: rest
+  confidence: high
+- tool: get-deployment
+  category: deployments
+  rest:
+  - GetDeployment
+  binding: rest
+  confidence: high
+- tool: list-instances
+  category: instances
+  rest:
+  - ListInstances
+  binding: rest
+  confidence: high
+- tool: get-instance
+  category: instances
+  rest:
+  - GetInstance
+  binding: rest
+  confidence: high
+- tool: query-logs
+  category: observability
+  rest:
+  - QueryLogs
+  binding: rest
+  confidence: high
+  note: GET /v1/streams/logs/query. The sibling TailLogs (/v1/streams/logs/tail) has no tool.
+- tool: deploy
+  category: deploy
+  rest:
+  - ListApps
+  - CreateApp
+  - ListServices
+  - GetService
+  - GetDeployment
+  - CreateArchive
+  - CreateService
+  - UpdateService
+  binding: composite
+  confidence: high
+  note: 'Server-side composite read straight from src/tools/deploy.ts: resolve-or-create the app, resolve the service,
+    tar the local directory, CreateArchive, PUT the tarball to the returned signed upload_url, then CreateService
+    or UpdateService. Defaults when creating: regions [fra], instance_types [nano], scalings [{min:1,max:1}]. No single
+    REST operation is equivalent.'
+mcp_only:
+- tool: exec
+  reason: Backed by the WebSocket stream wss://app.koyeb.com/v1/streams/instances/exec, not a request/response REST
+    operation. The spec declares GET /v1/streams/instances/exec (ExecCommand) but it is a protocol upgrade, so it
+    cannot be called as a normal operation.
+- tool: list-one-click-apps
+  reason: Fetches https://koyeb.com/api/one-click-apps.json, a website JSON endpoint that is not part of https://api.prod.koyeb.com/public.swagger.json
+    at all.
+rest_only:
+- capability: Apps
+  operation_count: 6
+  operations:
+  - DeleteApp
+  - ListAppEvents
+  - PauseApp
+  - ResumeApp
+  - UpdateApp
+  - UpdateApp2
+- capability: CatalogDatacenters
+  operation_count: 1
+  operations:
+  - ListDatacenters
+- capability: CatalogInstanceUsage
+  operation_count: 1
+  operations:
+  - ListUsage
+- capability: CatalogInstances
+  operation_count: 2
+  operations:
+  - GetCatalogInstance
+  - ListCatalogInstances
+- capability: CatalogRegions
+  operation_count: 2
+  operations:
+  - GetRegion
+  - ListRegions
+- capability: Compose
+  operation_count: 1
+  operations:
+  - Compose
+- capability: Coupons
+  operation_count: 2
+  operations:
+  - CheckCoupon
+  - RedeemCoupon
+- capability: Credentials
+  operation_count: 6
+  operations:
+  - CreateCredential
+  - DeleteCredential
+  - GetCredential
+  - ListCredentials
+  - UpdateCredential
+  - UpdateCredential2
+- capability: Deployments
+  operation_count: 3
+  operations:
+  - CancelDeployment
+  - GetDeploymentScaling
+  - ListDeploymentEvents
+- capability: DockerHelper
+  operation_count: 1
+  operations:
+  - VerifyDockerImage
+- capability: Domains
+  operation_count: 6
+  operations:
+  - CreateDomain
+  - DeleteDomain
+  - GetDomain
+  - ListDomains
+  - RefreshDomainStatus
+  - UpdateDomain
+- capability: InstanceSnapshots
+  operation_count: 5
+  operations:
+  - CreateInstanceSnapshot
+  - DeleteInstanceSnapshot
+  - GetInstanceSnapshot
+  - ListInstanceSnapshotEvents
+  - ListInstanceSnapshots
+- capability: Instances
+  operation_count: 2
+  operations:
+  - ExecCommand
+  - ListInstanceEvents
+- capability: Intercom
+  operation_count: 1
+  operations:
+  - GetIntercomProfile
+- capability: Logs
+  operation_count: 1
+  operations:
+  - TailLogs
+- capability: Metrics
+  operation_count: 1
+  operations:
+  - GetMetrics
+- capability: OrganizationConfirmations
+  operation_count: 1
+  operations:
+  - ConfirmOrganizationAction
+- capability: OrganizationInvitations
+  operation_count: 5
+  operations:
+  - CreateOrganizationInvitation
+  - DeleteOrganizationInvitation
+  - GetOrganizationInvitation
+  - ListOrganizationInvitations
+  - ResendOrganizationInvitation
+- capability: OrganizationMembers
+  operation_count: 2
+  operations:
+  - ListOrganizationMembers
+  - RemoveOrganizationMember
+- capability: OrganizationQuotas
+  operation_count: 1
+  operations:
+  - GetQuotas
+- capability: PaymentMethods
+  operation_count: 5
+  operations:
+  - ConfirmPaymentAuthorization
+  - CreatePaymentAuthorization
+  - DeletePaymentMethod
+  - GetPaymentMethod
+  - ListPaymentMethods
+- capability: PersistentVolumes
+  operation_count: 6
+  operations:
+  - CreatePersistentVolume
+  - DeletePersistentVolume
+  - GetPersistentVolume
+  - ListPersistentVolumeEvents
+  - ListPersistentVolumes
+  - UpdatePersistentVolume
+- capability: Profile
+  operation_count: 23
+  operations:
+  - AcceptOrganizationInvitation
+  - ClearIdenfyVerificationResult
+  - DeclineOrganizationInvitation
+  - GetCurrentOrganization
+  - GetCurrentUser
+  - GetIdenfyToken
+  - GetOAuthOptions
+  - GetUserOrganizationInvitation
+  - GetUserSettings
+  - ListUserOrganizationInvitations
+  - ListUserOrganizations
+  - LoginMethod
+  - OAuthCallback
+  - ResendEmailValidation
+  - ResetPassword
+  - Signup
+  - UpdatePassword
+  - UpdateUser
+  - UpdateUser2
+  - UpdateUserSettings
+  - UpdateUserV2
+  - UpdateUserV22
+  - Validate
+- capability: Projects
+  operation_count: 6
+  operations:
+  - CreateProject
+  - DeleteProject
+  - GetProject
+  - ListProjects
+  - UpdateProject
+  - UpdateProject2
+- capability: Provisioning
+  operation_count: 3
+  operations:
+  - CreateStageAttempt
+  - DeclareStageProgress
+  - DeclareStepProgress
+- capability: Quotas
+  operation_count: 1
+  operations:
+  - ReviewOrganizationCapacity
+- capability: RegionalDeployments
+  operation_count: 3
+  operations:
+  - GetRegionalDeployment
+  - ListRegionalDeploymentEvents
+  - ListRegionalDeployments
+- capability: Repositories
+  operation_count: 3
+  operations:
+  - ListBranches
+  - ListRepositories
+  - ResyncOrganization
+- capability: Search
+  operation_count: 1
+  operations:
+  - Search
+- capability: Secrets
+  operation_count: 7
+  operations:
+  - CreateSecret
+  - DeleteSecret
+  - GetSecret
+  - ListSecrets
+  - RevealSecret
+  - UpdateSecret
+  - UpdateSecret2
+- capability: Services
+  operation_count: 10
+  operations:
+  - Autocomplete
+  - DeleteService
+  - DeleteServiceScaling
+  - GetServiceScaling
+  - ListServiceEvents
+  - PauseService
+  - ReDeploy
+  - ResumeService
+  - UpdateService2
+  - UpdateServiceScaling
+- capability: Sessions
+  operation_count: 4
+  operations:
+  - Login
+  - Logout
+  - NewSession
+  - RefreshToken
+- capability: Snapshots
+  operation_count: 5
+  operations:
+  - CreateSnapshot
+  - DeleteSnapshot
+  - GetSnapshot
+  - ListSnapshots
+  - UpdateSnapshot
+- capability: Subscriptions
+  operation_count: 1
+  operations:
+  - GetSubscription
+- capability: Summary
+  operation_count: 1
+  operations:
+  - GetOrganizationSummary
+- capability: Test
+  operation_count: 2
+  operations:
+  - TestAnon
+  - TestAuth
+- capability: Usages
+  operation_count: 2
+  operations:
+  - GetOrganizationUsage
+  - GetOrganizationUsageDetails
+- capability: Users
+  operation_count: 2
+  operations:
+  - DeleteUser
+  - DeleteUserV2
+- capability: activity
+  operation_count: 3
+  operations:
+  - GetAccountActivities
+  - ListActivities
+  - ListNotifications
+- capability: billing
+  operation_count: 3
+  operations:
+  - HasUnpaidInvoices
+  - Manage
+  - NextInvoice
+- capability: invite
+  operation_count: 1
+  operations:
+  - CreateInvite
+- capability: organization
+  operation_count: 20
+  operations:
+  - CreateAccessToken
+  - CreateBudget
+  - CreateOrganization
+  - DeactivateOrganization
+  - DeleteBudget
+  - DeleteOrganization
+  - GetBudget
+  - GetGithubInstallation
+  - GetOrganization
+  - GithubInstallation
+  - ReactivateOrganization
+  - SwitchOrganization
+  - UnscopeOrganizationToken
+  - UpdateBudget
+  - UpdateOrganization
+  - UpdateOrganization2
+  - UpdateOrganizationDefaultProject
+  - UpdateOrganizationName
+  - UpdateOrganizationPlan
+  - UpsertSignupQualification
+- capability: sso
+  operation_count: 2
+  operations:
+  - CannyAuth
+  - DiscourseAuth

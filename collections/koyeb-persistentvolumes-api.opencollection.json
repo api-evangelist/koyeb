@@ -1,0 +1,175 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Koyeb Rest activity PersistentVolumes API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "PersistentVolumes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Persistent Volume events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/volume_events",
+            "params": [
+              {
+                "name": "persistent_volume_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on persistent volume id"
+              },
+              {
+                "name": "types",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on persistent volume event types"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Sorts the list in the ascending or the descending order"
+              }
+            ]
+          },
+          "docs": "List Persistent Volume events"
+        },
+        {
+          "info": {
+            "name": "List all PersistentVolumes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/volumes",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "service_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) A filter for the service id"
+              },
+              {
+                "name": "region",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) A filter for the region"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) A filter for the name"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) A filter for the project ID"
+              }
+            ]
+          },
+          "docs": "List all PersistentVolumes"
+        },
+        {
+          "info": {
+            "name": "Create a PersistentVolume",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/volumes"
+          },
+          "docs": "Create a PersistentVolume"
+        },
+        {
+          "info": {
+            "name": "Get a PersistentVolume",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/volumes/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a PersistentVolume"
+        },
+        {
+          "info": {
+            "name": "Update a PersistentVolume",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/volumes/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Update a PersistentVolume"
+        },
+        {
+          "info": {
+            "name": "Delete a PersistentVolume",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/volumes/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a PersistentVolume"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,107 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Koyeb Rest activity Provisioning API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Provisioning",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create an attempt for a stage",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/provisioning/:deployment_id/status/:stage/:attempt",
+            "params": [
+              {
+                "name": "deployment_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "stage",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "attempt",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Create an attempt for a stage"
+        },
+        {
+          "info": {
+            "name": "Declare stage progress",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v1/provisioning/:deployment_id/status/:stage/:attempt",
+            "params": [
+              {
+                "name": "deployment_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "stage",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "attempt",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Declare stage progress"
+        },
+        {
+          "info": {
+            "name": "Declare step progress",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v1/provisioning/:deployment_id/status/:stage/:attempt/:step",
+            "params": [
+              {
+                "name": "deployment_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "stage",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "attempt",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "step",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Declare step progress"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

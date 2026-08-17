@@ -1,0 +1,28 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Koyeb Rest activity invite API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "invite",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "CreateInvite",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/account/invite"
+          }
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

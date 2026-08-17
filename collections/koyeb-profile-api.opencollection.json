@@ -1,0 +1,431 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Koyeb Rest activity Profile API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Profile",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Begin a session with iDenfy, emit an authToken",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/account/idenfy"
+          },
+          "docs": "Begin a session with iDenfy, emit an authToken"
+        },
+        {
+          "info": {
+            "name": "ClearIdenfyVerificationResult marks the current result for idenfy as\nsuperseded",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/account/idenfy"
+          },
+          "docs": "ClearIdenfyVerificationResult marks the current result for idenfy as\nsuperseded"
+        },
+        {
+          "info": {
+            "name": "Get the login method for an email address",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/account/login_method",
+            "params": [
+              {
+                "name": "email",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get the login method for an email address"
+        },
+        {
+          "info": {
+            "name": "Get OAuth Providers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/account/oauth",
+            "params": [
+              {
+                "name": "action",
+                "value": "",
+                "type": "query",
+                "description": "Which authentication flow is being initiated"
+              },
+              {
+                "name": "metadata",
+                "value": "",
+                "type": "query",
+                "description": "A small (limited to 400 characters) string of arbitrary metadata which will\nbe encoded in the state"
+              }
+            ]
+          },
+          "docs": "Get OAuth Providers"
+        },
+        {
+          "info": {
+            "name": "Authenticate using OAuth",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/account/oauth",
+            "headers": [
+              {
+                "name": "seon-fp",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Authenticate using OAuth"
+        },
+        {
+          "info": {
+            "name": "Get Current Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/account/organization"
+          },
+          "docs": "Get Current Organization"
+        },
+        {
+          "info": {
+            "name": "List User Organization Invitations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/account/organization_invitations",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "statuses",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on organization invitation statuses"
+              }
+            ]
+          },
+          "docs": "List User Organization Invitations"
+        },
+        {
+          "info": {
+            "name": "Get User Organization Invitation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/account/organization_invitations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the organization invitation to get"
+              }
+            ]
+          },
+          "docs": "Get User Organization Invitation"
+        },
+        {
+          "info": {
+            "name": "Accept Organization Invitation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/account/organization_invitations/:id/accept",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the organization invitation to accept"
+              }
+            ]
+          },
+          "docs": "Accept Organization Invitation"
+        },
+        {
+          "info": {
+            "name": "Decline Organization Invitation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/account/organization_invitations/:id/decline",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the organization invitation to decline"
+              }
+            ]
+          },
+          "docs": "Decline Organization Invitation"
+        },
+        {
+          "info": {
+            "name": "List User Organizations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/account/organizations",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Define pagination limit"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Define pagination offset"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Sorts the list in the ascending or the descending order"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Fuzzy case-insensitive search based on organization name or\norganization id"
+              },
+              {
+                "name": "statuses",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Only return organizations which status match one in the list"
+              }
+            ]
+          },
+          "docs": "List all organizations that the current user is a member of."
+        },
+        {
+          "info": {
+            "name": "Get Current User",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/account/profile",
+            "headers": [
+              {
+                "name": "seon-fp",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Get Current User"
+        },
+        {
+          "info": {
+            "name": "Update User",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/account/profile",
+            "params": [
+              {
+                "name": "update_mask",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Update User"
+        },
+        {
+          "info": {
+            "name": "Update User",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v1/account/profile",
+            "params": [
+              {
+                "name": "update_mask",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Update User"
+        },
+        {
+          "info": {
+            "name": "Resend Email Verification",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/account/resend_validation"
+          },
+          "docs": "Resend Email Verification"
+        },
+        {
+          "info": {
+            "name": "Reset Password",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/account/reset_password"
+          },
+          "docs": "Reset Password"
+        },
+        {
+          "info": {
+            "name": "GetUserSettings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/account/settings"
+          }
+        },
+        {
+          "info": {
+            "name": "UpdateUserSettings",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v1/account/settings"
+          }
+        },
+        {
+          "info": {
+            "name": "Signup",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/account/signup",
+            "headers": [
+              {
+                "name": "seon-fp",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Signup"
+        },
+        {
+          "info": {
+            "name": "Update Password",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/account/update_password",
+            "headers": [
+              {
+                "name": "seon-fp",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Update Password"
+        },
+        {
+          "info": {
+            "name": "Validate",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/account/validate/:id",
+            "headers": [
+              {
+                "name": "seon-fp",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Validate"
+        },
+        {
+          "info": {
+            "name": "Update User V2",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v2/account/profile",
+            "params": [
+              {
+                "name": "update_mask",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Update User V2"
+        },
+        {
+          "info": {
+            "name": "Update User V2",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v2/account/profile",
+            "params": [
+              {
+                "name": "update_mask",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Update User V2"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

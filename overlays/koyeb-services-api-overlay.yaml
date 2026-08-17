@@ -1,0 +1,37 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Koyeb services-api
+  version: 1.0.0
+extends: openapi/koyeb-services-api-openapi.yml
+x-generated: '2026-08-17'
+x-method: generated
+x-source: 'openapi/koyeb-services-api-openapi.yml (upstream: https://api.prod.koyeb.com/public.swagger.json)'
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: koyeb
+    x-apievangelist-api: koyeb:koyeb-services-api-api
+    x-upstream-specification: https://api.prod.koyeb.com/public.swagger.json
+    x-upstream-format: Swagger 2.0 (grpc-gateway generated)
+    x-api-base-url: https://app.koyeb.com
+    x-documentation: https://www.koyeb.com/docs/reference/api
+- target: $
+  update:
+    x-apievangelist-artifacts:
+      authentication: authentication/koyeb-authentication.yml
+      conventions: conventions/koyeb-conventions.yml
+      errors: errors/koyeb-problem-types.yml
+      rate-limits: rate-limits/koyeb-rate-limits.yml
+      lifecycle: lifecycle/koyeb-lifecycle.yml
+      data-model: data-model/koyeb-data-model.yml
+      mcp: mcp/koyeb-mcp.yml
+- target: $.securityDefinitions.Bearer
+  update:
+    x-token-creation-url: https://app.koyeb.com/user/settings/api
+    x-env-var: KOYEB_API_TOKEN
+    x-scheme-note: 'Value is sent as "Authorization: Bearer <token>" even though the spec models it as an apiKey
+      header.'
+- target: $.tags
+  update:
+    x-apievangelist-tags:
+    - Services

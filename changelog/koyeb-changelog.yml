@@ -1,0 +1,108 @@
+generated: '2026-08-17'
+method: searched
+source: https://www.koyeb.com/changelog
+provider: Koyeb
+providerId: koyeb
+description: >-
+  Koyeb publishes a dated, human-readable changelog on its marketing site covering platform, control panel
+  and API changes together. There is no separate API changelog and no RSS feed on the changelog page; the
+  status page (https://status.koyeb.com/history.rss) is the only machine-readable change feed Koyeb serves,
+  and it covers incidents rather than releases.
+url: https://www.koyeb.com/changelog
+dated: true
+machine_readable: false
+rss: false
+cadence: roughly weekly
+scheme: date-based
+versioning_scheme_note: >-
+  Entries are dated, not versioned — the API itself has been at v1 since launch, so there is no version
+  number to attach to a release. See lifecycle/koyeb-lifecycle.yml.
+current_version: v1
+breaking_change_policy: none-published
+recent_window: 2025-10-17 through 2026-02-27
+entries:
+  - date: '2026-02-27'
+    title: 50% Faster Time to Healthy for Deployments, Improved Deployments Using Scale-to-Zero
+    kind: improvement
+    breaking: false
+    api_affecting: false
+  - date: '2026-02-20'
+    title: Koyeb Enters Into A Definitive Agreement With Mistral, Rolling Out Manual Scaling
+    kind: feature
+    breaking: false
+    api_affecting: true
+    highlights:
+      - Definitive agreement with Mistral AI announced.
+      - Manual scaling rollout — relates to the ServiceScaling operations (GetServiceScaling, UpdateServiceScaling, DeleteServiceScaling, GetDeploymentScaling) in the published Swagger document.
+  - date: '2026-02-13'
+    title: Google Authentication Support for Koyeb Control Panel, Service Lifecycle Deletion Policy
+    kind: feature
+    breaking: false
+    api_affecting: true
+    highlights:
+      - Google auth for the control panel (not an API auth change — the API remains bearer-token only).
+      - Service lifecycle deletion policy.
+  - date: '2026-01-23'
+    title: Partial Updates Now Valid Using the PATCH Endpoint of the Koyeb API
+    kind: feature
+    breaking: false
+    api_affecting: true
+    highlights:
+      - The most consequential API change in the recent window. Introduces protobuf field-mask partial updates via PATCH + the update_mask query parameter, now declared on 17 operations. Captured in conventions/koyeb-conventions.yml under partial_updates.
+      - The superseded PUT forms were NOT deprecated, so the contract now carries both (UpdateService and UpdateService2, and so on).
+  - date: '2026-01-16'
+    title: New Serverless GPUs, Auto-deletion and Lifecycle Management for Koyeb Sandboxes
+    kind: feature
+    breaking: false
+    api_affecting: true
+  - date: '2025-12-12'
+    title: Multi-factor Authentication (MFA) and Passkeys Now Available for Koyeb Accounts
+    kind: feature
+    breaking: false
+    api_affecting: false
+    highlights:
+      - Account-level MFA and passkeys for human login. Does not change API token authentication.
+  - date: '2025-12-06'
+    title: Faster Koyeb Sandbox Boot Times, Nano Instance Support for Koyeb Sandboxes
+    kind: improvement
+    breaking: false
+    api_affecting: false
+  - date: '2025-11-21'
+    title: Koyeb Sandboxes now available in public preview
+    kind: feature
+    breaking: false
+    api_affecting: true
+  - date: '2025-11-07'
+    title: Slashing Prices on A100, H100, and L40S by up to 24%
+    kind: improvement
+    breaking: false
+    api_affecting: false
+    highlights:
+      - Pricing change — see plans/koyeb-plans-pricing.yml for the current per-hour GPU rates.
+  - date: '2025-10-31'
+    title: Improved volume management, updated one-click apps catalog
+    kind: improvement
+    breaking: false
+    api_affecting: true
+  - date: '2025-10-24'
+    title: Rolling out new one-click deployment experience, fixed gRPC performance
+    kind: improvement
+    breaking: false
+    api_affecting: false
+  - date: '2025-10-17'
+    title: Koyeb control panel improvements, PostgreSQL 18 support
+    kind: improvement
+    breaking: false
+    api_affecting: false
+spec_drift_observed:
+  checked: '2026-08-17'
+  note: >-
+    The live published Swagger document at https://api.prod.koyeb.com/public.swagger.json now carries 126
+    paths / 177 operations / 422 definitions. The copy previously archived in this repo (harvested
+    2026-05-03) had 119 paths and 397 definitions, so the contract grew by 7 paths and 25 schemas between
+    May and August 2026 with no changelog entry naming an API addition in that window. openapi/_original/
+    was refreshed from the live URL on this pass; the refined per-tag documents in openapi/ still derive
+    from the May harvest and will pick up the delta on the next refine run.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

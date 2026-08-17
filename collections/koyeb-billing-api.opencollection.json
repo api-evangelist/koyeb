@@ -1,0 +1,50 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Koyeb Rest activity billing API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "billing",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Experimental: Has unpaid invoices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/billing/has_unpaid_invoices"
+          },
+          "docs": "WARNING: Please don't use the following method.\nKoyeb doesn't guarantee backwards compatible breaking change and reserve\nthe right to completely drop it without notice. USE AT YOUR OWN RISK."
+        },
+        {
+          "info": {
+            "name": "Manage",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/billing/manage"
+          }
+        },
+        {
+          "info": {
+            "name": "Experimental: Fetch next invoice",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/billing/next_invoice"
+          },
+          "docs": "WARNING: Please don't use the following method.\nKoyeb doesn't guarantee backwards compatible breaking change and reserve\nthe right to completely drop it without notice. USE AT YOUR OWN RISK."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

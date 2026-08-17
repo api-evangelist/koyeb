@@ -1,0 +1,43 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Koyeb Rest activity DockerHelper API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "DockerHelper",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Verify Docker Image",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/docker-helper/verify",
+            "params": [
+              {
+                "name": "image",
+                "value": "",
+                "type": "query",
+                "description": "The full image uri to be verified"
+              },
+              {
+                "name": "secret_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) the id of the secret to use to authenticate to the registry"
+              }
+            ]
+          },
+          "docs": "Verify if a docker image is reachable"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

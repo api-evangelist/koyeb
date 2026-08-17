@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Koyeb Rest activity Compose API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Compose",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create resources from compose.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/compose"
+          },
+          "docs": "Create resources from compose."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

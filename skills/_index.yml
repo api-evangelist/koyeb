@@ -1,0 +1,77 @@
+generated: '2026-08-17'
+method: searched
+source: https://github.com/koyeb/koyeb-skills (plugins/koyeb/skills/*/SKILL.md, branch main)
+provider: Koyeb
+providerId: koyeb
+description: >-
+  Koyeb publishes its own Agent Skills — sixteen of them, in the Agent Skills open format, MIT licensed, in
+  a dedicated repository, referenced from its own docs at
+  https://www.koyeb.com/docs/integrations/coding-agents. Nothing in this directory was authored by API
+  Evangelist: every SKILL.md under skills/koyeb-published/ is the provider's file saved verbatim. This is
+  the rarer and stronger case — the provider did the work, so the pipeline harvests rather than generates.
+publisher: Koyeb
+publisher_repository: https://github.com/koyeb/koyeb-skills
+publisher_docs: https://www.koyeb.com/docs/integrations/coding-agents
+format: Agent Skills (https://agentskills.io/specification)
+license: MIT
+plugin:
+  name: koyeb-skills
+  version: 0.0.2
+  manifest: plugins/koyeb/.claude-plugin/plugin.json
+  install: Copy plugins/koyeb/skills/ into the agent's skills directory
+  supported_agents: [Claude Code, VS Code, Cursor, Codex, Mistral Vibe, OpenCode]
+grounding:
+  drives: Koyeb CLI (koyeb) + the Sandbox SDKs (@koyeb/sandbox-sdk, koyeb-sdk)
+  not_grounded_in_openapi: >-
+    Koyeb's skills instruct an agent to shell out to the CLI, not to call the REST API directly, so their
+    steps reference CLI commands rather than operationIds. The CLI is a thin client over the same published
+    contract (--url defaults to https://app.koyeb.com), and cli/koyeb-cli.yml maps the command surface;
+    mcp/koyeb-tool-crosswalk.yml maps the MCP tools to operationIds.
+  auth: KOYEB_API_TOKEN (or `koyeb login`); the sandbox SDK skills read KOYEB_API_TOKEN too
+skill_count: 16
+skills:
+  - {file: koyeb-published/koyeb-setup.md, name: setup, surface: cli+sdk, description: 'Set up prerequisites for Koyeb skills. Provides installation steps for Koyeb CLI, Sandbox SDKs (JS and Python).'}
+  - {file: koyeb-published/koyeb-apps.md, name: apps, surface: cli, description: 'Manage Koyeb apps: create, update, pause or resume, delete, list, describe, and fetch app details.'}
+  - {file: koyeb-published/koyeb-services.md, name: services, surface: cli, description: 'Manage Koyeb services: create, delete, describe, exec, get, list, logs, redeploy, pause, resume, check unapplied changes.'}
+  - {file: koyeb-published/koyeb-deploy.md, name: deploy, surface: cli, description: 'Deploy Koyeb services and apps. Use when the user asks to deploy code, trigger a redeploy, or roll out changes.'}
+  - {file: koyeb-published/koyeb-deployments.md, name: deployments, surface: cli, description: 'Manage Koyeb deployments: cancel, describe, get, list, and view logs.'}
+  - {file: koyeb-published/koyeb-instances.md, name: instances, surface: cli, description: 'Manage Koyeb instances: copy files, describe, exec, get, list, and view logs.'}
+  - {file: koyeb-published/koyeb-archives.md, name: archives, surface: cli, description: 'Create Koyeb archives for deployments.'}
+  - {file: koyeb-published/koyeb-domains.md, name: domains, surface: cli, description: 'Manage Koyeb domains: attach, detach, create, delete, describe, get, list, and refresh domains.'}
+  - {file: koyeb-published/koyeb-secrets.md, name: secrets, surface: cli, description: 'Manage Koyeb secrets: create, delete, describe, get, list, reveal, and update secrets.'}
+  - {file: koyeb-published/koyeb-volumes.md, name: volumes, surface: cli, description: 'Manage Koyeb volumes: create, delete, get, list, and update volumes.'}
+  - {file: koyeb-published/koyeb-databases.md, name: databases, surface: cli, description: 'Manage Koyeb databases: create, delete, get, list, and update databases.'}
+  - {file: koyeb-published/koyeb-organizations.md, name: organizations, surface: cli, description: 'List and switch Koyeb organizations, to select the correct org context before running other commands.'}
+  - {file: koyeb-published/koyeb-version.md, name: version, surface: cli, description: 'Retrieve the Koyeb CLI version, to confirm the installed version or troubleshoot compatibility.'}
+  - {file: koyeb-published/koyeb-sandboxes-cli.md, name: sandboxes-cli, surface: cli, description: 'Manage Koyeb sandboxes: create, list, run commands, manage processes, filesystem operations, and port exposure using the CLI.'}
+  - {file: koyeb-published/koyeb-sandboxes-js-sdk.md, name: sandboxes-js-sdk, surface: sdk, description: 'Use the Koyeb Sandbox JS SDK (@koyeb/sandbox-sdk) to create and manage sandboxes programmatically from Node.js.'}
+  - {file: koyeb-published/koyeb-sandboxes-python-sdk.md, name: sandboxes-python-sdk, surface: sdk, description: 'Use the Koyeb Python SDK (koyeb-sdk) to create and manage sandboxes programmatically.'}
+shared_references:
+  note: >-
+    Each skill directory in the upstream repo carries the same five shared reference files plus a
+    per-skill flag reference generated from live `koyeb --help`. They were not duplicated sixteen times
+    here; the two that carry the operating contract are summarised in cli/koyeb-cli.yml.
+  files:
+    - {path: _shared/references/koyeb-auth.md, covers: 'koyeb login, KOYEB_API_TOKEN, organization switch'}
+    - {path: _shared/references/koyeb-cli.md, covers: 'CLI v5.9.1 targeting, sandbox-vs-deploy guidance, list/get/describe/create/update/delete pattern'}
+    - {path: _shared/references/koyeb-output.md, covers: 'prefer --output json for automation'}
+    - {path: _shared/references/koyeb-regions-instance-types.md, covers: 'region and instance-type catalogue'}
+    - {path: '<skill>/references/koyeb-<skill>-flags.md', covers: 'per-command flags, regenerated from `koyeb --help`'}
+also_published:
+  - {file: koyeb-published/AGENTS.md, source: 'https://github.com/koyeb/koyeb-skills/blob/main/AGENTS.md', note: 'Repository-level agent instructions naming the CLI and SDK prerequisites.'}
+observations:
+  - >-
+    Koyeb's skills target CLI v5.9.1 while the current release is v5.10.2 (2026-05-12), and the plugin
+    manifest is at 0.0.2 — an early-stage but genuinely shipped surface.
+  - >-
+    The published skill set covers secrets, volumes, domains, databases and archives, all of which the MCP
+    server still lists under "Planned features". For an agent, Koyeb's skills are the more capable path
+    today; the MCP server reaches 13 of 177 operations.
+  - >-
+    DEFECT worth reporting upstream: plugins/koyeb/skills/sandboxes-cli/SKILL.md indents its `metadata:`
+    block with TAB characters, so its YAML frontmatter fails to parse in a strict YAML loader
+    ("found character '\t' that cannot start any token"). The other fifteen use spaces. Saved verbatim here
+    rather than corrected, because the artifact records what the provider ships.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

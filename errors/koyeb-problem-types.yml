@@ -1,0 +1,113 @@
+generated: '2026-08-17'
+method: derived
+source: openapi/_original/koyeb-openapi.json
+upstream_specification: https://api.prod.koyeb.com/public.swagger.json
+format: vendor-envelope
+format_note: Koyeb does NOT use RFC 9457 application/problem+json. Every error is application/json carrying the grpc-gateway
+  envelope {status, code, message}; 400 responses extend it with fields[] ({field, description}). The catch-all "default"
+  response is a google.rpc.Status {code, message, details[]}.
+envelope:
+  content_type: application/json
+  schemas:
+    Error:
+      status: integer (int32) — mirrors the HTTP status
+      code: string — machine-readable slug, e.g. authentication_error
+      message: string — human-readable text
+    ErrorWithFields:
+      status: integer (int32)
+      code: string
+      message: string
+      fields: array of ErrorField {field, description} — per-field validation detail
+    google.rpc.Status:
+      code: integer (int32) — google.rpc.Code, not HTTP
+      message: string
+      details: array of protobuf Any
+observed_examples:
+- probed: '2026-08-17'
+  request: GET https://app.koyeb.com/v1/apps (no Authorization header)
+  http_status: 401
+  body: '{"status":401, "code":"authentication_error", "message":"Route needs to be authenticated"}'
+- probed: '2026-08-17'
+  request: 'GET https://app.koyeb.com/v1/apps (Authorization: Bearer invalid_token_probe)'
+  http_status: 401
+  body: '{"status":401, "code":"authentication_error", "message":"Invalid token format"}'
+coverage:
+  operations_total: 177
+  operations_with_4xx: 169
+  status_codes_declared:
+  - '200'
+  - '400'
+  - '401'
+  - '403'
+  - '404'
+  - '500'
+  - '503'
+gaps:
+- 429 Too Many Requests is NOT declared on any operation, yet the live API returns x-ratelimit-* headers on every response
+  — the throttling error is undocumented in the contract (see rate-limits/koyeb-rate-limits.yml).
+- No registry of "code" slug values is published; authentication_error is the only value observed on an unauthenticated
+  probe.
+- No RFC 9457 type URIs, so errors cannot be dereferenced to documentation.
+problems:
+- status: 400
+  code_key: '400'
+  title: Validation error
+  envelope_schema: ErrorWithFields
+  operations_declaring_it: 169
+  spec_description: Validation error
+  remediation: Fix the invalid field(s) named in the "fields" array of the ErrorWithFields body before retrying. Do not
+    retry unchanged.
+  source_operation: openapi/_original/koyeb-openapi.json#AcceptOrganizationInvitation
+- status: 401
+  code_key: '401'
+  title: Unauthenticated
+  envelope_schema: Error
+  operations_declaring_it: 169
+  spec_description: Returned when the token is not valid.
+  remediation: 'The Authorization header is missing, malformed, or the token is invalid/revoked. Mint a new token at https://app.koyeb.com/user/settings/api
+    and send it as "Authorization: Bearer <token>".'
+  source_operation: openapi/_original/koyeb-openapi.json#AcceptOrganizationInvitation
+- status: 403
+  code_key: '403'
+  title: Forbidden
+  envelope_schema: Error
+  operations_declaring_it: 169
+  spec_description: Returned when the user does not have permission to access the resource.
+  remediation: The authenticated principal exists but lacks permission on this resource or the active organization is wrong.
+    Check the organization context (koyeb organization switch) and the member role.
+  source_operation: openapi/_original/koyeb-openapi.json#AcceptOrganizationInvitation
+- status: 404
+  code_key: '404'
+  title: Resource not found
+  envelope_schema: Error
+  operations_declaring_it: 169
+  spec_description: Returned when the resource does not exist.
+  remediation: The resource id does not exist, or it exists in a different organization/project than the one the token is
+    scoped to. Do not retry; re-resolve the id via the matching List operation.
+  source_operation: openapi/_original/koyeb-openapi.json#AcceptOrganizationInvitation
+- status: 500
+  code_key: '500'
+  title: Internal server error
+  envelope_schema: Error
+  operations_declaring_it: 169
+  spec_description: Returned in case of server error.
+  remediation: Server-side error. Safe to retry idempotent GET requests with exponential backoff; for writes verify state
+    with the matching Get/List operation before retrying, because the API publishes no idempotency key.
+  source_operation: openapi/_original/koyeb-openapi.json#AcceptOrganizationInvitation
+- status: 503
+  code_key: '503'
+  title: Service unavailable
+  envelope_schema: Error
+  operations_declaring_it: 169
+  spec_description: Service is unavailable.
+  remediation: Service unavailable. Retry with exponential backoff and jitter, honouring x-ratelimit-reset when present.
+  source_operation: openapi/_original/koyeb-openapi.json#AcceptOrganizationInvitation
+- status: null
+  code_key: default
+  title: Unexpected error (google.rpc.Status)
+  envelope_schema: google.rpc.Status
+  operations_declaring_it: 177
+  spec_description: An unexpected error response.
+  remediation: Unexpected error returned as a google.rpc.Status (code/message/details[]) rather than the Error envelope.
+    Log the full body and treat as non-retryable unless code indicates otherwise.
+  source_operation: openapi/_original/koyeb-openapi.json#AcceptOrganizationInvitation

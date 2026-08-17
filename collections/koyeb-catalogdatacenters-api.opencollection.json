@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Koyeb Rest activity CatalogDatacenters API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "CatalogDatacenters",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List datacenters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/catalog/datacenters"
+          },
+          "docs": "List datacenters"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

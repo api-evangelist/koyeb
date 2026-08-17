@@ -1,0 +1,82 @@
+generated: '2026-08-17'
+method: searched
+source: >-
+  https://www.koyeb.com/docs/build-and-deploy/deploy-to-koyeb-button +
+  https://github.com/koyeb/design-system + https://github.com/koyeb/control-panel
+provider: Koyeb
+providerId: koyeb
+description: >-
+  Client-side / embeddable surfaces Koyeb publishes for third-party pages, as distinct from the server-side
+  SDKs in packages/. Koyeb ships no widget or element library — there is no koyeb.js, no web components, no
+  embedded dashboard. What it does ship is one genuinely embeddable, parameterised deploy affordance (the
+  Deploy to Koyeb button) plus an open-source design system and control panel that are readable but not
+  distributed as consumable packages.
+family_count: 1
+families:
+  - name: Deploy to Koyeb button
+    kind: embeddable-link-widget
+    docs: https://www.koyeb.com/docs/build-and-deploy/deploy-to-koyeb-button
+    loader: none — a plain image linking to a parameterised URL, no JavaScript
+    asset: https://www.koyeb.com/static/images/deploy/button.svg
+    target_base: https://app.koyeb.com/deploy
+    markup_markdown: '[![Deploy to Koyeb](https://www.koyeb.com/static/images/deploy/button.svg)](https://app.koyeb.com/deploy?...)'
+    purpose: >-
+      Drops a one-click deploy affordance into any README or landing page; the query string fully describes
+      the service to create, so the button is effectively a declarative deployment manifest encoded in a URL.
+    parameters:
+      common:
+        - {name: type, required: true, values: [git, docker], description: Deployment source type}
+        - {name: name, required: true, description: Application name}
+        - {name: service_type, required: false, values: [web, worker]}
+        - {name: instance_type, required: false, description: 'Instance size, e.g. medium'}
+        - {name: ports, required: false, description: 'Port specification, e.g. 8080;http;/'}
+        - {name: env, required: false, description: 'Environment variables, e.g. env[key]=value'}
+        - {name: regions, required: false, description: 'Deployment region(s), e.g. fra'}
+        - {name: privileged, required: false, description: Boolean for privileged container mode}
+      git_specific:
+        - {name: repository, required: true, description: Repository path}
+        - {name: branch, required: true, description: Branch name}
+        - {name: workdir, required: false, description: Source directory within the repo}
+        - {name: builder, required: false, values: [buildpack, dockerfile]}
+        - {name: run_command, required: false, description: Launch command (buildpack)}
+        - {name: build_command, required: false, description: Build command (buildpack)}
+        - {name: dockerfile, required: false, description: Dockerfile path}
+        - {name: entrypoint, required: false}
+        - {name: command, required: false}
+        - {name: args, required: false}
+        - {name: target, required: false}
+      docker_specific:
+        - {name: image, required: true, description: Container image URI}
+        - {name: entrypoint, required: false}
+        - {name: command, required: false}
+        - {name: args, required: false}
+    related_api_surface: >-
+      The button's parameters mirror the DeploymentDefinition schema used by CreateService / UpdateService in
+      the published Swagger document — same concepts (regions, instance_types, ports, env, builder),
+      expressed as query parameters instead of JSON.
+open_source_but_not_distributed:
+  - name: Koyeb Design System
+    repository: https://github.com/koyeb/design-system
+    language: TypeScript
+    published_package: none
+    note: >-
+      Public repository, but no npm package is published under the @koyeb scope for it, so it is readable
+      rather than consumable. Recorded for completeness, not as a shippable component library.
+  - name: Koyeb Control Panel
+    repository: https://github.com/koyeb/control-panel
+    language: TypeScript
+    published_package: none
+    note: >-
+      The open-source source of the app.koyeb.com console. Not embeddable in a third-party page; useful as a
+      reference implementation of how Koyeb consumes its own API.
+absent:
+  web_components: false
+  element_library: false
+  embedded_dashboard: false
+  hosted_checkout_or_prebuilt_ui: false
+  note: >-
+    Koyeb is infrastructure, not a UI-embedded product, so the absence here is a genuine zero rather than a
+    gap. Nothing was invented to fill the category.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

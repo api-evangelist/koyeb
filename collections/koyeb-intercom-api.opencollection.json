@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Koyeb Rest activity Intercom API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Intercom",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get intercom profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/intercom/profile"
+          },
+          "docs": "Get intercom profile"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

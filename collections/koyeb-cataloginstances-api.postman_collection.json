@@ -1,0 +1,369 @@
+{
+  "item": [
+    {
+      "id": "f057c5ec-5d7e-420c-8745-2e64c64c2fe1",
+      "name": "CatalogInstances",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "11d1b183-5ce6-46b6-948f-57ec8c36ae07",
+          "name": "List Instances",
+          "request": {
+            "name": "List Instances",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "catalog",
+                "instances"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<string>",
+                  "description": "(Optional) The number of items to return"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "<string>",
+                  "description": "(Optional) The offset in the list of item to return"
+                },
+                {
+                  "disabled": false,
+                  "key": "id",
+                  "value": "<string>",
+                  "description": "(Optional) A filter for instances"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "fdeef3a5-c654-47c2-9bdb-17b15d5c5601",
+              "name": "A successful response.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "catalog",
+                    "instances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"instances\": [\n    {\n      \"id\": \"string\",\n      \"description\": \"string\",\n      \"vcpu\": 472,\n      \"memory\": \"string\",\n      \"disk\": \"string\",\n      \"price_per_second\": \"string\",\n      \"price_hourly\": \"string\",\n      \"price_monthly\": \"string\",\n      \"regions\": [\n        \"string\",\n        \"string\"\n      ],\n      \"status\": \"string\",\n      \"require_plan\": [\n        \"string\",\n        \"string\"\n      ],\n      \"vcpu_shares\": 3948.6668250245293,\n      \"display_name\": \"string\",\n      \"aliases\": [\n        \"string\",\n        \"string\"\n      ],\n      \"type\": \"string\",\n      \"gpu\": {\n        \"count\": 1437,\n        \"brand\": \"string\",\n        \"memory\": \"string\",\n        \"name\": \"string\"\n      },\n      \"service_types\": [\n        \"string\",\n        \"string\"\n      ],\n      \"volumes_enabled\": true,\n      \"light_sleep_enabled\": true\n    },\n    {\n      \"id\": \"string\",\n      \"description\": \"string\",\n      \"vcpu\": 1857,\n      \"memory\": \"string\",\n      \"disk\": \"string\",\n      \"price_per_second\": \"string\",\n      \"price_hourly\": \"string\",\n      \"price_monthly\": \"string\",\n      \"regions\": [\n        \"string\",\n        \"string\"\n      ],\n      \"status\": \"string\",\n      \"require_plan\": [\n        \"string\",\n        \"string\"\n      ],\n      \"vcpu_shares\": 9481.634528390967,\n      \"display_name\": \"string\",\n      \"aliases\": [\n        \"string\",\n        \"string\"\n      ],\n      \"type\": \"string\",\n      \"gpu\": {\n        \"count\": 5286,\n        \"brand\": \"string\",\n        \"memory\": \"string\",\n        \"name\": \"string\"\n      },\n      \"service_types\": [\n        \"string\",\n        \"string\"\n      ],\n      \"volumes_enabled\": false,\n      \"light_sleep_enabled\": false\n    }\n  ],\n  \"limit\": 4199,\n  \"offset\": 7994,\n  \"count\": 6135\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2aafa8ad-e30f-4f7d-9bfb-cecc8ccc900f",
+              "name": "An unexpected error response.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "catalog",
+                    "instances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"code\": 193,\n  \"message\": \"string\",\n  \"details\": [\n    {\n      \"@type\": \"string\"\n    },\n    {\n      \"@type\": \"string\",\n      \"key_0\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e080ed16-dbcb-4666-a0a5-8c1bae4b9f3b",
+          "name": "Get Instance",
+          "request": {
+            "name": "Get Instance",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "catalog",
+                "instances",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The name of the instance"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5e234973-09b1-488b-ab66-c1afb4f8f1cd",
+              "name": "A successful response.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "catalog",
+                    "instances",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The name of the instance"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"instance\": {\n    \"id\": \"string\",\n    \"description\": \"string\",\n    \"vcpu\": 1546,\n    \"memory\": \"string\",\n    \"disk\": \"string\",\n    \"price_per_second\": \"string\",\n    \"price_hourly\": \"string\",\n    \"price_monthly\": \"string\",\n    \"regions\": [\n      \"string\",\n      \"string\"\n    ],\n    \"status\": \"string\",\n    \"require_plan\": [\n      \"string\",\n      \"string\"\n    ],\n    \"vcpu_shares\": 5016.981042259739,\n    \"display_name\": \"string\",\n    \"aliases\": [\n      \"string\",\n      \"string\"\n    ],\n    \"type\": \"string\",\n    \"gpu\": {\n      \"count\": 6223,\n      \"brand\": \"string\",\n      \"memory\": \"string\",\n      \"name\": \"string\"\n    },\n    \"service_types\": [\n      \"string\",\n      \"string\"\n    ],\n    \"volumes_enabled\": true,\n    \"light_sleep_enabled\": true\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6f7cbf13-df60-4cb3-ae9d-f01b83402194",
+              "name": "An unexpected error response.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "catalog",
+                    "instances",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The name of the instance"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"code\": 8982,\n  \"message\": \"string\",\n  \"details\": [\n    {\n      \"@type\": \"string\"\n    },\n    {\n      \"@type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.koyeb.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "9fab4b0a-2b12-4453-a3ef-296dab9f0164",
+    "name": "Koyeb Rest activity CatalogInstances API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Koyeb API allows you to interact with the Koyeb platform in a simple, programmatic way using conventional HTTP requests.\n",
+      "type": "text/plain"
+    }
+  }
+}

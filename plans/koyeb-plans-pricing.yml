@@ -4,144 +4,192 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Koyeb
 providerId: koyeb
 created: '2026-05-04'
-modified: '2026-05-04'
+generated: '2026-08-17'
+modified: '2026-08-17'
+method: searched
+source: https://www.koyeb.com/pricing
+secondary_sources:
+  - https://www.koyeb.com/docs/faqs/pricing
+  - https://www.koyeb.com/docs/legal/sla
+provenance_note: >-
+  REPLACES the 2026-05-04 bulk-sweep scaffold, which invented three tiers (koyeb-free / koyeb-pro /
+  koyeb-enterprise) with a 1,000-requests-per-month API quota. Koyeb does not meter API requests as a
+  billable unit at all — it bills compute, storage and bandwidth, and the API is included. The tiers below
+  are the ones actually published on the pricing page.
 tags:
   - Cloud Platform
   - Deployment
   - PaaS
   - Serverless
-description: Machine-readable plans and pricing scaffold for this API provider. Conforms to the API Commons
-  Plans schema. Tier limits and prices are scaffold defaults; replace with provider-published values.
+  - Pricing
+description: >-
+  Koyeb's published subscription tiers and usage rates as of 2026-08-17. Koyeb is a usage-billed platform
+  with a subscription floor: the monthly subscription price includes a compute credit, and everything beyond
+  it is metered per hour (instances, GPUs, Postgres) or per GB (storage, bandwidth). API access is not a
+  billable line item and is not rate-carded — every plan reaches the same REST API.
+billing_model: subscription-plus-usage
+currency: USD
+plan_count: 4
+api_metered: false
+api_metered_note: >-
+  There is no per-request API price, no request quota, and no API-call line item on the pricing page. See
+  rate-limits/koyeb-rate-limits.yml for the technical (non-billable) 400 req/60s ceiling.
 plans:
-  - id: koyeb-free
-    name: Free
+  - id: koyeb-hobby
+    name: Hobby
     type: freemium
-    description: Free entry tier for the Koyeb API surface. Intended for evaluation, prototyping, and
-      low-volume integrations. Real limits and pricing must be reconciled with the provider's published
-      plan documentation.
+    price: '0.00'
+    currency: USD
+    billing_period: month
+    description: >-
+      Free entry tier. Recorded as present because the pricing page carries free allowances (a free Postgres
+      tier at $0/hr for 5 hours, 10 free custom domains) and the platform offers self-serve signup with no
+      card; the published feature table details the paid tiers rather than itemising this one.
+    confidence: medium
     entries:
-      - label: API Requests
-        description: Monthly API request quota across all included endpoints
-        name: api_requests
+      - label: Serverless Postgres free allowance
+        name: postgres_free_hours
         type: quota
-        metric: requests
-        limit: 1000
+        metric: hours
+        limit: 5
         timeFrame: month
-        geo: global
-        domains:
-          - https://app.koyeb.com
-        unit: 1
         price: '0.00'
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the free tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 10
-        timeFrame: minute
-        geo: global
-        domains:
-          - https://app.koyeb.com
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
+        source_quote: 'Free 5h tier: $0/hr'
     elements:
-      - name: Public Documentation
-      - name: Community Support
-      - name: Sandbox Access
-      - name: Koyeb API
+      - name: Koyeb API (full REST surface)
+      - name: Koyeb CLI
+      - name: Self-serve signup
+      - name: Community support (slack.koyeb.com, community.koyeb.com)
   - id: koyeb-pro
-    name: Professional
+    name: Pro
     type: paid
-    description: Production tier for Koyeb. Provides higher quotas, priority support, and access to the
-      broader API portfolio. Pricing placeholder; align with the provider's pricing page.
+    price: '29.00'
+    currency: USD
+    billing_period: month
+    description: Production entry tier with an included compute credit.
     entries:
-      - label: API Requests
-        description: Monthly API request quota
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 100000
+      - label: Included compute
+        name: included_compute
+        type: credit
+        metric: usd
+        limit: 10
         timeFrame: month
-        geo: global
-        domains:
-          - https://app.koyeb.com
-        unit: 1
-        price: TBD
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the professional tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 100
-        timeFrame: minute
-        geo: global
-        domains:
-          - https://app.koyeb.com
-        unit: 1
         price: '0.00'
-        userMultiplied: false
-      - label: Overage
-        description: Per-request price after monthly quota is exceeded
-        name: overage
-        type: metered
-        metric: requests
-        limit: -1
-        timeFrame: month
-        geo: global
-        domains:
-          - https://app.koyeb.com
-        unit: 1000
-        price: TBD
-        userMultiplied: false
+        source_quote: $10 included compute
+      - label: Users
+        name: users
+        type: quota
+        metric: seats
+        limit: 10
+        timeFrame: null
+      - label: Services
+        name: services
+        type: quota
+        metric: services
+        limit: 100
+        timeFrame: null
+      - label: Concurrent builds
+        name: concurrent_builds
+        type: rate
+        metric: builds
+        limit: 5
+        timeFrame: null
     elements:
-      - name: All Production Endpoints
-      - name: Email Support
-      - name: SLA Targets
-      - name: Webhook Subscriptions
-      - name: Koyeb API
+      - name: NVMe Volumes and Snapshots
+      - name: E-mail support and chat
+      - name: Koyeb API (full REST surface)
+  - id: koyeb-scale
+    name: Scale
+    type: paid
+    price: '299.00'
+    currency: USD
+    billing_period: month
+    description: Scale tier — adds AWS regions, cross-connect and a contractual uptime SLA.
+    entries:
+      - label: Included compute
+        name: included_compute
+        type: credit
+        metric: usd
+        limit: 100
+        timeFrame: month
+        price: '0.00'
+        source_quote: $100 included compute
+      - label: Users
+        name: users
+        type: quota
+        metric: seats
+        limit: 50
+        timeFrame: null
+      - label: Services
+        name: services
+        type: quota
+        metric: services
+        limit: 1000
+        timeFrame: null
+    sla:
+      uptime_target: 99.9%
+      source_quote: 99.9% uptime SLA
+      terms: https://www.koyeb.com/docs/legal/sla
+    elements:
+      - name: AWS Regions access
+      - name: Slack cross-connect
+      - name: Koyeb API (full REST surface)
   - id: koyeb-enterprise
     name: Enterprise
-    type: enterprise
-    description: Custom-negotiated tier for Koyeb. Includes dedicated capacity, contractual SLAs, security
-      review, data residency options, and named technical account management.
+    type: custom
+    price: null
+    price_floor: '1000.00'
+    currency: USD
+    billing_period: month
+    description: Custom contract; the pricing page states it starts at $1000/mo.
     entries:
-      - label: API Requests
-        description: Negotiated request volume; -1 indicates uncapped subject to fair use
-        name: api_requests
+      - label: Users
+        name: users
         type: quota
-        metric: requests
-        limit: -1
-        timeFrame: month
-        geo: configurable
-        domains:
-          - https://app.koyeb.com
-        unit: 1
-        price: custom
-        userMultiplied: false
-      - label: Rate Limit
-        description: Negotiated burst and steady-state rate
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 1000
-        timeFrame: minute
-        geo: configurable
-        domains:
-          - https://app.koyeb.com
-        unit: 1
-        price: custom
-        userMultiplied: false
+        metric: seats
+        limit: null
+        unlimited: true
+    sla:
+      uptime_target: 99.99%
+      source_quote: 99.99% uptime SLA
+      terms: https://www.koyeb.com/docs/legal/sla
+    compliance:
+      certifications_named:
+        - ISO 27001
+        - SOC 2
+      source_quote: ISO27001 and SOC2 Certifications
     elements:
-      - name: Unlimited / Negotiated Volume
-      - name: 24/7 Dedicated Support
-      - name: Contractual SLA
-      - name: Security & Compliance Review
-      - name: Dedicated Account Manager
-      - name: Custom Data Residency
-      - name: Koyeb API
+      - name: Private dedicated locations
+      - name: SSO, RBAC, and Audit trail
+      - name: Custom RAM, CPU, GPU
+      - name: 24×7×365 premium support
+usage_rates:
+  gpu_per_hour:
+    - {instance: RTX-A6000, price: '0.75', unit: hour, currency: USD}
+    - {instance: L40S, price: '1.20', unit: hour, currency: USD}
+    - {instance: A100, price: '1.60', unit: hour, currency: USD}
+    - {instance: H100, price: '2.50', unit: hour, currency: USD}
+    - {instance: 8x H100, price: '20.00', unit: hour, currency: USD}
+  serverless_postgres:
+    - {tier: Free 5h, price: '0.00', unit: hour, currency: USD}
+    - {tier: Small, price: '0.04', unit: hour, monthly_equivalent: '29.76', currency: USD}
+    - {tier: Medium, price: '0.08', unit: hour, monthly_equivalent: '59.52', currency: USD}
+    - {tier: XLarge, price: '0.32', unit: hour, monthly_equivalent: '238.08', currency: USD}
+  storage:
+    - {resource: Postgres storage, price: '0.50', unit: GB-month, currency: USD}
+  bandwidth:
+    - {region: EU / US, price: '0.02', unit: GB, currency: USD}
+    - {region: Asia, price: '0.04', unit: GB, currency: USD}
+  domains:
+    - {resource: Custom domains beyond the first 10, price: '0.20', unit: month, currency: USD}
+programmatic_billing_surface:
+  note: >-
+    Koyeb exposes billing to the API, which is unusual and worth recording: the published Swagger document
+    carries GetSubscription, NextInvoice, HasUnpaidInvoices, Manage, GetOrganizationUsage,
+    GetOrganizationUsageDetails, ListUsage, GetQuotas, CreateBudget/GetBudget/UpdateBudget/DeleteBudget,
+    CheckCoupon/RedeemCoupon and the PaymentMethods collection. A consumer can read its own spend and set a
+    budget programmatically.
+  finops: finops/koyeb-finops.yml
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

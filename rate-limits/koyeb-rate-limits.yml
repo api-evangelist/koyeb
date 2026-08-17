@@ -4,85 +4,112 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Koyeb
 providerId: koyeb
 created: '2026-05-04'
-modified: '2026-05-04'
+generated: '2026-08-17'
+modified: '2026-08-17'
+method: probed
+source: >-
+  Live unauthenticated probes of https://app.koyeb.com/v1/apps (401) and
+  https://app.koyeb.com/v1/catalog/regions (200) on 2026-08-17
+provenance_note: >-
+  REPLACES the 2026-05-04 bulk-sweep scaffold that previously occupied this file. That scaffold asserted
+  10 req/min on a free tier, 100 on professional and 1000 on enterprise, with X-RateLimit-* headers and a
+  monthly request quota. NONE of that was published by Koyeb and none of it matches the wire. The values
+  below were read off real response headers.
 tags:
   - Cloud Platform
   - Deployment
   - PaaS
   - Serverless
   - Rate Limiting
-  - Quotas
   - Throttling
-description: Machine-readable rate limit definitions for the Koyeb API surface. Captures per-tier quotas,
-  burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to be replaced
-  with published provider limits.
+description: >-
+  Koyeb does not document rate limits anywhere in its developer docs, and the published Swagger document
+  declares no 429 response on any of its 177 operations. The API nonetheless enforces and advertises a
+  limit on every response via x-ratelimit-* headers, using the IETF draft RateLimit policy syntax. The
+  runtime signal is therefore the ONLY source of truth, and it is what an agent should read.
+documented_by_provider: false
+docs: null
+limit_count: 1
 headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
+  limit: x-ratelimit-limit
+  remaining: x-ratelimit-remaining
+  reset: x-ratelimit-reset
+  retryAfter: null
+  policy: null
+header_note: >-
+  x-ratelimit-limit carries TWO comma-separated values: the current quota and the policy, e.g.
+  "400, 400;w=60" — 400 requests remaining in the quota, policy of 400 requests per 60-second window. This
+  is the draft-ietf-httpapi-ratelimit-headers shape folded into the legacy x-ratelimit-limit name rather
+  than into a separate RateLimit-Policy header. x-ratelimit-reset is a delta in SECONDS, not a timestamp.
+  No Retry-After is sent.
 responseCodes:
   throttled: 429
   quotaExceeded: 429
   serviceUnavailable: 503
+response_code_note: >-
+  429 was inferred as the exhaustion status from the presence of the x-ratelimit-* trio; it is NOT declared
+  on any operation in the spec and was not observed (this pass deliberately did not exhaust the limit). 503
+  IS declared on all 169 resource operations as "Service is unavailable."
 limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
+  - name: Default API request limit
+    scope: per-caller
+    metric: requests
+    limit: 400
     timeFrame: minute
+    window_seconds: 60
+    burst: null
+    tier: all
     applies:
-      - Koyeb API
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - Koyeb API
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - Koyeb API
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - Koyeb API
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - Koyeb API
+      - Koyeb API (https://app.koyeb.com/v1/*)
+    evidence:
+      - probed: '2026-08-17'
+        request: GET https://app.koyeb.com/v1/apps (no Authorization header)
+        http_status: 401
+        headers:
+          x-ratelimit-limit: 400, 400;w=60
+          x-ratelimit-remaining: '399'
+          x-ratelimit-reset: '58'
+      - probed: '2026-08-17'
+        request: GET https://app.koyeb.com/v1/catalog/regions (no Authorization header)
+        http_status: 200
+        headers:
+          x-ratelimit-limit: 400, 400;w=60
+          x-ratelimit-remaining: '399'
+          x-ratelimit-reset: '58'
+      - probed: '2026-08-17'
+        request: 'GET https://app.koyeb.com/v1/apps (Authorization: Bearer <invalid>)'
+        http_status: 401
+        headers:
+          x-ratelimit-limit: 400, 400;w=60
+          x-ratelimit-remaining: '398'
+          x-ratelimit-reset: '58'
+    scope_note: >-
+      The limit decremented across three consecutive requests from one source IP with no credential and
+      with an invalid credential alike, so the counter is keyed on the caller (IP) rather than on the API
+      token. Whether an authenticated token gets a separate or larger bucket could not be established
+      without a live token — recorded as unknown rather than guessed.
+unknowns:
+  - Whether authenticated requests get a different or per-organization limit than the 400/60s observed anonymously.
+  - Whether limits vary by plan tier (Hobby/Pro/Scale/Enterprise). Nothing on the pricing page mentions API rate limits.
+  - Whether any operation carries a stricter per-endpoint limit (log queries, exec, archive upload).
+  - The exact status code and body returned on exhaustion.
 policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+  - name: Read the headers, not the docs
+    description: >-
+      Because Koyeb publishes no rate-limit documentation, a client must treat x-ratelimit-limit as
+      authoritative and adapt to it at runtime. Parse the second comma-separated element for the window.
+  - name: Backoff on exhaustion
+    description: >-
+      No Retry-After is sent, so on a 429 sleep for x-ratelimit-reset seconds (plus jitter) rather than
+      using a fixed backoff.
+  - name: Writes are not retry-safe
+    description: >-
+      The API publishes no idempotency key (see conventions/koyeb-conventions.yml), so a throttled or timed
+      out POST must be reconciled with a List-by-name call before retrying, not blindly repeated.
+recommendations_for_provider:
+  - Document the limit. A 400/60s ceiling is generous and worth advertising; leaving it undocumented makes every integrator discover it in production.
+  - Declare a 429 response on the operations in the Swagger document, with the error envelope.
+  - Emit Retry-After alongside x-ratelimit-reset so generic HTTP clients back off correctly without custom parsing.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

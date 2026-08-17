@@ -1,0 +1,92 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Koyeb Rest activity Usages API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Usages",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get organization usage",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/usages",
+            "params": [
+              {
+                "name": "starting_time",
+                "value": "",
+                "type": "query",
+                "description": "The starting time of the period to get data from"
+              },
+              {
+                "name": "ending_time",
+                "value": "",
+                "type": "query",
+                "description": "The ending time of the period to get data from"
+              }
+            ]
+          },
+          "docs": "Get organization usage"
+        },
+        {
+          "info": {
+            "name": "Get organization usage details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/usages/details",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "starting_time",
+                "value": "",
+                "type": "query",
+                "description": "The starting time of the period to get data from"
+              },
+              {
+                "name": "ending_time",
+                "value": "",
+                "type": "query",
+                "description": "The ending time of the period to get data from"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Sorts the list in the ascending or the descending order"
+              }
+            ]
+          },
+          "docs": "Get organization usage details"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

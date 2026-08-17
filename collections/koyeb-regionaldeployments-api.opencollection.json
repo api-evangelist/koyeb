@@ -1,0 +1,111 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Koyeb Rest activity RegionalDeployments API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "RegionalDeployments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Regional Deployment events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/regional_deployment_events",
+            "params": [
+              {
+                "name": "regional_deployment_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on regional deployment id"
+              },
+              {
+                "name": "types",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on regional deployment event types"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Sorts the list in the ascending or the descending order"
+              }
+            ]
+          },
+          "docs": "List Regional Deployment events"
+        },
+        {
+          "info": {
+            "name": "List Regional Deployments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/regional_deployments",
+            "params": [
+              {
+                "name": "deployment_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on deployment id"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              }
+            ]
+          },
+          "docs": "Experimental: use at your own risk"
+        },
+        {
+          "info": {
+            "name": "Get Regional Deployment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/regional_deployments/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the regional deployment"
+              }
+            ]
+          },
+          "docs": "Experimental: use at your own risk"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,102 @@
+generated: '2026-08-17'
+method: searched
+source: >-
+  https://www.koyeb.com/docs/legal/sla + https://status.koyeb.com/ + https://www.koyeb.com/changelog +
+  https://koyeb.canny.io/ + derived from openapi/_original/koyeb-openapi.json
+provider: Koyeb
+providerId: koyeb
+description: >-
+  Versioning, deprecation, SLA and operational-transparency posture for the Koyeb API. Koyeb runs a strong
+  operational surface — a dated changelog, an Instatus status page with machine-readable feeds, a public
+  roadmap board and a contractual SLA — but publishes no deprecation policy and no Sunset/Deprecation header
+  support, which is the one gap in an otherwise solid record.
+versioning:
+  scheme: uri-path
+  current: v1
+  docs: https://www.koyeb.com/docs/reference/api
+  policy_url: null
+  note: >-
+    Single version since launch. Breaking changes are shipped as parallel operations inside v1 (UpdateApp2,
+    UpdateService2, UpdateSecret2, UpdateUserV22 …) rather than as a v2, so consumers are never forced to
+    migrate but also never told which form is current. See conventions/koyeb-conventions.yml.
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594_support: false
+  evidence: >-
+    No operation in the 177-operation published Swagger document carries deprecated: true, and no
+    deprecation, sunset or end-of-life policy page exists on koyeb.com or in the docs (probed
+    /security, /docs/legal/* and the full 110-URL docs sitemap). The superseded PUT forms that PATCH
+    replaced in January 2026 are still undeprecated in the contract.
+  gap: >-
+    This is the clearest operational-transparency gap in the profile. Koyeb ships duplicate operations to
+    avoid breaking clients, then leaves the old ones unmarked, so a code generator cannot tell UpdateService
+    from UpdateService2 and a consumer has no notice window for anything.
+deprecated_operations: []
+sla:
+  url: https://www.koyeb.com/docs/legal/sla
+  effective_date: '2024-06-28'
+  applies_to: all paid subscriptions
+  uptime_targets:
+    - {plan: Scale, target: 99.9%, source: https://www.koyeb.com/pricing}
+    - {plan: Enterprise, target: 99.99%, source: https://www.koyeb.com/pricing}
+  availability_formula: 'AR = ((CP - DT) / CP) * 100'
+  remedy: >-
+    "The Service Credit granted to the Customer corresponds to a pro rata discount of the amount of the Fees
+    to be paid for the current month calculated over the period during which the Availability Rate is not
+    reached." Monthly credits cannot exceed the fees owed that month.
+  exclusions: [scheduled maintenance, emergency maintenance]
+  support_response_times: >-
+    Tier-dependent; the SLA defers the actual windows to the plan comparison on the pricing page rather
+    than stating them.
+  related_agreements:
+    - {name: Master Service Agreement, url: 'https://www.koyeb.com/docs/legal/msa'}
+    - {name: Terms of Service, url: 'https://www.koyeb.com/docs/legal/terms'}
+    - {name: Data Processing Agreement, url: 'https://www.koyeb.com/docs/legal/data-processing-agreement'}
+status_page:
+  url: https://status.koyeb.com/
+  platform: Instatus
+  http_status: 200
+  machine_readable:
+    - {path: /summary.json, status: 200, content_type: application/json}
+    - {path: /history.rss, status: 200, content_type: text/xml}
+  absent:
+    - {path: /api/v2/status.json, status: 404, note: Atlassian Statuspage convention — not applicable to Instatus}
+    - {path: /feed.rss, status: 404}
+  note: >-
+    An agent can poll https://status.koyeb.com/summary.json for current component state without scraping,
+    which is the useful part; incident history is available as RSS at /history.rss.
+changelog:
+  url: https://www.koyeb.com/changelog
+  dated: true
+  cadence: roughly weekly
+  detail: changelog/koyeb-changelog.yml
+roadmap:
+  url: https://koyeb.canny.io/
+  platform: Canny
+  boards: [Feature Requests, Roadmap, Changelog]
+  redirect_from: https://feedback.koyeb.com/
+  public: true
+support:
+  community_slack: https://slack.koyeb.com/
+  community_forum: https://community.koyeb.com/
+  forum_note: >-
+    community.koyeb.com is a Discourse instance behind Koyeb SSO — it 302s to
+    app.koyeb.com/auth/sso/discourse, so it is member-only rather than openly readable.
+  paid_channels: E-mail support and chat from the Pro tier; 24x7x365 premium support at Enterprise.
+corporate_events:
+  - date: '2026-02-20'
+    event: >-
+      Koyeb entered into a definitive agreement with Mistral AI (announced on the changelog 2026-02-20 and
+      in the blog post "Koyeb is joining Mistral AI to Build The Future of AI Infrastructure", 2026-02-17).
+      A banner announcing it is rendered on every docs page as of this pass. Recorded because an acquisition
+      is a material lifecycle signal for anyone integrating against this API, not as a prediction about what
+      happens to the platform.
+    sources:
+      - https://www.koyeb.com/blog/koyeb-is-joining-mistral-ai-to-build-the-future-of-ai-infrastructure
+      - https://www.koyeb.com/changelog
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

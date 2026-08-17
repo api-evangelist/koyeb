@@ -1,0 +1,123 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Koyeb Rest activity OrganizationInvitations API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "OrganizationInvitations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Organization Invitations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/organization_invitations",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "statuses",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on organization invitation statuses"
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on invitee ID. Will match both invitations sent to\nthat user_id and invitations sent to the email of that user_id.\nThe only valid value is the requester's user_id"
+              }
+            ]
+          },
+          "docs": "List Organization Invitations"
+        },
+        {
+          "info": {
+            "name": "Create Organization Invitation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/organization_invitations"
+          },
+          "docs": "Create Organization Invitation"
+        },
+        {
+          "info": {
+            "name": "Get Organization Invitation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/organization_invitations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the invitation to get"
+              }
+            ]
+          },
+          "docs": "Get Organization Invitation"
+        },
+        {
+          "info": {
+            "name": "Delete Organization Invitation",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/organization_invitations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the organization invitation to delete"
+              }
+            ]
+          },
+          "docs": "Delete Organization Invitation"
+        },
+        {
+          "info": {
+            "name": "Resend Organization Invitation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/organization_invitations/:id/resend",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the organization invitation to resend"
+              }
+            ]
+          },
+          "docs": "Resend Organization Invitation"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

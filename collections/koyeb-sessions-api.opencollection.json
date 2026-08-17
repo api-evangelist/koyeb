@@ -1,0 +1,68 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Koyeb Rest activity Sessions API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Sessions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Login user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/account/login",
+            "headers": [
+              {
+                "name": "seon-fp",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Login user"
+        },
+        {
+          "info": {
+            "name": "Logout user",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/account/logout"
+          },
+          "docs": "Logout user"
+        },
+        {
+          "info": {
+            "name": "Refresh token",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/account/refresh"
+          },
+          "docs": "Refresh token"
+        },
+        {
+          "info": {
+            "name": "New session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/account/session"
+          },
+          "docs": "Creates a new session without an organization for current user.\nNOTE: If you want a session linked to another organization, please use \"Switch organization\"."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

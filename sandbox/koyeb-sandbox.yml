@@ -1,0 +1,98 @@
+generated: '2026-08-17'
+method: searched
+source: >-
+  https://www.koyeb.com/docs (full 110-URL docs sitemap) + https://www.koyeb.com/pricing +
+  https://www.koyeb.com/docs/sandboxes/sandbox-quickstart + https://app.koyeb.com
+provider: Koyeb
+providerId: koyeb
+description: >-
+  What a developer can safely try before running production traffic against the Koyeb API. Read this
+  artifact for the naming trap first: "Koyeb Sandboxes" is a COMPUTE PRODUCT (isolated environments for
+  running AI-generated code), not a test mode for the Koyeb API. Koyeb has no test/live key separation, no
+  test-mode credentials and no fixture tooling. What it does have is a full web console and a free
+  allowance.
+test_mode:
+  supported: false
+  key_prefixes: null
+  separate_credentials: false
+  evidence: >-
+    Tokens are minted at https://app.koyeb.com/user/settings/api with no mode selector, carry no prefix
+    distinguishing test from live, and the published Swagger document declares a single
+    securityDefinitions.Bearer scheme with no test variant. Nothing in the 110-page docs sitemap documents a
+    sandbox/test environment for the API. Every API call bills and provisions real infrastructure.
+  consequence_for_agents: >-
+    There is no safe rehearsal environment. An agent holding a Koyeb token is operating on production from
+    the first call, and the token is unscoped (see conventions/koyeb-conventions.yml). The nearest safety
+    valve is the dry_run query parameter on CreateService / UpdateService / Compose, which validates without
+    deploying.
+dry_run:
+  parameter: dry_run
+  parameter_in: query
+  operations: [CreateService, UpdateService, UpdateService2, Compose]
+  description: >-
+    "If true only run validation" (CreateService) / "If true, do not trigger a deployment, only run
+    validation and check that the service exists" (UpdateService). Quoted from the published Swagger
+    document.
+  companions:
+    save_only: If set, do not trigger a deployment, only store the new settings.
+    skip_build: >-
+      If set to true, the build stage will be skipped and the image coming from the last successful build
+      step will be used instead. The call fails if no previous successful builds happened.
+console:
+  url: https://app.koyeb.com
+  name: Koyeb Control Panel
+  open_source: true
+  repository: https://github.com/koyeb/control-panel
+  signup: https://app.koyeb.com/auth/signup
+  self_serve: true
+  card_required_to_start: false
+  auth_methods: [GitHub, Google, passkeys, email + password]
+  mfa: 'Multi-factor authentication and passkeys, shipped 2025-12-12'
+  note: >-
+    The control panel is the interactive surface the ergonomics rubric is asking about, and unusually Koyeb
+    publishes its source. It is also the API host: app.koyeb.com serves both the SPA and /v1/*, which is why
+    every unknown path there returns a 200 HTML shell (see well-known/koyeb-well-known.yml).
+free_allowance:
+  description: >-
+    Self-serve signup with no card, plus published free allowances — a free 5-hour/month Serverless Postgres
+    tier and the first 10 custom domains at no charge. This is the evaluation path in place of a sandbox.
+  detail: plans/koyeb-plans-pricing.yml
+interactive_api_explorer:
+  url: https://www.koyeb.com/docs/reference/api
+  kind: embedded spec viewer
+  spec: https://api.prod.koyeb.com/public.swagger.json
+  try_it: >-
+    The reference page renders the published Swagger document with a request builder, so operations can be
+    inspected without a token — but executing one requires a real token against the real account.
+postman:
+  workspace: https://www.postman.com/gokoyeb
+  collection: https://www.postman.com/gokoyeb/koyeb/collection/y5r00xu/koyeb-rest-api
+  documentation: https://www.postman.com/gokoyeb/koyeb/documentation/y5r00xu/koyeb-rest-api
+  public: true
+  http_status: 200
+  note: Koyeb publishes a public Postman workspace, which is the closest thing to a runnable playground on offer.
+naming_disambiguation:
+  koyeb_sandboxes_product:
+    what: >-
+      Fast, scalable, fully isolated environments for executing untrusted or AI-generated code. Announced in
+      public preview 2025-11-21, general docs at https://www.koyeb.com/docs/sandboxes.
+    surfaces:
+      cli: koyeb sandbox create | run | ps | kill | logs | fs {ls,read,write,upload,download,rm,mkdir} | expose-port | health
+      js_sdk: '@koyeb/sandbox-sdk'
+      python_sdk: koyeb-sdk
+      skills: [skills/koyeb-published/koyeb-sandboxes-cli.md, skills/koyeb-published/koyeb-sandboxes-js-sdk.md, skills/koyeb-published/koyeb-sandboxes-python-sdk.md]
+    why_recorded_here: >-
+      So this artifact is not mistaken for evidence of an API test mode. It is a billable production product
+      that happens to share the word "sandbox". Do NOT read the Koyeb Sandboxes docs as sandbox credentials.
+test_values_published: none
+test_values_note: No test card numbers, test tokens, magic identifiers or time-simulation tooling are published. Nothing was invented for this file.
+recommendations_for_provider:
+  - >-
+    Ship a read-only token type. The single unscoped organization-wide token is the biggest blocker to
+    letting an agent touch Koyeb at all, and it costs nothing in product surface.
+  - >-
+    Extend dry_run beyond services to apps, domains, volumes and secrets so a client can validate a whole
+    plan before executing it.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

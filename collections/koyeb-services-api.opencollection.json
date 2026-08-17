@@ -1,0 +1,374 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Koyeb Rest activity Services API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Services",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Service events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/service_events",
+            "params": [
+              {
+                "name": "service_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on service id"
+              },
+              {
+                "name": "types",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on service event types"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Sorts the list in the ascending or the descending order"
+              }
+            ]
+          },
+          "docs": "List Service events"
+        },
+        {
+          "info": {
+            "name": "List Services",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/services",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The id of the app"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) A filter for name"
+              },
+              {
+                "name": "types",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on service types"
+              },
+              {
+                "name": "statuses",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on service statuses"
+              },
+              {
+                "name": "regions",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on regions"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) A filter for the project ID"
+              }
+            ]
+          },
+          "docs": "List Services"
+        },
+        {
+          "info": {
+            "name": "Create Service",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/services",
+            "params": [
+              {
+                "name": "dry_run",
+                "value": "",
+                "type": "query",
+                "description": "If set only run validation"
+              }
+            ]
+          },
+          "docs": "Create Service"
+        },
+        {
+          "info": {
+            "name": "Autocomplete definition",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/services-autocomplete"
+          },
+          "docs": "Generate autocomplete definition for a service"
+        },
+        {
+          "info": {
+            "name": "Get Service",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/services/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the Service"
+              }
+            ]
+          },
+          "docs": "Get Service"
+        },
+        {
+          "info": {
+            "name": "Update Service",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/services/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the entity to update"
+              },
+              {
+                "name": "update_mask",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "dry_run",
+                "value": "",
+                "type": "query",
+                "description": "If set, run validation and check that the service exists"
+              }
+            ]
+          },
+          "docs": "Update Service"
+        },
+        {
+          "info": {
+            "name": "Update Service",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v1/services/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the entity to update"
+              },
+              {
+                "name": "update_mask",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "dry_run",
+                "value": "",
+                "type": "query",
+                "description": "If set, run validation and check that the service exists"
+              }
+            ]
+          },
+          "docs": "Update Service"
+        },
+        {
+          "info": {
+            "name": "Delete Service",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/services/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the entity to delete"
+              }
+            ]
+          },
+          "docs": "Service deletion is allowed for all status."
+        },
+        {
+          "info": {
+            "name": "Pause Service",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/services/:id/pause",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the service to pause."
+              }
+            ]
+          },
+          "docs": "Service pause action is allowed for the following status:\n - starting\n - healthy\n - degraded\n - unhealthy\n - resuming"
+        },
+        {
+          "info": {
+            "name": "ReDeploy Service",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/services/:id/redeploy",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "ReDeploy Service"
+        },
+        {
+          "info": {
+            "name": "Resume Service",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/services/:id/resume",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the service to pause."
+              },
+              {
+                "name": "skip_build",
+                "value": "",
+                "type": "query",
+                "description": "If set to true, the build stage will be skipped and the image coming from the last successful build step will be used instead.\nThe call fails if no previous successful builds happened."
+              },
+              {
+                "name": "use_cache",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Service resume action is allowed for the following status:\n - paused"
+        },
+        {
+          "info": {
+            "name": "Get Service Scaling",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/services/:id/scale",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the service"
+              }
+            ]
+          },
+          "docs": "Returns the current scaling configuration for a service"
+        },
+        {
+          "info": {
+            "name": "Update Service Scaling",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/services/:id/scale",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the service to scale"
+              }
+            ]
+          },
+          "docs": "Stores or updates the scaling configuration for a service to use manual scaling"
+        },
+        {
+          "info": {
+            "name": "Delete Service Scaling",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/services/:id/scale",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the service"
+              }
+            ]
+          },
+          "docs": "Deletes the manual scaling configuration for a service, reverting to \nthe scaling defined in the deployment definition."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

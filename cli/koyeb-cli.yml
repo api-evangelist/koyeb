@@ -1,0 +1,161 @@
+generated: '2026-08-17'
+method: searched
+source: >-
+  https://www.koyeb.com/docs/build-and-deploy/cli/reference +
+  https://www.koyeb.com/docs/build-and-deploy/cli/installation +
+  https://github.com/koyeb/koyeb-cli + the koyeb-commands.md references generated from live `koyeb --help`
+  in https://github.com/koyeb/koyeb-skills
+provider: Koyeb
+providerId: koyeb
+name: koyeb
+description: >-
+  The Koyeb CLI is a first-party Go binary and, in practice, the primary programmatic surface for the
+  platform: it is more complete than the MCP server (13 of 177 operations) and it is what all sixteen of
+  Koyeb's published Agent Skills drive. It reads the same bearer token as the REST API and defaults its
+  --url to https://app.koyeb.com, so it is a thin, honest client over the published contract.
+version: v5.10.2
+version_published: '2026-05-12'
+repository: https://github.com/koyeb/koyeb-cli
+license: Apache-2.0
+language: go
+docs:
+  reference: https://www.koyeb.com/docs/build-and-deploy/cli/reference
+  installation: https://www.koyeb.com/docs/build-and-deploy/cli/installation
+package: packages/koyeb-packages.yml
+install:
+  - method: homebrew
+    command: brew install koyeb/tap/koyeb
+    tap: https://github.com/koyeb/homebrew-tap
+    formula_version: 5.10.2
+  - method: shell-script
+    command: curl -fsSL https://raw.githubusercontent.com/koyeb/koyeb-cli/master/install.sh | sh
+    post_install: export PATH=$HOME/.koyeb/bin:$PATH
+    note: Add the PATH line to .bashrc or .zshrc.
+  - method: docker
+    command: docker pull koyeb/koyeb-cli:latest
+  - method: binary
+    command: Download from https://github.com/koyeb/koyeb-cli/releases
+    platforms: [darwin/amd64, darwin/arm64, linux/amd64, linux/arm64, windows/amd64, windows/arm64]
+    checksums: checksums.txt is published with every release
+authentication:
+  interactive: koyeb login
+  non_interactive_env_var: KOYEB_API_TOKEN
+  flag: --token
+  token_creation_url: https://app.koyeb.com/user/settings/api
+  config_file: $HOME/.koyeb.yaml
+  organization_context:
+    - koyeb organization list
+    - koyeb organization switch <org-id-or-name>
+global_flags:
+  - {flag: '-c, --config string', description: 'Config file (default: $HOME/.koyeb.yaml)'}
+  - {flag: '-d, --debug', description: Enable debug output}
+  - {flag: '--debug-full', description: Do not hide sensitive information in debug output}
+  - {flag: '--force-ascii', description: Only output ASCII characters}
+  - {flag: '--full', description: Do not truncate output}
+  - {flag: '-h, --help', description: Help for command}
+  - {flag: '-o, --output output', description: 'Output format: yaml, json, or table'}
+  - {flag: '--organization string', description: Organization ID}
+  - {flag: '--token string', description: API token}
+  - {flag: '--url string', description: 'API URL (default: https://app.koyeb.com)'}
+command_pattern:
+  list: koyeb <resource> list
+  get: koyeb <resource> get <id-or-name>
+  describe: koyeb <resource> describe <id-or-name>
+  create: koyeb <resource> create ...
+  update: koyeb <resource> update <id-or-name> ...
+  delete: koyeb <resource> delete <id-or-name>
+  source: >-
+    Documented verbatim in the shared reference Koyeb ships with its Agent Skills
+    (plugins/koyeb/skills/_shared/references/koyeb-cli.md).
+command_groups:
+  - {name: apps, purpose: Manage applications and their lifecycle}
+  - {name: archives, purpose: Handle archived project uploads}
+  - {name: compose, purpose: Create resources from a koyeb-compose.yaml file}
+  - {name: databases, purpose: Manage database instances}
+  - {name: deploy, purpose: Deploy a directory to Koyeb}
+  - {name: deployments, purpose: Monitor and control deployment operations}
+  - {name: domains, purpose: Manage custom and default domains}
+  - {name: instances, purpose: Manage individual service instances}
+  - {name: login, purpose: Authenticate with your Koyeb account}
+  - {name: metrics, purpose: Access service performance metrics}
+  - {name: organizations, purpose: Switch between and list organizations}
+  - {name: regional-deployments, purpose: Manage regional deployment configurations}
+  - {name: sandbox, purpose: Interactive execution environments (the Koyeb Sandboxes product)}
+  - {name: secrets, purpose: Store and manage sensitive configuration data}
+  - {name: services, purpose: Create and manage deployed services}
+  - {name: snapshots, purpose: Persist and restore service state}
+  - {name: version, purpose: Display the CLI version information}
+  - {name: volumes, purpose: Manage persistent storage volumes}
+  - {name: whoami, purpose: Display current user or organization details}
+verified_subcommands:
+  services:
+    - koyeb services create
+    - koyeb services delete
+    - koyeb services describe
+    - koyeb services exec
+    - koyeb services get
+    - koyeb services list
+    - koyeb services logs
+    - koyeb services pause
+    - koyeb services redeploy
+    - koyeb services resume
+    - koyeb services scale
+    - koyeb services scale delete
+    - koyeb services scale get
+    - koyeb services scale update
+    - koyeb services unapplied-changes
+    - koyeb services update
+  sandbox:
+    - koyeb sandbox create
+    - koyeb sandbox expose-port
+    - koyeb sandbox fs download
+    - koyeb sandbox fs ls
+    - koyeb sandbox fs mkdir
+    - koyeb sandbox fs read
+    - koyeb sandbox fs rm
+    - koyeb sandbox fs upload
+    - koyeb sandbox fs write
+    - koyeb sandbox health
+    - koyeb sandbox kill
+    - koyeb sandbox list
+    - koyeb sandbox logs
+    - koyeb sandbox ps
+    - koyeb sandbox run
+    - koyeb sandbox start
+    - koyeb sandbox unexpose-port
+  databases:
+    - koyeb databases create
+    - koyeb databases delete
+    - koyeb databases get
+    - koyeb databases list
+    - koyeb databases update
+  subcommand_source: >-
+    Read from the koyeb-commands.md reference files in github.com/koyeb/koyeb-skills, which the repo's own
+    scripts/generate-koyeb-flag-refs.py regenerates from live `koyeb --help` output — so these are the real
+    command names, not a docs paraphrase.
+key_flows:
+  - name: Zero-config directory deploy
+    commands: [koyeb deploy]
+    note: Tars the working directory, uploads it as an archive, and creates or updates the service. Same flow the MCP "deploy" tool automates.
+  - name: Compose-file provisioning
+    commands: [koyeb compose]
+    note: Creates resources from a koyeb-compose.yaml file; backed by the Compose operation in the REST API.
+  - name: Exec into a running instance
+    commands: [koyeb services exec, koyeb sandbox run]
+    note: Backed by the WebSocket stream wss://app.koyeb.com/v1/streams/instances/exec.
+  - name: Log tail and query
+    commands: [koyeb services logs, koyeb sandbox logs]
+    note: Backed by QueryLogs and TailLogs.
+  - name: Scripting with structured output
+    commands: [koyeb services list --output json]
+    note: >-
+      Koyeb's own Agent Skills instruct agents to prefer --output json and to avoid assuming column order in
+      table output.
+autocompletion:
+  bash_linux: koyeb completion bash > /etc/bash_completion.d/koyeb
+  bash_macos: koyeb completion bash > /usr/local/etc/bash_completion.d/koyeb
+  zsh: koyeb completion zsh > "${fpath[1]}/_koyeb"
+agent_skills: skills/_index.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

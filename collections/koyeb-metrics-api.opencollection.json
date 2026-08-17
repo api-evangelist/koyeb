@@ -1,0 +1,67 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Koyeb Rest activity Metrics API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Metrics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Metrics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/streams/metrics",
+            "params": [
+              {
+                "name": "service_id",
+                "value": "",
+                "type": "query",
+                "description": "ID of the service to query instances metrics for. Ignored if instance_id is set."
+              },
+              {
+                "name": "instance_id",
+                "value": "",
+                "type": "query",
+                "description": "ID of the instance to query metrics for."
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Metric to query."
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Defaults to an hour prior to end."
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Defaults to now."
+              },
+              {
+                "name": "step",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Must be a valid duration in hours (h) or minutes (m). Defaulst to 5m."
+              }
+            ]
+          },
+          "docs": "Get Metrics"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

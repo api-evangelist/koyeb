@@ -1,0 +1,224 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Koyeb Rest activity Instances API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Instances",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Exec Command",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/streams/instances/exec",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "ID of the resource to exec on."
+              },
+              {
+                "name": "body.command",
+                "value": "",
+                "type": "query",
+                "description": "Command to exec. Mandatory in the first frame sent"
+              },
+              {
+                "name": "body.tty_size.height",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "body.tty_size.width",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "body.stdin.data",
+                "value": "",
+                "type": "query",
+                "description": "Data is base64 encoded"
+              },
+              {
+                "name": "body.stdin.close",
+                "value": "",
+                "type": "query",
+                "description": "Indicate last data frame"
+              },
+              {
+                "name": "body.disableTty",
+                "value": "",
+                "type": "query",
+                "description": "Disable TTY. It's enough to specify it in the first frame"
+              },
+              {
+                "name": "id_type",
+                "value": "",
+                "type": "query",
+                "description": "When specified, it is used to determine if the kind of resource the id refers to. If missing, defaults to the instance id."
+              }
+            ]
+          },
+          "docs": "This endpoint opens a websocket. Once open, all frames going through the websocket should be formatted in JSON. Input frames should match the format specified below. Output frames will match the response schema."
+        },
+        {
+          "info": {
+            "name": "List Instance events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/instance_events",
+            "params": [
+              {
+                "name": "instance_ids",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on list of instance id"
+              },
+              {
+                "name": "types",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on instance event types"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Sorts the list in the ascending or the descending order"
+              }
+            ]
+          },
+          "docs": "List Instance events"
+        },
+        {
+          "info": {
+            "name": "List Instances",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/instances",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on application id"
+              },
+              {
+                "name": "service_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on service id"
+              },
+              {
+                "name": "deployment_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on deployment id"
+              },
+              {
+                "name": "regional_deployment_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on regional deployment id"
+              },
+              {
+                "name": "allocation_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on allocation id"
+              },
+              {
+                "name": "replica_index",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on replica index"
+              },
+              {
+                "name": "statuses",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter on instance statuses"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Sorts the list in the ascending or the descending order"
+              },
+              {
+                "name": "starting_time",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The starting time of the period of running instance"
+              },
+              {
+                "name": "ending_time",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The ending time of the period of running instance"
+              }
+            ]
+          },
+          "docs": "List Instances"
+        },
+        {
+          "info": {
+            "name": "Get Instance",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/instances/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the instance"
+              }
+            ]
+          },
+          "docs": "Get Instance"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

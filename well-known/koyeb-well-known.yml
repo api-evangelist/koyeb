@@ -1,0 +1,84 @@
+generated: '2026-08-17'
+method: probed
+provider: Koyeb
+providerId: koyeb
+description: >-
+  RFC 8615 /.well-known/ discovery probe across every Koyeb host in apis.yml and every host named by the
+  OpenAPI/Swagger document. RESULT: Koyeb serves no well-known discovery document at any path on any host.
+  This file records that absence; no WellKnown or SecurityTxt pointer is wired into apis.yml, because a
+  pointer would assert that Koyeb publishes a surface it does not.
+result: no-documents-found
+documents_found: 0
+spa_catch_all_warning: >-
+  app.koyeb.com answers HTTP 200 with the 32,984-byte Koyeb Control Panel single-page-app HTML shell for
+  EVERY path under /.well-known/ — and for /openapi.json, /swagger.json and /llms.txt as well. These are
+  false positives, not documents. Every 200 below is recorded with is_document: false. Do not read any
+  app.koyeb.com 200 as evidence of a served artifact without checking the content type and body.
+hosts:
+  - host: https://www.koyeb.com
+    role: website / documentation
+    documents:
+      - {path: /.well-known/security.txt, status: 404, is_document: false}
+      - {path: /.well-known/openid-configuration, status: 404, is_document: false}
+      - {path: /.well-known/oauth-authorization-server, status: 404, is_document: false}
+      - {path: /.well-known/oauth-protected-resource, status: 404, is_document: false}
+      - {path: /.well-known/api-catalog, status: 404, is_document: false}
+      - {path: /.well-known/ai-plugin.json, status: 404, is_document: false}
+      - {path: /.well-known/agent-card.json, status: 404, is_document: false}
+      - {path: /.well-known/agent.json, status: 404, is_document: false}
+  - host: https://koyeb.com
+    role: apex domain (redirects to www)
+    documents:
+      - {path: /.well-known/security.txt, status: 404, is_document: false}
+      - {path: /.well-known/openid-configuration, status: 404, is_document: false}
+      - {path: /.well-known/oauth-authorization-server, status: 404, is_document: false}
+      - {path: /.well-known/oauth-protected-resource, status: 404, is_document: false}
+      - {path: /.well-known/api-catalog, status: 404, is_document: false}
+      - {path: /.well-known/ai-plugin.json, status: 404, is_document: false}
+      - {path: /.well-known/agent-card.json, status: 404, is_document: false}
+      - {path: /.well-known/agent.json, status: 404, is_document: false}
+  - host: https://app.koyeb.com
+    role: API base URL (Swagger host) + Control Panel
+    note: SPA catch-all — every 200 below is the Control Panel HTML shell, content-type text/html.
+    documents:
+      - {path: /.well-known/security.txt, status: 200, is_document: false, content_type: text/html, body: spa-shell}
+      - {path: /.well-known/openid-configuration, status: 200, is_document: false, content_type: text/html, body: spa-shell}
+      - {path: /.well-known/oauth-authorization-server, status: 200, is_document: false, content_type: text/html, body: spa-shell}
+      - {path: /.well-known/oauth-protected-resource, status: 200, is_document: false, content_type: text/html, body: spa-shell}
+      - {path: /.well-known/api-catalog, status: 200, is_document: false, content_type: text/html, body: spa-shell}
+      - {path: /.well-known/ai-plugin.json, status: 200, is_document: false, content_type: text/html, body: spa-shell}
+      - {path: /.well-known/agent-card.json, status: 200, is_document: false, content_type: text/html, body: spa-shell}
+      - {path: /.well-known/agent.json, status: 200, is_document: false, content_type: text/html, body: spa-shell}
+  - host: https://api.prod.koyeb.com
+    role: host serving the published Swagger document (/public.swagger.json)
+    documents:
+      - {path: /.well-known/security.txt, status: 404, is_document: false}
+      - {path: /.well-known/openid-configuration, status: 404, is_document: false}
+      - {path: /.well-known/oauth-authorization-server, status: 404, is_document: false}
+      - {path: /.well-known/oauth-protected-resource, status: 404, is_document: false}
+      - {path: /.well-known/api-catalog, status: 404, is_document: false}
+      - {path: /.well-known/ai-plugin.json, status: 404, is_document: false}
+      - {path: /.well-known/agent-card.json, status: 404, is_document: false}
+      - {path: /.well-known/agent.json, status: 404, is_document: false}
+  - host: https://mcp.koyeb.com
+    role: probed on the assumption of a hosted MCP endpoint
+    dns: does-not-resolve
+    documents:
+      - {path: /.well-known/oauth-authorization-server, status: null, is_document: false, note: 'curl exit 6 — no DNS record'}
+      - {path: /.well-known/oauth-protected-resource, status: null, is_document: false, note: 'curl exit 6 — no DNS record'}
+      - {path: /.well-known/agent-card.json, status: null, is_document: false, note: 'curl exit 6 — no DNS record'}
+recommendations_for_provider:
+  - >-
+    Serve /.well-known/security.txt (RFC 9116) on www.koyeb.com. Koyeb runs a Vanta Trust Center at
+    trust.koyeb.com but publishes no machine-readable security contact, so an automated reporter has
+    nowhere to look.
+  - >-
+    Serve /.well-known/api-catalog (RFC 9727) on www.koyeb.com pointing at
+    https://api.prod.koyeb.com/public.swagger.json. The Swagger document is already public and already
+    named by the docs page; nothing advertises it at a discoverable path.
+  - >-
+    Stop the app.koyeb.com SPA from answering 200 for unknown paths. A catch-all 200 makes every automated
+    discovery probe unreliable against the API host and is indistinguishable from a served document.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

@@ -1,15 +1,109 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/koyeb-openapi.json
+generated: '2026-08-17'
+method: searched
+source: >-
+  https://www.koyeb.com/docs/reference/api + https://www.koyeb.com/docs/reference/accounts +
+  https://github.com/koyeb/koyeb-skills (plugins/koyeb/skills/_shared/references/koyeb-auth.md) +
+  https://github.com/koyeb/mcp-server-koyeb (README.md) + live probes of https://app.koyeb.com/v1/apps
+  on 2026-08-17 + derived from openapi/_original/koyeb-openapi.json
+docs: https://www.koyeb.com/docs/reference/api
+provider: Koyeb
+providerId: koyeb
+description: >-
+  Koyeb has one API credential and one way to send it: a personal API token, minted in the control panel,
+  sent as an Authorization bearer header. There is no OAuth, no OIDC, no mTLS, no scopes and no read-only
+  variant. Upgraded from the 2026-07-11 spec-derived baseline with the token lifecycle, env-var names and
+  live 401 behaviour, which the spec alone does not carry.
 summary:
   types:
-  - apiKey
+    - apiKey
   api_key_in:
-  - header
+    - header
+  oauth2_flows: []
+  scopes_supported: false
+  scoped_tokens: false
+  read_only_tokens: false
 schemes:
-- name: Bearer
-  type: apiKey
-  in: header
-  parameter: Authorization
+  - name: Bearer
+    type: apiKey
+    in: header
+    parameter: Authorization
+    value_format: Bearer <token>
+    sources:
+      - openapi/_original/koyeb-openapi.json
+    applied_to: >-
+      Document-level security requirement — every one of the 177 operations inherits it, including the ones
+      that also work anonymously (e.g. ListRegions, which returned 200 without a credential on probe).
+    spec_modelling_note: >-
+      The spec declares this as type apiKey with name Authorization rather than as type http / scheme bearer.
+      That is a grpc-gateway generation artefact, not a different mechanism; code generators that trust the
+      apiKey modelling will still produce a correct client because the header name and value prefix are both
+      explicit.
+token:
+  creation_url: https://app.koyeb.com/user/settings/api
+  kind: personal API access token
+  organization_scoped: true
+  scope_granularity: >-
+    None. A token carries the full authority of its organization context — read AND write across apps,
+    services, deployments, instances, secrets (including RevealSecret), volumes, domains, payment methods and
+    organization membership. There is no permission subsetting, no expiry selector documented, and no
+    per-resource restriction.
+  organization_context:
+    note: >-
+      The active organization is part of the credential context rather than the URL, so the same id space is
+      partitioned per organization and the same call can 404 purely because the wrong org is active.
+    operations: [SwitchOrganization, UnscopeOrganizationToken, CreateAccessToken, ListUserOrganizations, GetCurrentOrganization]
+    cli: koyeb organization switch <org-id-or-name>
+  environment_variables:
+    - {name: KOYEB_API_TOKEN, used_by: 'Koyeb CLI, the sixteen published Agent Skills, the Sandbox SDKs'}
+    - {name: KOYEB_TOKEN, used_by: 'Koyeb MCP server (@koyeb/mcp-server)'}
+  environment_variable_inconsistency: >-
+    Two different env-var names for the same credential across Koyeb's own tooling. Worth reporting
+    upstream — an agent configured for the CLI will not authenticate the MCP server, and vice versa.
+  cli_flag: --token
+  cli_login: koyeb login
+  cli_config_file: $HOME/.koyeb.yaml
+observed_behaviour:
+  probed: '2026-08-17'
+  base_url: https://app.koyeb.com
+  cases:
+    - {request: 'GET /v1/apps (no Authorization header)', status: 401, body: '{"status":401, "code":"authentication_error", "message":"Route needs to be authenticated"}'}
+    - {request: 'GET /v1/apps (Authorization: Bearer invalid_token_probe)', status: 401, body: '{"status":401, "code":"authentication_error", "message":"Invalid token format"}'}
+    - {request: 'GET /v1/catalog/regions (no Authorization header)', status: 200, note: 'Catalog reads are public despite the document-level security requirement — useful for probing without a credential.'}
+  www_authenticate_header: absent
+  www_authenticate_note: >-
+    No WWW-Authenticate challenge is returned on a 401, so the response is not RFC 6750 conformant and a
+    generic HTTP client cannot discover the scheme from the challenge.
+  error_shape: 'Error {status, code, message} — see errors/koyeb-problem-types.yml'
+  distinguishable_failures: >-
+    "Route needs to be authenticated" (no credential) and "Invalid token format" (malformed credential) are
+    separate messages under the same code, which is a small but real debugging affordance.
+human_authentication:
+  note: >-
+    Distinct from API auth and recorded so the two are not conflated. Account sign-in supports GitHub,
+    Google (shipped 2026-02-13), passkeys and email + password, with multi-factor authentication and
+    passkeys shipped 2025-12-12. Enterprise adds SSO, RBAC and an audit trail. None of this changes how the
+    API is called.
   sources:
-  - openapi/koyeb-openapi.json
+    - https://www.koyeb.com/docs/reference/accounts
+    - https://www.koyeb.com/changelog
+    - https://www.koyeb.com/pricing
+absent:
+  oauth2: 'No oauth2 securityScheme; /.well-known/oauth-authorization-server 404s on every host.'
+  openIdConnect: '/.well-known/openid-configuration 404s on every host.'
+  mutualTLS: Not offered.
+  basic_auth: Not offered.
+  hmac_request_signing: Not offered.
+  scopes: 'No scope surface at all — this is why no scopes/ artifact exists in this repo (derive-oauth-scopes.py found 0 oauth2 schemes and 0 scopes).'
+agent_readiness_note: >-
+  The single unscoped organization-wide token is the sharpest constraint on giving an agent access to Koyeb.
+  An agent that can list services can also delete them and reveal every secret, and there is no test mode to
+  rehearse in (see sandbox/koyeb-sandbox.yml). Least-privilege has to be enforced outside the credential.
+cross_references:
+  conventions: conventions/koyeb-conventions.yml
+  errors: errors/koyeb-problem-types.yml
+  rate_limits: rate-limits/koyeb-rate-limits.yml
+  domain_security: security/koyeb-domain-security.yml
+  agentic_access: agentic-access/koyeb-agentic-access.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

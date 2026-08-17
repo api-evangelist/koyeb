@@ -1,0 +1,173 @@
+generated: '2026-08-17'
+method: searched
+source: >-
+  Registry metadata endpoints (registry.npmjs.org, pypi.org/pypi/*/json, proxy.golang.org,
+  registry.terraform.io/v1) plus the github.com/koyeb organization and
+  https://www.koyeb.com/docs/integrations/coding-agents
+provider: Koyeb
+providerId: koyeb
+description: >-
+  First-party Koyeb client libraries, agent tooling, infrastructure-as-code providers and the CLI, with the
+  latest published version and its release date read from each registry's metadata endpoint on 2026-08-17.
+  Koyeb has no single flagship SDK: the JavaScript client (@koyeb/api-client-js) is the one the MCP server
+  itself consumes, the Python client ships as koyeb-sdk, and the Go client is a generated module with no
+  tagged releases. Every entry below was resolved to a koyeb-owned repository before being marked official.
+summary:
+  official_count: 8
+  third_party_count: 1
+  languages:
+    - javascript
+    - python
+    - go
+    - hcl
+  registries:
+    - npm
+    - pypi
+    - go
+    - terraform
+    - github-releases
+    - homebrew
+    - dockerhub
+  staleness_note: >-
+    The Terraform and Pulumi providers are the decay signal in this set: both sit at 0.1.11 released in
+    December 2024, more than eighteen months before the API surface they wrap (which gained PATCH partial
+    updates in January 2026, Sandboxes in November 2025 and new GPU instance types through 2026). The
+    client libraries and CLI are current.
+packages:
+  - language: javascript
+    registry: npm
+    name: '@koyeb/api-client-js'
+    url: https://www.npmjs.com/package/@koyeb/api-client-js
+    repository: https://github.com/koyeb/koyeb-api-client-js
+    install: npm install @koyeb/api-client-js
+    description: Koyeb API JavaScript SDK — the generated client the Koyeb MCP server is built on.
+    official: true
+    version: 1.2.0
+    published: '2026-07-07'
+  - language: python
+    registry: pypi
+    name: koyeb-sdk
+    url: https://pypi.org/project/koyeb-sdk/
+    repository: https://github.com/koyeb/koyeb-python-sdk
+    install: pip install koyeb-sdk
+    description: Koyeb Python SDK — Python client for the Koyeb API, including the Sandbox SDK surface.
+    official: true
+    version: 1.5.1
+    published: '2026-07-09'
+  - language: javascript
+    registry: npm
+    name: '@koyeb/sandbox-sdk'
+    url: https://www.npmjs.com/package/@koyeb/sandbox-sdk
+    repository: https://github.com/koyeb/koyeb-sandbox-sdk-js
+    install: npm install @koyeb/sandbox-sdk
+    description: >-
+      Koyeb Sandbox JavaScript SDK — drives the Sandboxes product (isolated environments for AI-generated
+      code execution). Announced 2025-12-17.
+    official: true
+    version: 1.0.9
+    published: '2026-02-25'
+  - language: javascript
+    registry: npm
+    name: '@koyeb/mcp-server'
+    url: https://www.npmjs.com/package/@koyeb/mcp-server
+    repository: https://github.com/koyeb/mcp-server-koyeb
+    install: npx -y @koyeb/mcp-server
+    bin: koyeb-mcp
+    description: >-
+      Koyeb Model Context Protocol server (public beta). Local stdio transport only — see
+      mcp/koyeb-mcp.yml.
+    official: true
+    version: 1.0.9
+    published: '2026-03-19'
+  - language: go
+    registry: go
+    name: github.com/koyeb/koyeb-api-client-go
+    url: https://pkg.go.dev/github.com/koyeb/koyeb-api-client-go
+    repository: https://github.com/koyeb/koyeb-api-client-go
+    install: go get github.com/koyeb/koyeb-api-client-go
+    description: >-
+      Golang client for the Koyeb API, generated from https://api.prod.koyeb.com/public.swagger.json by the
+      repository Makefile.
+    official: true
+    version: v0.0.0-20260703011719-5958795c1685
+    published: '2026-07-03'
+    note: >-
+      Pseudo-version only — the module has no semver tags, so consumers pin a commit. proxy.golang.org
+      @latest resolved to commit 5958795c16851c96908bab6cfcc1cf0212794d59.
+  - language: go
+    registry: github-releases
+    name: koyeb-cli
+    url: https://github.com/koyeb/koyeb-cli/releases
+    repository: https://github.com/koyeb/koyeb-cli
+    install: brew install koyeb/tap/koyeb
+    alternate_installs:
+      - curl -fsSL https://raw.githubusercontent.com/koyeb/koyeb-cli/master/install.sh | sh
+      - docker pull koyeb/koyeb-cli:latest
+      - Download a signed binary from the GitHub releases page (darwin/linux/windows, amd64 + arm64)
+    description: The Koyeb CLI. Command surface captured in cli/koyeb-cli.yml.
+    official: true
+    version: v5.10.2
+    published: '2026-05-12'
+    note: >-
+      Distributed as GoReleaser binaries plus the koyeb/homebrew-tap formula (Formula/koyeb.rb, version
+      5.10.2) and a Docker image; the go module proxy reports a stale v1.2.0 from 2020 and must not be used
+      as the version signal.
+  - language: hcl
+    registry: terraform
+    name: koyeb/koyeb
+    url: https://registry.terraform.io/providers/koyeb/koyeb/latest
+    repository: https://github.com/koyeb/terraform-provider-koyeb
+    install: |
+      terraform {
+        required_providers {
+          koyeb = { source = "koyeb/koyeb" }
+        }
+      }
+    description: Official Terraform provider for Koyeb.
+    docs: https://www.koyeb.com/docs/integrations/infrastructure-as-code/terraform
+    official: true
+    version: 0.1.11
+    published: '2024-12-12'
+    note: >-
+      Twenty months old as of this pass — predates Sandboxes, the PATCH partial-update endpoint and the
+      2026 GPU instance catalogue.
+  - language: python
+    registry: pypi
+    name: pulumi-koyeb
+    url: https://pypi.org/project/pulumi-koyeb/
+    repository: https://github.com/koyeb/pulumi-koyeb
+    install: pip install pulumi-koyeb
+    description: Official Pulumi provider for Koyeb (Python SDK distribution).
+    docs: https://www.koyeb.com/docs/integrations/infrastructure-as-code/pulumi
+    official: true
+    version: 0.1.11
+    published: '2024-12-09'
+    note: >-
+      Bridged from the Terraform provider and pinned to the same 0.1.11 release; no npm @pulumi/koyeb
+      package is published (registry.npmjs.org returns no latest dist-tag).
+  - language: python
+    registry: pypi
+    name: koyeb
+    url: https://pypi.org/project/koyeb/
+    install: pip install koyeb
+    description: '"A Personal Python package to run apps seamlessly on Koyeb" — community project.'
+    official: false
+    version: '0.3'
+    published: '2025-08-15'
+    note: >-
+      Recorded to disambiguate: this squats the obvious `koyeb` name on PyPI but is not published by Koyeb.
+      The first-party Python client is koyeb-sdk.
+absent:
+  - registry: maven-central
+    reason: No first-party Java/Kotlin client published; the Java docs cover deploying Java apps on Koyeb, not calling the API.
+  - registry: nuget
+    reason: No first-party .NET client found.
+  - registry: rubygems
+    reason: No first-party Ruby client found.
+  - registry: packagist
+    reason: No first-party PHP client found.
+  - registry: crates.io
+    reason: No first-party Rust client found.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

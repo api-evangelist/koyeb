@@ -1,0 +1,36 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Koyeb Rest activity OrganizationConfirmations API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "OrganizationConfirmations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Confirm organization action",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/organization_confirmations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Confirm organization action"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

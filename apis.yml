@@ -1,9 +1,13 @@
 aid: koyeb
 name: Koyeb
 description: >-
-  Koyeb is a developer-friendly serverless platform for deploying apps globally. The Koyeb API allows you to interact
-  with the Koyeb platform in a simple, programmatic way using conventional HTTP requests for managing apps, services,
-  deployments, and secrets.
+  Koyeb is a developer-friendly serverless platform for deploying applications, Postgres databases, GPU workloads and isolated
+  code-execution sandboxes across a global edge network. The Koyeb REST API is a Swagger 2.0 contract generated from protobuf
+  services by grpc-gateway — 126 paths, 177 operations and 422 schemas, all under /v1 on https://app.koyeb.com — covering
+  apps, services, deployments, regional deployments, instances, secrets, volumes, snapshots, domains, organizations, quotas,
+  budgets and usage. Authentication is a single organization-wide bearer token with no scopes; the platform is also driven
+  by a first-party Go CLI, JavaScript/Python/Go SDKs, Terraform and Pulumi providers, an MCP server, and sixteen published
+  Agent Skills. Koyeb entered into a definitive agreement with Mistral AI in February 2026.
 type: Index
 accessModel:
   pricing: freemium
@@ -22,12 +26,22 @@ position: Consumer
 access: 3rd-Party
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/koyeb.png
 tags:
-  - Cloud Platform
-  - Deployment
-  - PaaS
-  - Serverless
+- Cloud Platform
+- Deployment
+- PaaS
+- Serverless
+- Serverless GPU
+- AI Infrastructure
+- Containers
+- Developer Tools
+- Compute
+- Hosting
+- Postgres
+- Sandboxes
+- Edge Network
+- Infrastructure as Code
 created: '2025-01-08'
-modified: '2026-05-19'
+modified: '2026-08-17'
 url: https://raw.githubusercontent.com/api-evangelist/koyeb/refs/heads/main/apis.yml
 specificationVersion: '0.19'
 apis:
@@ -43,8 +57,10 @@ apis:
     url: openapi/koyeb-activity-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-activity-api-overlay.yaml
 - aid: koyeb:koyeb-apps-api
   name: Koyeb Apps API
   description: The Apps API from Koyeb — 5 operation(s) for apps.
@@ -57,8 +73,10 @@ apis:
     url: openapi/koyeb-apps-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-apps-api-overlay.yaml
 - aid: koyeb:koyeb-archives-api
   name: Koyeb Archives API
   description: The Archives API from Koyeb — 1 operation(s) for archives.
@@ -71,8 +89,10 @@ apis:
     url: openapi/koyeb-archives-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-archives-api-overlay.yaml
 - aid: koyeb:koyeb-billing-api
   name: Koyeb billing API
   description: The billing API from Koyeb — 3 operation(s) for billing.
@@ -85,8 +105,10 @@ apis:
     url: openapi/koyeb-billing-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-billing-api-overlay.yaml
 - aid: koyeb:koyeb-catalogdatacenters-api
   name: Koyeb CatalogDatacenters API
   description: The CatalogDatacenters API from Koyeb — 1 operation(s) for catalogdatacenters.
@@ -99,8 +121,10 @@ apis:
     url: openapi/koyeb-catalogdatacenters-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-catalogdatacenters-api-overlay.yaml
 - aid: koyeb:koyeb-cataloginstances-api
   name: Koyeb CatalogInstances API
   description: The CatalogInstances API from Koyeb — 2 operation(s) for cataloginstances.
@@ -113,8 +137,10 @@ apis:
     url: openapi/koyeb-cataloginstances-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-cataloginstances-api-overlay.yaml
 - aid: koyeb:koyeb-cataloginstanceusage-api
   name: Koyeb CatalogInstanceUsage API
   description: The CatalogInstanceUsage API from Koyeb — 1 operation(s) for cataloginstanceusage.
@@ -127,8 +153,10 @@ apis:
     url: openapi/koyeb-cataloginstanceusage-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-cataloginstanceusage-api-overlay.yaml
 - aid: koyeb:koyeb-catalogregions-api
   name: Koyeb CatalogRegions API
   description: The CatalogRegions API from Koyeb — 2 operation(s) for catalogregions.
@@ -141,8 +169,10 @@ apis:
     url: openapi/koyeb-catalogregions-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-catalogregions-api-overlay.yaml
 - aid: koyeb:koyeb-compose-api
   name: Koyeb Compose API
   description: The Compose API from Koyeb — 1 operation(s) for compose.
@@ -155,8 +185,10 @@ apis:
     url: openapi/koyeb-compose-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-compose-api-overlay.yaml
 - aid: koyeb:koyeb-coupons-api
   name: Koyeb Coupons API
   description: The Coupons API from Koyeb — 1 operation(s) for coupons.
@@ -169,8 +201,10 @@ apis:
     url: openapi/koyeb-coupons-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-coupons-api-overlay.yaml
 - aid: koyeb:koyeb-credentials-api
   name: Koyeb Credentials API
   description: The Credentials API from Koyeb — 2 operation(s) for credentials.
@@ -183,8 +217,10 @@ apis:
     url: openapi/koyeb-credentials-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-credentials-api-overlay.yaml
 - aid: koyeb:koyeb-deployments-api
   name: Koyeb Deployments API
   description: The Deployments API from Koyeb — 5 operation(s) for deployments.
@@ -197,8 +233,10 @@ apis:
     url: openapi/koyeb-deployments-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-deployments-api-overlay.yaml
 - aid: koyeb:koyeb-dockerhelper-api
   name: Koyeb DockerHelper API
   description: The DockerHelper API from Koyeb — 1 operation(s) for dockerhelper.
@@ -211,8 +249,10 @@ apis:
     url: openapi/koyeb-dockerhelper-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-dockerhelper-api-overlay.yaml
 - aid: koyeb:koyeb-domains-api
   name: Koyeb Domains API
   description: The Domains API from Koyeb — 3 operation(s) for domains.
@@ -225,8 +265,10 @@ apis:
     url: openapi/koyeb-domains-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-domains-api-overlay.yaml
 - aid: koyeb:koyeb-instances-api
   name: Koyeb Instances API
   description: The Instances API from Koyeb — 4 operation(s) for instances.
@@ -239,8 +281,10 @@ apis:
     url: openapi/koyeb-instances-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-instances-api-overlay.yaml
 - aid: koyeb:koyeb-intercom-api
   name: Koyeb Intercom API
   description: The Intercom API from Koyeb — 1 operation(s) for intercom.
@@ -253,8 +297,10 @@ apis:
     url: openapi/koyeb-intercom-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-intercom-api-overlay.yaml
 - aid: koyeb:koyeb-invite-api
   name: Koyeb invite API
   description: The invite API from Koyeb — 1 operation(s) for invite.
@@ -267,8 +313,10 @@ apis:
     url: openapi/koyeb-invite-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-invite-api-overlay.yaml
 - aid: koyeb:koyeb-logs-api
   name: Koyeb Logs API
   description: The Logs API from Koyeb — 2 operation(s) for logs.
@@ -281,8 +329,10 @@ apis:
     url: openapi/koyeb-logs-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-logs-api-overlay.yaml
 - aid: koyeb:koyeb-metrics-api
   name: Koyeb Metrics API
   description: The Metrics API from Koyeb — 1 operation(s) for metrics.
@@ -295,8 +345,10 @@ apis:
     url: openapi/koyeb-metrics-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-metrics-api-overlay.yaml
 - aid: koyeb:koyeb-organization-api
   name: Koyeb organization API
   description: The organization API from Koyeb — 12 operation(s) for organization.
@@ -309,8 +361,10 @@ apis:
     url: openapi/koyeb-organization-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-organization-api-overlay.yaml
 - aid: koyeb:koyeb-organizationconfirmations-api
   name: Koyeb OrganizationConfirmations API
   description: >-
@@ -324,8 +378,10 @@ apis:
     url: openapi/koyeb-organizationconfirmations-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-organizationconfirmations-api-overlay.yaml
 - aid: koyeb:koyeb-organizationinvitations-api
   name: Koyeb OrganizationInvitations API
   description: The OrganizationInvitations API from Koyeb — 3 operation(s) for organizationinvitations.
@@ -338,8 +394,10 @@ apis:
     url: openapi/koyeb-organizationinvitations-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-organizationinvitations-api-overlay.yaml
 - aid: koyeb:koyeb-organizationmembers-api
   name: Koyeb OrganizationMembers API
   description: The OrganizationMembers API from Koyeb — 2 operation(s) for organizationmembers.
@@ -352,8 +410,10 @@ apis:
     url: openapi/koyeb-organizationmembers-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-organizationmembers-api-overlay.yaml
 - aid: koyeb:koyeb-organizationquotas-api
   name: Koyeb OrganizationQuotas API
   description: The OrganizationQuotas API from Koyeb — 1 operation(s) for organizationquotas.
@@ -366,8 +426,10 @@ apis:
     url: openapi/koyeb-organizationquotas-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-organizationquotas-api-overlay.yaml
 - aid: koyeb:koyeb-paymentmethods-api
   name: Koyeb PaymentMethods API
   description: The PaymentMethods API from Koyeb — 3 operation(s) for paymentmethods.
@@ -380,8 +442,10 @@ apis:
     url: openapi/koyeb-paymentmethods-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-paymentmethods-api-overlay.yaml
 - aid: koyeb:koyeb-persistentvolumes-api
   name: Koyeb PersistentVolumes API
   description: The PersistentVolumes API from Koyeb — 3 operation(s) for persistentvolumes.
@@ -394,8 +458,10 @@ apis:
     url: openapi/koyeb-persistentvolumes-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-persistentvolumes-api-overlay.yaml
 - aid: koyeb:koyeb-profile-api
   name: Koyeb Profile API
   description: The Profile API from Koyeb — 17 operation(s) for profile.
@@ -408,8 +474,10 @@ apis:
     url: openapi/koyeb-profile-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-profile-api-overlay.yaml
 - aid: koyeb:koyeb-projects-api
   name: Koyeb Projects API
   description: The Projects API from Koyeb — 2 operation(s) for projects.
@@ -422,8 +490,10 @@ apis:
     url: openapi/koyeb-projects-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-projects-api-overlay.yaml
 - aid: koyeb:koyeb-provisioning-api
   name: Koyeb Provisioning API
   description: The Provisioning API from Koyeb — 2 operation(s) for provisioning.
@@ -436,8 +506,10 @@ apis:
     url: openapi/koyeb-provisioning-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-provisioning-api-overlay.yaml
 - aid: koyeb:koyeb-quotas-api
   name: Koyeb Quotas API
   description: The Quotas API from Koyeb — 1 operation(s) for quotas.
@@ -450,8 +522,10 @@ apis:
     url: openapi/koyeb-quotas-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-quotas-api-overlay.yaml
 - aid: koyeb:koyeb-regionaldeployments-api
   name: Koyeb RegionalDeployments API
   description: The RegionalDeployments API from Koyeb — 3 operation(s) for regionaldeployments.
@@ -464,8 +538,10 @@ apis:
     url: openapi/koyeb-regionaldeployments-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-regionaldeployments-api-overlay.yaml
 - aid: koyeb:koyeb-repositories-api
   name: Koyeb Repositories API
   description: The Repositories API from Koyeb — 3 operation(s) for repositories.
@@ -478,8 +554,10 @@ apis:
     url: openapi/koyeb-repositories-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-repositories-api-overlay.yaml
 - aid: koyeb:koyeb-search-api
   name: Koyeb Search API
   description: The Search API from Koyeb — 1 operation(s) for search.
@@ -492,8 +570,10 @@ apis:
     url: openapi/koyeb-search-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-search-api-overlay.yaml
 - aid: koyeb:koyeb-secrets-api
   name: Koyeb Secrets API
   description: The Secrets API from Koyeb — 3 operation(s) for secrets.
@@ -506,8 +586,10 @@ apis:
     url: openapi/koyeb-secrets-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-secrets-api-overlay.yaml
 - aid: koyeb:koyeb-services-api
   name: Koyeb Services API
   description: The Services API from Koyeb — 8 operation(s) for services.
@@ -520,8 +602,10 @@ apis:
     url: openapi/koyeb-services-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-services-api-overlay.yaml
 - aid: koyeb:koyeb-sessions-api
   name: Koyeb Sessions API
   description: The Sessions API from Koyeb — 4 operation(s) for sessions.
@@ -534,8 +618,10 @@ apis:
     url: openapi/koyeb-sessions-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-sessions-api-overlay.yaml
 - aid: koyeb:koyeb-snapshots-api
   name: Koyeb Snapshots API
   description: The Snapshots API from Koyeb — 2 operation(s) for snapshots.
@@ -548,8 +634,10 @@ apis:
     url: openapi/koyeb-snapshots-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-snapshots-api-overlay.yaml
 - aid: koyeb:koyeb-sso-api
   name: Koyeb sso API
   description: The sso API from Koyeb — 2 operation(s) for sso.
@@ -562,8 +650,10 @@ apis:
     url: openapi/koyeb-sso-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-sso-api-overlay.yaml
 - aid: koyeb:koyeb-subscriptions-api
   name: Koyeb Subscriptions API
   description: The Subscriptions API from Koyeb — 1 operation(s) for subscriptions.
@@ -576,8 +666,10 @@ apis:
     url: openapi/koyeb-subscriptions-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-subscriptions-api-overlay.yaml
 - aid: koyeb:koyeb-summary-api
   name: Koyeb Summary API
   description: The Summary API from Koyeb — 1 operation(s) for summary.
@@ -590,8 +682,10 @@ apis:
     url: openapi/koyeb-summary-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-summary-api-overlay.yaml
 - aid: koyeb:koyeb-usages-api
   name: Koyeb Usages API
   description: The Usages API from Koyeb — 2 operation(s) for usages.
@@ -604,8 +698,10 @@ apis:
     url: openapi/koyeb-usages-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-usages-api-overlay.yaml
 - aid: koyeb:koyeb-users-api
   name: Koyeb Users API
   description: The Users API from Koyeb — 2 operation(s) for users.
@@ -618,41 +714,118 @@ apis:
     url: openapi/koyeb-users-api-openapi.yml
   - type: Documentation
     url: https://www.koyeb.com/docs/api
-  - type: Reference
-    url: https://www.koyeb.com/docs/reference
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+  - type: Overlay
+    url: overlays/koyeb-users-api-overlay.yaml
 common:
-  - type: AgenticAccess
-    url: agentic-access/koyeb-agentic-access.yml
-  - type: DomainSecurity
-    url: security/koyeb-domain-security.yml
-  - type: Authentication
-    url: authentication/koyeb-authentication.yml
-  - type: GitHubOrganization
-    url: https://github.com/koyeb
-  - type: LinkedIn
-    url: https://www.linkedin.com/company/koyeb
-  - type: Website
-    url: https://www.koyeb.com
-  - type: Documentation
-    url: https://www.koyeb.com/docs
-  - type: GettingStarted
-    url: https://www.koyeb.com/docs/deploy
-  - type: Signup
-    url: https://app.koyeb.com/auth/signup
-  - type: Integrations
-    url: https://www.koyeb.com/partners
-  - type: LlmsText
-    url: https://app.koyeb.com/llms.txt
-  - url: https://www.koyeb.com/feed.xml
-    type: Blog
+- type: AgenticAccess
+  url: agentic-access/koyeb-agentic-access.yml
+- type: DomainSecurity
+  url: security/koyeb-domain-security.yml
+- type: Authentication
+  url: authentication/koyeb-authentication.yml
+- type: GitHubOrganization
+  url: https://github.com/koyeb
+- type: LinkedIn
+  url: https://www.linkedin.com/company/koyeb
+- type: Website
+  url: https://www.koyeb.com
+- type: Documentation
+  url: https://www.koyeb.com/docs
+- type: GettingStarted
+  url: https://www.koyeb.com/docs/deploy
+- type: Integrations
+  url: https://www.koyeb.com/partners
+- url: https://www.koyeb.com/feed.xml
+  type: Blog
+- type: Packages
+  url: packages/koyeb-packages.yml
+- type: SDKs
+  url: packages/koyeb-packages.yml
+- type: MCPServer
+  url: mcp/koyeb-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/koyeb-tool-crosswalk.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/koyeb-llms.txt
+- type: Conformance
+  url: conformance/koyeb-conformance.yml
+- type: Compliance
+  url: https://trust.koyeb.com/
+- type: TrustCenter
+  url: security/koyeb-trust-center.yml
+- type: ErrorCatalog
+  url: errors/koyeb-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/koyeb-lifecycle.yml
+- type: StatusPage
+  url: https://status.koyeb.com/
+- type: Conventions
+  url: conventions/koyeb-conventions.yml
+- type: ChangeLog
+  url: changelog/koyeb-changelog.yml
+- type: CLI
+  url: cli/koyeb-cli.yml
+- type: Components
+  url: components/koyeb-components.yml
+- type: DataModel
+  url: data-model/koyeb-data-model.yml
+- type: Sandbox
+  url: sandbox/koyeb-sandbox.yml
+- type: Console
+  url: https://app.koyeb.com
+- type: Plans
+  url: plans/koyeb-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/koyeb-rate-limits.yml
+- type: FinOps
+  url: finops/koyeb-finops.yml
+- type: APIReference
+  url: https://www.koyeb.com/docs/reference/api
+- type: DeveloperPortal
+  url: https://www.koyeb.com/docs
+- type: Pricing
+  url: https://www.koyeb.com/pricing
+- type: SignUp
+  url: https://app.koyeb.com/auth/signup
+- type: Login
+  url: https://app.koyeb.com/auth/signin
+- type: TermsOfService
+  url: https://www.koyeb.com/docs/legal/terms
+- type: Roadmap
+  url: https://koyeb.canny.io/
+- type: Support
+  url: https://slack.koyeb.com/
+- type: Community
+  url: https://community.koyeb.com/
+- type: Postman
+  url: https://www.postman.com/gokoyeb/koyeb/collection/y5r00xu/koyeb-rest-api
+- type: SLA
+  url: https://www.koyeb.com/docs/legal/sla
+- type: MasterServiceAgreement
+  url: https://www.koyeb.com/docs/legal/msa
+- type: DataProcessingAgreement
+  url: https://www.koyeb.com/docs/legal/data-processing-agreement
+- type: Customers
+  url: https://www.koyeb.com/customers
+- type: Partners
+  url: https://www.koyeb.com/partners
 integrations:
-  - name: Designed for scale
-  - name: Stand out in your market
-  - name: Hardware agnostic
-  - name: Natively global
-  - name: Exclusive technical resources and support
-  - name: Expand your ecosystem
-  - name: Jim Keller
+- name: Designed for scale
+- name: Stand out in your market
+- name: Hardware agnostic
+- name: Natively global
+- name: Exclusive technical resources and support
+- name: Expand your ecosystem
+- name: Jim Keller
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-08-17'
+  status: enriched
+  artifacts_added: 76
+  pass: local-v1

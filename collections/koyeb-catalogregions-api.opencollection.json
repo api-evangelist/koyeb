@@ -1,0 +1,68 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Koyeb Rest activity CatalogRegions API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "CatalogRegions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Region",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/catalog/regions",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) A filter for regions"
+              }
+            ]
+          },
+          "docs": "List Region"
+        },
+        {
+          "info": {
+            "name": "Get Region",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/catalog/regions/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The name of the region"
+              }
+            ]
+          },
+          "docs": "Get Region"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

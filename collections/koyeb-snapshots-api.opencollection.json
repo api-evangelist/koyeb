@@ -1,0 +1,127 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Koyeb Rest activity Snapshots API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Snapshots",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all Snapshots",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/snapshots",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) The offset in the list of item to return"
+              },
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter by organization_id"
+              },
+              {
+                "name": "statuses",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Filter by status\n\n - SNAPSHOT_STATUS_INVALID: zero value, invalid\n - SNAPSHOT_STATUS_CREATING: the snapshot is being created\n - SNAPSHOT_STATUS_AVAILABLE: the snapshot is complete and available\n - SNAPSHOT_STATUS_MIGRATING: the snapshot is being migrated\n - SNAPSHOT_STATUS_DELETING: the snapshot is being deleted\n - SNAPSHOT_STATUS_DELETED: the snapshot is deleted"
+              },
+              {
+                "name": "region",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) A filter for the region"
+              }
+            ]
+          },
+          "docs": "List all Snapshots"
+        },
+        {
+          "info": {
+            "name": "Create a Snapshot",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/snapshots"
+          },
+          "docs": "Create a Snapshot"
+        },
+        {
+          "info": {
+            "name": "Get a Snapshot",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/snapshots/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a Snapshot"
+        },
+        {
+          "info": {
+            "name": "Update a Snapshot",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/snapshots/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the snapshot"
+              }
+            ]
+          },
+          "docs": "Update a Snapshot"
+        },
+        {
+          "info": {
+            "name": "Delete a Snapshot",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/snapshots/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a Snapshot"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
