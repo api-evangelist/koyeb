@@ -43,7 +43,7 @@ tags:
 created: '2025-01-08'
 modified: '2026-08-17'
 url: https://raw.githubusercontent.com/api-evangelist/koyeb/refs/heads/main/apis.yml
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
 - aid: koyeb:koyeb-activity-api
   name: Koyeb activity API
