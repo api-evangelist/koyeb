@@ -28,6 +28,21 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/koyeb.png
 tags:
 - Cloud Platform
 - Deployment
+- Platform-as-a-Service
+- Serverless
+- Serverless GPU
+- AI Infrastructure
+- Containers
+- Developer Tools
+- Compute
+- Hosting
+- Postgres
+- Sandboxes
+- Edge Network
+- Infrastructure as Code
+tags_raw:
+- Cloud Platform
+- Deployment
 - PaaS
 - Serverless
 - Serverless GPU
@@ -51,6 +66,8 @@ apis:
   humanURL: https://www.koyeb.com/docs/api
   baseURL: https://app.koyeb.com
   tags:
+  - Activity
+  tags_raw:
   - activity
   properties:
   - type: OpenAPI
@@ -67,6 +84,8 @@ apis:
   humanURL: https://www.koyeb.com/docs/api
   baseURL: https://app.koyeb.com
   tags:
+  - Application
+  tags_raw:
   - Apps
   properties:
   - type: OpenAPI
@@ -99,6 +118,8 @@ apis:
   humanURL: https://www.koyeb.com/docs/api
   baseURL: https://app.koyeb.com
   tags:
+  - Billing
+  tags_raw:
   - billing
   properties:
   - type: OpenAPI
@@ -227,6 +248,8 @@ apis:
   humanURL: https://www.koyeb.com/docs/api
   baseURL: https://app.koyeb.com
   tags:
+  - Deployment
+  tags_raw:
   - Deployments
   properties:
   - type: OpenAPI
@@ -355,6 +378,8 @@ apis:
   humanURL: https://www.koyeb.com/docs/api
   baseURL: https://app.koyeb.com
   tags:
+  - Organization
+  tags_raw:
   - organization
   properties:
   - type: OpenAPI
@@ -388,6 +413,8 @@ apis:
   humanURL: https://www.koyeb.com/docs/api
   baseURL: https://app.koyeb.com
   tags:
+  - Organization Invitations
+  tags_raw:
   - OrganizationInvitations
   properties:
   - type: OpenAPI
@@ -404,6 +431,8 @@ apis:
   humanURL: https://www.koyeb.com/docs/api
   baseURL: https://app.koyeb.com
   tags:
+  - Organization Members
+  tags_raw:
   - OrganizationMembers
   properties:
   - type: OpenAPI
@@ -436,6 +465,8 @@ apis:
   humanURL: https://www.koyeb.com/docs/api
   baseURL: https://app.koyeb.com
   tags:
+  - Payment Methods
+  tags_raw:
   - PaymentMethods
   properties:
   - type: OpenAPI
@@ -484,6 +515,8 @@ apis:
   humanURL: https://www.koyeb.com/docs/api
   baseURL: https://app.koyeb.com
   tags:
+  - Project
+  tags_raw:
   - Projects
   properties:
   - type: OpenAPI
@@ -644,6 +677,8 @@ apis:
   humanURL: https://www.koyeb.com/docs/api
   baseURL: https://app.koyeb.com
   tags:
+  - SSO
+  tags_raw:
   - sso
   properties:
   - type: OpenAPI
@@ -660,6 +695,8 @@ apis:
   humanURL: https://www.koyeb.com/docs/api
   baseURL: https://app.koyeb.com
   tags:
+  - Subscription
+  tags_raw:
   - Subscriptions
   properties:
   - type: OpenAPI
@@ -708,6 +745,8 @@ apis:
   humanURL: https://www.koyeb.com/docs/api
   baseURL: https://app.koyeb.com
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
