@@ -9,6 +9,18 @@ description: >-
   by a first-party Go CLI, JavaScript/Python/Go SDKs, Terraform and Pulumi providers, an MCP server, and sixteen published
   Agent Skills. Koyeb entered into a definitive agreement with Mistral AI in February 2026.
 type: Index
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
@@ -758,6 +770,9 @@ apis:
   - type: Overlay
     url: overlays/koyeb-users-api-overlay.yaml
 common:
+- type: CapabilityMap
+  url: capabilities/koyeb-capability-edges.yml
+  name: Koyeb Business Capability Map
 - type: AgenticAccess
   url: agentic-access/koyeb-agentic-access.yml
 - type: DomainSecurity
