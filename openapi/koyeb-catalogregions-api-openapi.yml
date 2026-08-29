@@ -1,13 +1,12 @@
-swagger: '2.0'
+openapi: 3.2.0
 info:
-  title: Koyeb Rest activity CatalogRegions API
+  title: Koyeb Rest Catalog Regions API
   description: 'The Koyeb API allows you to interact with the Koyeb platform in a simple, programmatic way using conventional HTTP requests.
 
     '
   version: 1.0.0
-host: app.koyeb.com
-schemes:
-- https
+servers:
+- url: https://app.koyeb.com
 security:
 - Bearer: []
 tags:
@@ -20,28 +19,35 @@ paths:
       responses:
         '200':
           description: A successful response.
-          schema:
-            $ref: '#/definitions/ListRegionsReply'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListRegionsReply'
         default:
           description: An unexpected error response.
-          schema:
-            $ref: '#/definitions/google.rpc.Status'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
       parameters:
       - name: limit
         description: (Optional) The number of items to return
         in: query
         required: false
-        type: string
+        schema:
+          type: string
       - name: offset
         description: (Optional) The offset in the list of item to return
         in: query
         required: false
-        type: string
+        schema:
+          type: string
       - name: id
         description: (Optional) A filter for regions
         in: query
         required: false
-        type: string
+        schema:
+          type: string
       tags:
       - CatalogRegions
   /v1/catalog/regions/{id}:
@@ -51,135 +57,143 @@ paths:
       responses:
         '200':
           description: A successful response.
-          schema:
-            $ref: '#/definitions/GetRegionReply'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetRegionReply'
         default:
           description: An unexpected error response.
-          schema:
-            $ref: '#/definitions/google.rpc.Status'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/google.rpc.Status'
       parameters:
       - name: id
         description: The name of the region
         in: path
         required: true
-        type: string
+        schema:
+          type: string
       tags:
       - CatalogRegions
-definitions:
-  GetRegionReply:
-    type: object
-    properties:
-      region:
-        $ref: '#/definitions/Region'
-        title: The Region retrieved
-  ListRegionsReply:
-    type: object
-    properties:
-      regions:
-        type: array
-        items:
-          $ref: '#/definitions/RegionListItem'
-      limit:
-        type: integer
-        format: int64
-        title: The limit in the request
-      offset:
-        type: integer
-        format: int64
-        title: The offset in the request
-      count:
-        type: integer
-        format: int64
-        title: The total number of items
-  google.rpc.Status:
-    type: object
-    properties:
-      code:
-        type: integer
-        format: int32
-      message:
-        type: string
-      details:
-        type: array
-        items:
-          $ref: '#/definitions/google.protobuf.Any'
-  Region:
-    type: object
-    properties:
-      id:
-        type: string
-        title: The id of the region
-      name:
-        type: string
-        title: The name of the region
-      coordinates:
-        type: array
-        items:
+components:
+  schemas:
+    ListRegionsReply:
+      type: object
+      properties:
+        regions:
+          type: array
+          items:
+            $ref: '#/components/schemas/RegionListItem'
+        limit:
+          type: integer
+          format: int64
+          title: The limit in the request
+        offset:
+          type: integer
+          format: int64
+          title: The offset in the request
+        count:
+          type: integer
+          format: int64
+          title: The total number of items
+    google.protobuf.Any:
+      type: object
+      properties:
+        '@type':
           type: string
-        title: The coordinates of the region (lat/long)
-      status:
-        type: string
-        title: The status of the region
-      instances:
-        type: array
-        items:
+          description: "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
+      additionalProperties: {}
+      description: "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(&foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := &pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := &pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": <string>,\n      \"lastName\": <string>\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
+    Region:
+      type: object
+      properties:
+        id:
           type: string
-        title: A list of instances available in this region
-      datacenters:
-        type: array
-        items:
+          title: The id of the region
+        name:
           type: string
-        title: A list of datacenters available in this region
-      volumes_enabled:
-        type: boolean
-        title: Are the volumes enabled for this instance type
-      scope:
-        type: string
-        description: The scope of the region, continent, metropolitan area, etc.
-  google.protobuf.Any:
-    type: object
-    properties:
-      '@type':
-        type: string
-    additionalProperties: {}
-  RegionListItem:
-    type: object
-    properties:
-      id:
-        type: string
-        title: The id of the region
-      name:
-        type: string
-        title: The name of the region
-      coordinates:
-        type: array
-        items:
+          title: The name of the region
+        coordinates:
+          type: array
+          items:
+            type: string
+          title: The coordinates of the region (lat/long)
+        status:
           type: string
-        title: The coordinates of the region (lat/long)
-      status:
-        type: string
-        title: The status of the region
-      instances:
-        type: array
-        items:
+          title: The status of the region
+        instances:
+          type: array
+          items:
+            type: string
+          title: A list of instances available in this region
+        datacenters:
+          type: array
+          items:
+            type: string
+          title: A list of datacenters available in this region
+        volumes_enabled:
+          type: boolean
+          title: Are the volumes enabled for this instance type
+        scope:
           type: string
-        title: A list of instances available in this region
-      datacenters:
-        type: array
-        items:
+          description: The scope of the region, continent, metropolitan area, etc.
+    RegionListItem:
+      type: object
+      properties:
+        id:
           type: string
-        title: A list of datacenters available in this region
-      volumes_enabled:
-        type: boolean
-        title: Are the volumes enabled for this instance type
-      scope:
-        type: string
-        description: The scope of the region, continent, metropolitan area, etc.
-securityDefinitions:
-  Bearer:
-    type: apiKey
-    name: Authorization
-    in: header
+          title: The id of the region
+        name:
+          type: string
+          title: The name of the region
+        coordinates:
+          type: array
+          items:
+            type: string
+          title: The coordinates of the region (lat/long)
+        status:
+          type: string
+          title: The status of the region
+        instances:
+          type: array
+          items:
+            type: string
+          title: A list of instances available in this region
+        datacenters:
+          type: array
+          items:
+            type: string
+          title: A list of datacenters available in this region
+        volumes_enabled:
+          type: boolean
+          title: Are the volumes enabled for this instance type
+        scope:
+          type: string
+          description: The scope of the region, continent, metropolitan area, etc.
+    GetRegionReply:
+      type: object
+      properties:
+        region:
+          $ref: '#/components/schemas/Region'
+          title: The Region retrieved
+    google.rpc.Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
 x-tagGroups:
 - name: Introduction
   tags:
@@ -190,6 +204,7 @@ x-tagGroups:
   - Sessions
   - Users
   - organization
+  - Projects
   - OrganizationMembers
   - OrganizationInvitations
   - OrganizationConfirmations

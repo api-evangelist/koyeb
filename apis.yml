@@ -769,6 +769,26 @@ apis:
     url: https://www.koyeb.com/docs/reference/api
   - type: Overlay
     url: overlays/koyeb-users-api-overlay.yaml
+- aid: koyeb:koyeb-instancesnapshots-api
+  name: Koyeb Instance Snapshots API
+  description: The InstanceSnapshots API from Koyeb — 3 operation(s) for instancesnapshots.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - InstanceSnapshots
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-instancesnapshots-api-openapi.yml
+- aid: koyeb:koyeb-test-api
+  name: Koyeb Test API
+  description: The Test API from Koyeb — 2 operation(s) for test.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - Test
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-test-api-openapi.yml
 common:
 - type: CapabilityMap
   url: capabilities/koyeb-capability-edges.yml
