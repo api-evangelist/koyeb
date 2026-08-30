@@ -40,7 +40,7 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/koyeb.png
 tags:
 - Cloud Platform
 - Deployment
-- Platform-as-a-Service
+- PaaS
 - Serverless
 - Serverless GPU
 - AI Infrastructure
@@ -425,7 +425,7 @@ apis:
   humanURL: https://www.koyeb.com/docs/api
   baseURL: https://app.koyeb.com
   tags:
-  - Organization Invitations
+  - OrganizationInvitations
   tags_raw:
   - OrganizationInvitations
   properties:
@@ -443,7 +443,7 @@ apis:
   humanURL: https://www.koyeb.com/docs/api
   baseURL: https://app.koyeb.com
   tags:
-  - Organization Members
+  - OrganizationMembers
   tags_raw:
   - OrganizationMembers
   properties:
@@ -477,7 +477,7 @@ apis:
   humanURL: https://www.koyeb.com/docs/api
   baseURL: https://app.koyeb.com
   tags:
-  - Payment Methods
+  - PaymentMethods
   tags_raw:
   - PaymentMethods
   properties:
@@ -784,7 +784,8 @@ apis:
   description: The Test API from Koyeb — 2 operation(s) for test.
   humanURL: https://www.koyeb.com/docs/api
   baseURL: https://app.koyeb.com
-  tags:
+  tags: []
+  tags_raw:
   - Test
   properties:
   - type: OpenAPI
