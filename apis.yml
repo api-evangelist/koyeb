@@ -40,7 +40,7 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/koyeb.png
 tags:
 - Cloud Platform
 - Deployment
-- PaaS
+- Platform-as-a-Service
 - Serverless
 - Serverless GPU
 - AI Infrastructure
@@ -425,7 +425,7 @@ apis:
   humanURL: https://www.koyeb.com/docs/api
   baseURL: https://app.koyeb.com
   tags:
-  - OrganizationInvitations
+  - Organization Invitations
   tags_raw:
   - OrganizationInvitations
   properties:
@@ -443,7 +443,7 @@ apis:
   humanURL: https://www.koyeb.com/docs/api
   baseURL: https://app.koyeb.com
   tags:
-  - OrganizationMembers
+  - Organization Members
   tags_raw:
   - OrganizationMembers
   properties:
@@ -477,7 +477,7 @@ apis:
   humanURL: https://www.koyeb.com/docs/api
   baseURL: https://app.koyeb.com
   tags:
-  - PaymentMethods
+  - Payment Methods
   tags_raw:
   - PaymentMethods
   properties:
