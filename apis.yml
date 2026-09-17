@@ -422,76 +422,6 @@ apis:
     url: https://www.koyeb.com/docs/reference/api
   - type: Overlay
     url: overlays/koyeb-organizationconfirmations-api-overlay.yaml
-- aid: koyeb:koyeb-organizationinvitations-api
-  name: Koyeb OrganizationInvitations API
-  description: The OrganizationInvitations API from Koyeb — 3 operation(s) for organizationinvitations.
-  humanURL: https://www.koyeb.com/docs/api
-  baseURL: https://app.koyeb.com
-  tags:
-  - Organization Invitations
-  tags_raw:
-  - OrganizationInvitations
-  properties:
-  - type: OpenAPI
-    url: openapi/koyeb-organizationinvitations-api-openapi.yml
-  - type: Documentation
-    url: https://www.koyeb.com/docs/api
-  - type: APIReference
-    url: https://www.koyeb.com/docs/reference/api
-  - type: Overlay
-    url: overlays/koyeb-organizationinvitations-api-overlay.yaml
-- aid: koyeb:koyeb-organizationmembers-api
-  name: Koyeb OrganizationMembers API
-  description: The OrganizationMembers API from Koyeb — 2 operation(s) for organizationmembers.
-  humanURL: https://www.koyeb.com/docs/api
-  baseURL: https://app.koyeb.com
-  tags:
-  - Organization Members
-  tags_raw:
-  - OrganizationMembers
-  properties:
-  - type: OpenAPI
-    url: openapi/koyeb-organizationmembers-api-openapi.yml
-  - type: Documentation
-    url: https://www.koyeb.com/docs/api
-  - type: APIReference
-    url: https://www.koyeb.com/docs/reference/api
-  - type: Overlay
-    url: overlays/koyeb-organizationmembers-api-overlay.yaml
-- aid: koyeb:koyeb-organizationquotas-api
-  name: Koyeb OrganizationQuotas API
-  description: The OrganizationQuotas API from Koyeb — 1 operation(s) for organizationquotas.
-  humanURL: https://www.koyeb.com/docs/api
-  baseURL: https://app.koyeb.com
-  tags:
-  - OrganizationQuotas
-  properties:
-  - type: OpenAPI
-    url: openapi/koyeb-organizationquotas-api-openapi.yml
-  - type: Documentation
-    url: https://www.koyeb.com/docs/api
-  - type: APIReference
-    url: https://www.koyeb.com/docs/reference/api
-  - type: Overlay
-    url: overlays/koyeb-organizationquotas-api-overlay.yaml
-- aid: koyeb:koyeb-paymentmethods-api
-  name: Koyeb PaymentMethods API
-  description: The PaymentMethods API from Koyeb — 3 operation(s) for paymentmethods.
-  humanURL: https://www.koyeb.com/docs/api
-  baseURL: https://app.koyeb.com
-  tags:
-  - Payment Methods
-  tags_raw:
-  - PaymentMethods
-  properties:
-  - type: OpenAPI
-    url: openapi/koyeb-paymentmethods-api-openapi.yml
-  - type: Documentation
-    url: https://www.koyeb.com/docs/api
-  - type: APIReference
-    url: https://www.koyeb.com/docs/reference/api
-  - type: Overlay
-    url: overlays/koyeb-paymentmethods-api-overlay.yaml
 - aid: koyeb:koyeb-persistentvolumes-api
   name: Koyeb PersistentVolumes API
   description: The PersistentVolumes API from Koyeb — 3 operation(s) for persistentvolumes.
@@ -793,7 +723,72 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/koyeb-test-api-openapi.yml
+- aid: koyeb:koyeb-organization-invitations-api
+  name: Koyeb Organization Invitations API
+  description: >-
+    The Organization Invitations API from Koyeb — 3 operation(s) for organization invitations.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - Organization Invitations
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-organization-invitations-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+- aid: koyeb:koyeb-organization-members-api
+  name: Koyeb Organization Members API
+  description: The Organization Members API from Koyeb — 2 operation(s) for organization members.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - Organization Members
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-organization-members-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+- aid: koyeb:koyeb-organization-quotas-api
+  name: Koyeb Organization Quotas API
+  description: The Organization Quotas API from Koyeb — 1 operation(s) for organization quotas.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - Organization Quotas
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-organization-quotas-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
+- aid: koyeb:koyeb-payment-methods-api
+  name: Koyeb Payment Methods API
+  description: The Payment Methods API from Koyeb — 3 operation(s) for payment methods.
+  humanURL: https://www.koyeb.com/docs/api
+  baseURL: https://app.koyeb.com
+  tags:
+  - Payment Methods
+  properties:
+  - type: OpenAPI
+    url: openapi/koyeb-payment-methods-api-openapi.yml
+  - type: Documentation
+    url: https://www.koyeb.com/docs/api
+  - type: APIReference
+    url: https://www.koyeb.com/docs/reference/api
 common:
+- type: Overlay
+  url: overlays/koyeb-organizationinvitations-api-overlay.yaml
+- type: Overlay
+  url: overlays/koyeb-organizationmembers-api-overlay.yaml
+- type: Overlay
+  url: overlays/koyeb-organizationquotas-api-overlay.yaml
+- type: Overlay
+  url: overlays/koyeb-paymentmethods-api-overlay.yaml
 - type: CapabilityMap
   url: capabilities/koyeb-capability-edges.yml
   name: Koyeb Business Capability Map
