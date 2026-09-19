@@ -52,7 +52,7 @@ tags:
 - Compute
 - Hosting
 - Postgres
-- Sandboxes
+- Sandbox
 - Edge Network
 - Infrastructure as Code
 tags_raw:
@@ -444,6 +444,8 @@ apis:
   humanURL: https://www.koyeb.com/docs/api
   baseURL: https://app.koyeb.com
   tags:
+  - Profiles
+  tags_raw:
   - Profile
   properties:
   - type: OpenAPI
