@@ -34,7 +34,8 @@ edges:
   reason: Operations directly govern deployment records, deployment strategy, scaling targets and cancellation
     of in-flight deployments to production — deployment orchestration.
 - tag: PaymentMethods
-  spec_file: koyeb-paymentmethods-api-openapi.yml
+  spec_file: koyeb-payment-methods-api-openapi.yml
+  reanchored_from: koyeb-paymentmethods-api-openapi.yml
   capability_id: BC-4250.40
   capability_id_l1: BC-4250
   capability_name: Payment Collection & Dunning
