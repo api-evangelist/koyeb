@@ -49,7 +49,9 @@
     "koyeb-organization-api-openapi.yml",
     "koyeb-sso-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "deleted 4 superseded output(s) from the previous generation"
+  ],
   "errors": [],
   "warnings": [],
   "notes": [
@@ -98,7 +100,9 @@
     "koyeb-openapi.json: declared missing tag: billing",
     "koyeb-openapi.json: declared missing tag: invite",
     "koyeb-openapi.json: declared missing tag: organization",
-    "koyeb-openapi.json: declared missing tag: sso"
+    "koyeb-openapi.json: declared missing tag: sso",
+    "superseded outputs removed: koyeb-organization-invitations-api-openapi.yml, koyeb-organization-members-api-openapi.yml, koyeb-organization-quotas-api-openapi.yml, koyeb-payment-methods-api-openapi.yml",
+    "apis.yml register: written (+4 apis, 44 total)"
   ],
   "skipped": [
     "koyeb-activity-api-openapi.yml: previously refined output, superseded by openapi/_original/",
@@ -116,16 +120,17 @@
     "koyeb-dockerhelper-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "koyeb-domains-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "koyeb-instances-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "koyeb-instancesnapshots-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "koyeb-intercom-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "koyeb-invite-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "koyeb-logs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "koyeb-metrics-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "koyeb-organization-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "koyeb-organization-invitations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "koyeb-organization-members-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "koyeb-organization-quotas-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "koyeb-organizationconfirmations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "koyeb-organizationinvitations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "koyeb-organizationmembers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "koyeb-organizationquotas-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "koyeb-paymentmethods-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "koyeb-payment-methods-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "koyeb-persistentvolumes-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "koyeb-profile-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "koyeb-projects-api-openapi.yml: previously refined output, superseded by openapi/_original/",
@@ -141,6 +146,7 @@
     "koyeb-sso-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "koyeb-subscriptions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "koyeb-summary-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "koyeb-test-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "koyeb-usages-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "koyeb-users-api-openapi.yml: previously refined output, superseded by openapi/_original/"
   ]

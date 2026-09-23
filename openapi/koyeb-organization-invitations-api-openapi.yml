@@ -1,28 +1,26 @@
 openapi: 3.2.0
 info:
-  title: Koyeb Rest Payment Methods API
-  description: 'The Koyeb API allows you to interact with the Koyeb platform in a simple, programmatic way using conventional HTTP requests.
-
-    '
+  title: Koyeb Rest Organization Invitations API
+  description: The Koyeb API allows you to interact with the Koyeb platform in a simple, programmatic way using conventional HTTP requests.
   version: 1.0.0
 servers:
 - url: https://app.koyeb.com
 security:
 - Bearer: []
 tags:
-- name: PaymentMethods
+- name: Organization Invitations
 paths:
-  /v1/payment_methods:
+  /v1/organization_invitations:
     get:
-      summary: List payment methods
-      operationId: ListPaymentMethods
+      summary: List Organization Invitations
+      operationId: ListOrganizationInvitations
       responses:
         '200':
           description: A successful response.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ListPaymentMethodsReply'
+                $ref: '#/components/schemas/ListOrganizationInvitationsReply'
         '400':
           description: Validation error
           content:
@@ -79,7 +77,7 @@ paths:
         schema:
           type: string
       - name: statuses
-        description: (Optional) Filter on payment method statuses
+        description: (Optional) Filter on organization invitation statuses
         in: query
         required: false
         style: form
@@ -90,24 +88,32 @@ paths:
             type: string
             enum:
             - INVALID
-            - CREATED
-            - AUTHORIZED
-            - DECLINED
-            - CANCELED
+            - PENDING
+            - ACCEPTED
+            - REFUSED
             - EXPIRED
-            - UNCHECKED
+      - name: user_id
+        description: '(Optional) Filter on invitee ID. Will match both invitations sent to
+
+          that user_id and invitations sent to the email of that user_id.
+
+          The only valid value is the requester''s user_id'
+        in: query
+        required: false
+        schema:
+          type: string
       tags:
-      - PaymentMethods
+      - Organization Invitations
     post:
-      summary: Create payment authorization
-      operationId: CreatePaymentAuthorization
+      summary: Create Organization Invitation
+      operationId: CreateOrganizationInvitation
       responses:
         '200':
           description: A successful response.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CreatePaymentAuthorizationReply'
+                $ref: '#/components/schemas/CreateOrganizationInvitationReply'
         '400':
           description: Validation error
           content:
@@ -151,24 +157,24 @@ paths:
               schema:
                 $ref: '#/components/schemas/google.rpc.Status'
       tags:
-      - PaymentMethods
+      - Organization Invitations
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreatePaymentAuthorizationRequest'
+              $ref: '#/components/schemas/CreateOrganizationInvitationRequest'
         required: true
-  /v1/payment_methods/{id}:
+  /v1/organization_invitations/{id}:
     get:
-      summary: Get payment method
-      operationId: GetPaymentMethod
+      summary: Get Organization Invitation
+      operationId: GetOrganizationInvitation
       responses:
         '200':
           description: A successful response.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetPaymentMethodReply'
+                $ref: '#/components/schemas/GetOrganizationInvitationReply'
         '400':
           description: Validation error
           content:
@@ -213,22 +219,23 @@ paths:
                 $ref: '#/components/schemas/google.rpc.Status'
       parameters:
       - name: id
+        description: The id of the invitation to get
         in: path
         required: true
         schema:
           type: string
       tags:
-      - PaymentMethods
+      - Organization Invitations
     delete:
-      summary: Delete payment method
-      operationId: DeletePaymentMethod
+      summary: Delete Organization Invitation
+      operationId: DeleteOrganizationInvitation
       responses:
         '200':
           description: A successful response.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DeletePaymentMethodReply'
+                $ref: '#/components/schemas/DeleteOrganizationInvitationReply'
         '400':
           description: Validation error
           content:
@@ -273,23 +280,24 @@ paths:
                 $ref: '#/components/schemas/google.rpc.Status'
       parameters:
       - name: id
+        description: The id of the organization invitation to delete
         in: path
         required: true
         schema:
           type: string
       tags:
-      - PaymentMethods
-  /v1/payment_methods/{id}/confirm:
+      - Organization Invitations
+  /v1/organization_invitations/{id}/resend:
     post:
-      summary: Confirm payment authorization
-      operationId: ConfirmPaymentAuthorization
+      summary: Resend Organization Invitation
+      operationId: ResendOrganizationInvitation
       responses:
         '200':
           description: A successful response.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ConfirmPaymentAuthorizationReply'
+                $ref: '#/components/schemas/ResendOrganizationInvitationReply'
         '400':
           description: Validation error
           content:
@@ -334,12 +342,13 @@ paths:
                 $ref: '#/components/schemas/google.rpc.Status'
       parameters:
       - name: id
+        description: The id of the organization invitation to resend
         in: path
         required: true
         schema:
           type: string
       tags:
-      - PaymentMethods
+      - Organization Invitations
       requestBody:
         content:
           application/json:
@@ -348,17 +357,6 @@ paths:
         required: true
 components:
   schemas:
-    PaymentMethod.Status:
-      type: string
-      enum:
-      - INVALID
-      - CREATED
-      - AUTHORIZED
-      - DECLINED
-      - CANCELED
-      - EXPIRED
-      - UNCHECKED
-      default: INVALID
     ErrorField:
       type: object
       properties:
@@ -366,97 +364,31 @@ components:
           type: string
         description:
           type: string
-    google.protobuf.Any:
-      type: object
-      properties:
-        '@type':
-          type: string
-          description: "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
-      additionalProperties: {}
-      description: "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(&foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := &pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := &pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": <string>,\n      \"lastName\": <string>\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
-    ListPaymentMethodsReply:
-      type: object
-      properties:
-        payment_methods:
-          type: array
-          items:
-            $ref: '#/components/schemas/PaymentMethod'
-          title: The collection of payment methods
-        limit:
-          type: integer
-          format: int64
-          title: The limit in the request
-        offset:
-          type: integer
-          format: int64
-          title: The offset in the request
-        count:
-          type: integer
-          format: int64
-          title: The total number of items
-    CreatePaymentAuthorizationReply:
-      type: object
-      properties:
-        payment_method:
-          $ref: '#/components/schemas/PaymentMethod'
-    CreatePaymentAuthorizationRequest:
-      type: object
-    DeletePaymentMethodReply:
-      type: object
-    PaymentMethod:
+    PublicOrganization:
       type: object
       properties:
         id:
           type: string
-        created_at:
+        name:
           type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-        version:
-          type: string
-          format: uint64
-        organization_id:
-          type: string
-        type:
-          type: string
-        provider:
-          type: string
+        plan:
+          $ref: '#/components/schemas/Plan'
         status:
-          $ref: '#/components/schemas/PaymentMethod.Status'
-        messages:
-          type: array
-          items:
-            type: string
-        stripe_payment_method_id:
+          $ref: '#/components/schemas/Organization.Status'
+        external_id:
           type: string
-        authorization_verified_at:
-          type: string
-          format: date-time
-        authorization_canceled_at:
-          type: string
-          format: date-time
-        authorization_stripe_payment_intent_id:
-          type: string
-        authorization_stripe_payment_intent_client_secret:
-          type: string
-        card_brand:
-          type: string
-        card_country:
-          type: string
-        card_funding:
-          type: string
-        card_fingerprint:
-          type: string
-        card_last_digits:
-          type: string
-        card_expiration_month:
-          type: integer
-          format: int64
-        card_expiration_year:
-          type: integer
-          format: int64
+    UserRole.Role:
+      type: string
+      enum:
+      - INVALID
+      - OWNER
+      default: INVALID
+    ResendOrganizationInvitationReply:
+      type: object
+      properties:
+        invitation:
+          $ref: '#/components/schemas/OrganizationInvitation'
+          title: The organization invitation resent
     Error:
       type: object
       properties:
@@ -467,11 +399,61 @@ components:
           type: string
         message:
           type: string
-    GetPaymentMethodReply:
+    CreateOrganizationInvitationRequest:
       type: object
       properties:
-        payment_method:
-          $ref: '#/components/schemas/PaymentMethod'
+        email:
+          type: string
+          title: The email of the person to invite
+    google.rpc.Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+    google.protobuf.Any:
+      type: object
+      properties:
+        '@type':
+          type: string
+          description: "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
+      additionalProperties: {}
+      description: "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(&foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := &pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := &pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": <string>,\n      \"lastName\": <string>\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
+    CreateOrganizationInvitationReply:
+      type: object
+      properties:
+        invitation:
+          $ref: '#/components/schemas/OrganizationInvitation'
+          title: The organization invitation sent
+    Plan:
+      type: string
+      enum:
+      - hobby
+      - starter
+      - startup
+      - business
+      - enterprise
+      - internal
+      - hobby23
+      - no_plan
+      - pro
+      - scale
+      - partner_csp
+      - partner_csp_unit
+      default: hobby
+    DeleteOrganizationInvitationReply:
+      type: object
+    GetOrganizationInvitationReply:
+      type: object
+      properties:
+        invitation:
+          $ref: '#/components/schemas/OrganizationInvitation'
     ErrorWithFields:
       type: object
       properties:
@@ -486,23 +468,87 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ErrorField'
-    ConfirmPaymentAuthorizationReply:
+    PublicUser:
       type: object
       properties:
-        payment_method:
-          $ref: '#/components/schemas/PaymentMethod'
-    google.rpc.Status:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
+        id:
           type: string
-        details:
+        email:
+          type: string
+        name:
+          type: string
+        avatar_url:
+          type: string
+        github_id:
+          type: string
+        github_user:
+          type: string
+    ListOrganizationInvitationsReply:
+      type: object
+      properties:
+        invitations:
           type: array
           items:
-            $ref: '#/components/schemas/google.protobuf.Any'
+            $ref: '#/components/schemas/OrganizationInvitation'
+          title: The collection of organization invitations
+        limit:
+          type: integer
+          format: int64
+          title: The limit in the request
+        offset:
+          type: integer
+          format: int64
+          title: The offset in the request
+        count:
+          type: integer
+          format: int64
+          title: The total number of items
+    Organization.Status:
+      type: string
+      enum:
+      - WARNING
+      - LOCKED
+      - ACTIVE
+      - DEACTIVATING
+      - DEACTIVATED
+      - DELETING
+      - DELETED
+      default: WARNING
+    OrganizationInvitation.Status:
+      type: string
+      enum:
+      - INVALID
+      - PENDING
+      - ACCEPTED
+      - REFUSED
+      - EXPIRED
+      default: INVALID
+    OrganizationInvitation:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        role:
+          $ref: '#/components/schemas/UserRole.Role'
+        status:
+          $ref: '#/components/schemas/OrganizationInvitation.Status'
+        expires_at:
+          type: string
+          format: date-time
+        organization_id:
+          type: string
+        organization:
+          $ref: '#/components/schemas/PublicOrganization'
+        invitee_id:
+          type: string
+        invitee:
+          $ref: '#/components/schemas/PublicUser'
+        inviter_id:
+          type: string
+        inviter:
+          $ref: '#/components/schemas/PublicUser'
   securitySchemes:
     Bearer:
       type: apiKey

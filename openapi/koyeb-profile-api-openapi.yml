@@ -1,9 +1,7 @@
 openapi: 3.2.0
 info:
   title: Koyeb Rest Profile API
-  description: 'The Koyeb API allows you to interact with the Koyeb platform in a simple, programmatic way using conventional HTTP requests.
-
-    '
+  description: The Koyeb API allows you to interact with the Koyeb platform in a simple, programmatic way using conventional HTTP requests.
   version: 1.0.0
 servers:
 - url: https://app.koyeb.com
@@ -68,9 +66,7 @@ paths:
       tags:
       - Profile
     post:
-      summary: 'ClearIdenfyVerificationResult marks the current result for idenfy as
-
-        superseded'
+      summary: ClearIdenfyVerificationResult marks the current result for idenfy as superseded
       operationId: ClearIdenfyVerificationResult
       responses:
         '200':
@@ -131,9 +127,7 @@ paths:
         required: true
   /v1/account/login_method:
     get:
-      summary: 'Get the login method for an email address
-
-        DEPRECATED: this has been replaced by WorkOS and will be dropped soon.'
+      summary: 'Get the login method for an email address DEPRECATED: this has been replaced by…'
       operationId: LoginMethod
       responses:
         '200':
@@ -391,9 +385,7 @@ paths:
       - Profile
   /v1/account/organization_invitations:
     get:
-      summary: 'List User Organization Invitations
-
-        DEPRECATED: this has been replaced by WorkOS and will be dropped soon.'
+      summary: 'List User Organization Invitations DEPRECATED: this has been replaced by WorkOS…'
       operationId: ListUserOrganizationInvitations
       responses:
         '200':
@@ -477,9 +469,7 @@ paths:
       - Profile
   /v1/account/organization_invitations/{id}:
     get:
-      summary: 'Get User Organization Invitation
-
-        DEPRECATED: this has been replaced by WorkOS and will be dropped soon.'
+      summary: 'Get User Organization Invitation DEPRECATED: this has been replaced by WorkOS…'
       operationId: GetUserOrganizationInvitation
       responses:
         '200':
@@ -541,9 +531,7 @@ paths:
       - Profile
   /v1/account/organization_invitations/{id}/accept:
     post:
-      summary: 'Accept Organization Invitation
-
-        DEPRECATED: this has been replaced by WorkOS and will be dropped soon.'
+      summary: 'Accept Organization Invitation DEPRECATED: this has been replaced by WorkOS and…'
       operationId: AcceptOrganizationInvitation
       responses:
         '200':
@@ -611,9 +599,7 @@ paths:
         required: true
   /v1/account/organization_invitations/{id}/decline:
     post:
-      summary: 'Decline Organization Invitation
-
-        DEPRECATED: this has been replaced by WorkOS and will be dropped soon.'
+      summary: 'Decline Organization Invitation DEPRECATED: this has been replaced by WorkOS…'
       operationId: DeclineOrganizationInvitation
       responses:
         '200':
@@ -976,9 +962,7 @@ paths:
         required: true
   /v1/account/resend_validation:
     post:
-      summary: 'Resend Email Verification
-
-        DEPRECATED: this has been replaced by WorkOS and will be dropped soon.'
+      summary: 'Resend Email Verification DEPRECATED: this has been replaced by WorkOS and will…'
       operationId: ResendEmailValidation
       responses:
         '200':
@@ -1039,9 +1023,7 @@ paths:
         required: true
   /v1/account/reset_password:
     post:
-      summary: 'Reset Password
-
-        DEPRECATED: this has been replaced by WorkOS and will be dropped soon.'
+      summary: 'Reset Password DEPRECATED: this has been replaced by WorkOS and will be dropped…'
       operationId: ResetPassword
       responses:
         '200':
@@ -1154,6 +1136,8 @@ paths:
                 $ref: '#/components/schemas/google.rpc.Status'
       tags:
       - Profile
+      summary: Get user settings
+      x-summary-source: derived
     patch:
       operationId: UpdateUserSettings
       responses:
@@ -1213,11 +1197,11 @@ paths:
             schema:
               $ref: '#/components/schemas/UpdateUserSettingsRequest'
         required: true
+      summary: Update user settings
+      x-summary-source: derived
   /v1/account/signup:
     post:
-      summary: 'Signup
-
-        DEPRECATED: this has been replaced by WorkOS and will be dropped soon.'
+      summary: 'Signup DEPRECATED: this has been replaced by WorkOS and will be dropped soon'
       operationId: Signup
       responses:
         '200':
@@ -1286,9 +1270,7 @@ paths:
         required: true
   /v1/account/update_password:
     post:
-      summary: 'Update Password
-
-        DEPRECATED: this has been replaced by WorkOS and will be dropped soon.'
+      summary: 'Update Password DEPRECATED: this has been replaced by WorkOS and will be…'
       operationId: UpdatePassword
       responses:
         '200':
@@ -1356,9 +1338,7 @@ paths:
         required: true
   /v1/account/validate/{id}:
     post:
-      summary: 'Validate
-
-        DEPRECATED: this has been replaced by WorkOS and will be dropped soon.'
+      summary: 'Validate DEPRECATED: this has been replaced by WorkOS and will be dropped soon'
       operationId: Validate
       responses:
         '200':
@@ -1558,31 +1538,77 @@ paths:
         required: true
 components:
   schemas:
-    ResendEmailValidationReply:
+    UpdatePasswordRequest:
       type: object
+      example:
+        id: '...'
+        password: '...'
+      properties:
+        id:
+          type: string
+        password:
+          type: string
+    OAuthCallbackRequest:
+      type: object
+      properties:
+        state:
+          type: string
+          title: The state created at the origin of the OAuth flow
+        code:
+          type: string
+          title: The code returned by the OAuth provider
+        setup_action:
+          type: string
+          description: 'setup_action is populated in the context of a GitHub app installation
+
+            request. For logins and signups, it is not set.'
+        installation_id:
+          type: string
+          description: 'installation_id is populated in the context of a GitHub app installation
+
+            request. For logins and signups, it is not set.'
+    OAuthProvider:
+      type: object
+      properties:
+        id:
+          type: string
+          title: The name of the provider (.e.g github, google)
+        url:
+          type: string
+          title: The URL to call to initiate the OAuth flow
+        state:
+          type: string
+          title: 'The OAuth state required by the protocol, it is only valid 10 minutes and
+
+            encodes information about the type of flow'
     UpdateUserSettingsReply:
       type: object
       properties:
         settings:
           $ref: '#/components/schemas/UserSettings'
-    LoginMethodReply.Method:
-      type: string
-      enum:
-      - KOYEB
-      - WORKOS
-      default: KOYEB
-    ClearIdenfyVerificationResultReply:
+    ResendEmailValidationRequest:
       type: object
-    Organization.DeactivationReason:
-      type: string
-      enum:
-      - INVALID
-      - REQUESTED_BY_OWNER
-      - SUBSCRIPTION_TERMINATION
-      - LOCKED_BY_ADMIN
-      - VERIFICATION_FAILED
-      - TRIAL_DID_NOT_CONVERT
-      default: INVALID
+    ResendEmailValidationReply:
+      type: object
+    ErrorWithFields:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorField'
+    LoginMethodReply:
+      type: object
+      properties:
+        method:
+          $ref: '#/components/schemas/LoginMethodReply.Method'
     ListUserOrganizationInvitationsReply:
       type: object
       properties:
@@ -1603,91 +1629,74 @@ components:
           type: integer
           format: int64
           title: The total number of items
-    LoginMethodReply:
+    OrganizationInvitation:
       type: object
-      properties:
-        method:
-          $ref: '#/components/schemas/LoginMethodReply.Method'
-    OAuthCallbackReply:
-      type: object
-      properties:
-        token:
-          $ref: '#/components/schemas/Token'
-          title: A jwt token to be used for session
-    Token:
-      type: object
-      example:
-        id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-        expires: '2022-09-08T14:00:00Z'
-        user_id: 996d7822-6b58-11e9-956f-32001b70f000
-        organization_id: 9f33b2c6-6b58-11e9-883c-32001b70f000
       properties:
         id:
           type: string
-        user_id:
+        email:
           type: string
-        organization_id:
-          type: string
+        role:
+          $ref: '#/components/schemas/UserRole.Role'
+        status:
+          $ref: '#/components/schemas/OrganizationInvitation.Status'
         expires_at:
           type: string
           format: date-time
-    ResetPasswordReply:
-      type: object
-    ClearIdenfyVerificationResultRequest:
+        organization_id:
+          type: string
+        organization:
+          $ref: '#/components/schemas/PublicOrganization'
+        invitee_id:
+          type: string
+        invitee:
+          $ref: '#/components/schemas/PublicUser'
+        inviter_id:
+          type: string
+        inviter:
+          $ref: '#/components/schemas/PublicUser'
+    UpdateUserSettingsRequest:
       type: object
       properties:
-        user_id:
+        failed_deployment_email_notification:
+          type: boolean
+          description: (Optional) Toggle failed deployment email notification.
+    OrganizationDetailedStatus:
+      type: string
+      enum:
+      - NEW
+      - EMAIL_NOT_VALIDATED
+      - BILLING_INFO_MISSING
+      - LOCKED
+      - PAYMENT_FAILURE
+      - VALID
+      - PENDING_VERIFICATION
+      - VERIFICATION_FAILED
+      - REVIEWING_ACCOUNT
+      - PLAN_UPGRADE_REQUIRED
+      default: NEW
+    ErrorField:
+      type: object
+      properties:
+        field:
           type: string
-        organization_id:
+        description:
           type: string
     GetUserSettingsReply:
       type: object
       properties:
         settings:
           $ref: '#/components/schemas/UserSettings'
-    AcceptOrganizationInvitationReply:
+    ClearIdenfyVerificationResultReply:
+      type: object
+    GetOAuthOptionsReply:
       type: object
       properties:
-        invitation:
-          $ref: '#/components/schemas/OrganizationInvitation'
-          title: The organization invitation accepted
-    UserFlags:
-      type: string
-      enum:
-      - ADMIN
-      - TEST
-      - RESTRICTED
-      - ACTIVE
-      - BETA
-      - MAX_ORGANIZATIONS_25
-      - MAX_ORGANIZATIONS_100
-      - MAX_ORGANIZATIONS_1000
-      - MAX_ORGANIZATIONS_10000
-      - MAX_ORGANIZATIONS_100000
-      - MAX_ORGANIZATIONS_1000000
-      - PARTNER_CSP
-      - IGNORE_ORGANIZATION_NAME_RESERVATION_RULE_NEON_PREFIX
-      default: ADMIN
-      title: "- ADMIN: A user is an admin user\n - TEST: A user is a test user\n - RESTRICTED: Whether this account as restricted access\n - ACTIVE: Whether this account is active\n - BETA: Account in beta program\n - MAX_ORGANIZATIONS_25: User can create this much organizations, overriding the default amount\n - PARTNER_CSP: User can create sub-organizations\n - IGNORE_ORGANIZATION_NAME_RESERVATION_RULE_NEON_PREFIX: User can bypass organization name reservations rules"
-    ListUserOrganizationsReply:
-      type: object
-      properties:
-        organizations:
+        oauth_providers:
           type: array
           items:
-            $ref: '#/components/schemas/Organization'
-          title: The collection of organizations
-        limit:
-          type: integer
-          format: int64
-          title: The limit in the request
-        offset:
-          type: integer
-          format: int64
-          title: The offset in the request
-        has_next:
-          type: boolean
-          title: If there is more items after in the collection
+            $ref: '#/components/schemas/OAuthProvider'
+      description: A list of providers which you can use for single sign-on.
     CreateAccountRequest:
       type: object
       example:
@@ -1707,43 +1716,39 @@ components:
       required:
       - email
       - password
-    google.rpc.Status:
+    Plan:
+      type: string
+      enum:
+      - hobby
+      - starter
+      - startup
+      - business
+      - enterprise
+      - internal
+      - hobby23
+      - no_plan
+      - pro
+      - scale
+      - partner_csp
+      - partner_csp_unit
+      default: hobby
+    Token:
       type: object
+      example:
+        id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        expires: '2022-09-08T14:00:00Z'
+        user_id: 996d7822-6b58-11e9-956f-32001b70f000
+        organization_id: 9f33b2c6-6b58-11e9-883c-32001b70f000
       properties:
-        code:
-          type: integer
-          format: int32
-        message:
+        id:
           type: string
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-    ErrorField:
-      type: object
-      properties:
-        field:
+        user_id:
           type: string
-        description:
+        organization_id:
           type: string
-    Error:
-      type: object
-      properties:
-        status:
-          type: integer
-          format: int32
-        code:
+        expires_at:
           type: string
-        message:
-          type: string
-    google.protobuf.Any:
-      type: object
-      properties:
-        '@type':
-          type: string
-          description: "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
-      additionalProperties: {}
-      description: "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(&foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := &pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := &pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": <string>,\n      \"lastName\": <string>\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
+          format: date-time
     PublicUser:
       type: object
       properties:
@@ -1759,35 +1764,78 @@ components:
           type: string
         github_user:
           type: string
-    UserSettings:
+    OrganizationInvitation.Status:
+      type: string
+      enum:
+      - INVALID
+      - PENDING
+      - ACCEPTED
+      - REFUSED
+      - EXPIRED
+      default: INVALID
+    UpdateUserRequest.UserUpdateBody:
       type: object
       properties:
         id:
           type: string
+        email:
+          type: string
+        current_password:
+          type: string
+        password:
+          type: string
+        newsletter_subscribed:
+          type: boolean
+        name:
+          type: string
+    Organization.Status:
+      type: string
+      enum:
+      - WARNING
+      - LOCKED
+      - ACTIVE
+      - DEACTIVATING
+      - DEACTIVATED
+      - DELETING
+      - DELETED
+      default: WARNING
+    UserFlags:
+      type: string
+      enum:
+      - ADMIN
+      - TEST
+      - RESTRICTED
+      - ACTIVE
+      - BETA
+      - MAX_ORGANIZATIONS_25
+      - MAX_ORGANIZATIONS_100
+      - MAX_ORGANIZATIONS_1000
+      - MAX_ORGANIZATIONS_10000
+      - MAX_ORGANIZATIONS_100000
+      - MAX_ORGANIZATIONS_1000000
+      - PARTNER_CSP
+      - IGNORE_ORGANIZATION_NAME_RESERVATION_RULE_NEON_PREFIX
+      default: ADMIN
+      title: "- ADMIN: A user is an admin user\n - TEST: A user is a test user\n - RESTRICTED: Whether this account as restricted access\n - ACTIVE: Whether this account is active\n - BETA: Account in beta program\n - MAX_ORGANIZATIONS_25: User can create this much organizations, overriding the default amount\n - PARTNER_CSP: User can create sub-organizations\n - IGNORE_ORGANIZATION_NAME_RESERVATION_RULE_NEON_PREFIX: User can bypass organization name reservations rules"
+    ClearIdenfyVerificationResultRequest:
+      type: object
+      properties:
         user_id:
           type: string
-        failed_deployment_email_notification:
-          type: boolean
-    OAuthProvider:
+        organization_id:
+          type: string
+    PublicOrganization:
       type: object
       properties:
         id:
           type: string
-          title: The name of the provider (.e.g github, google)
-        url:
+        name:
           type: string
-          title: The URL to call to initiate the OAuth flow
-        state:
-          type: string
-          title: 'The OAuth state required by the protocol, it is only valid 10 minutes and
-
-            encodes information about the type of flow'
-    ResetPasswordRequest:
-      type: object
-      example:
-        email: john@snow.com
-      properties:
-        email:
+        plan:
+          $ref: '#/components/schemas/Plan'
+        status:
+          $ref: '#/components/schemas/Organization.Status'
+        external_id:
           type: string
     User:
       type: object
@@ -1842,147 +1890,6 @@ components:
         trialed:
           type: boolean
       title: Represent a User
-    OrganizationInvitation.Status:
-      type: string
-      enum:
-      - INVALID
-      - PENDING
-      - ACCEPTED
-      - REFUSED
-      - EXPIRED
-      default: INVALID
-    DeclineOrganizationInvitationReply:
-      type: object
-      properties:
-        invitation:
-          $ref: '#/components/schemas/OrganizationInvitation'
-          title: The organization invitation declined
-    GetUserOrganizationInvitationReply:
-      type: object
-      properties:
-        invitation:
-          $ref: '#/components/schemas/OrganizationInvitation'
-    UpdatePasswordRequest:
-      type: object
-      example:
-        id: '...'
-        password: '...'
-      properties:
-        id:
-          type: string
-        password:
-          type: string
-    OAuthCallbackRequest:
-      type: object
-      properties:
-        state:
-          type: string
-          title: The state created at the origin of the OAuth flow
-        code:
-          type: string
-          title: The code returned by the OAuth provider
-        setup_action:
-          type: string
-          description: 'setup_action is populated in the context of a GitHub app installation
-
-            request. For logins and signups, it is not set.'
-        installation_id:
-          type: string
-          description: 'installation_id is populated in the context of a GitHub app installation
-
-            request. For logins and signups, it is not set.'
-    UpdateUserRequest.UserUpdateBody:
-      type: object
-      properties:
-        id:
-          type: string
-        email:
-          type: string
-        current_password:
-          type: string
-        password:
-          type: string
-        newsletter_subscribed:
-          type: boolean
-        name:
-          type: string
-    ResendEmailValidationRequest:
-      type: object
-    OrganizationInvitation:
-      type: object
-      properties:
-        id:
-          type: string
-        email:
-          type: string
-        role:
-          $ref: '#/components/schemas/UserRole.Role'
-        status:
-          $ref: '#/components/schemas/OrganizationInvitation.Status'
-        expires_at:
-          type: string
-          format: date-time
-        organization_id:
-          type: string
-        organization:
-          $ref: '#/components/schemas/PublicOrganization'
-        invitee_id:
-          type: string
-        invitee:
-          $ref: '#/components/schemas/PublicUser'
-        inviter_id:
-          type: string
-        inviter:
-          $ref: '#/components/schemas/PublicUser'
-    PublicOrganization:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        plan:
-          $ref: '#/components/schemas/Plan'
-        status:
-          $ref: '#/components/schemas/Organization.Status'
-        external_id:
-          type: string
-    LoginReply:
-      type: object
-      properties:
-        token:
-          $ref: '#/components/schemas/Token'
-    GetOrganizationReply:
-      type: object
-      properties:
-        organization:
-          $ref: '#/components/schemas/Organization'
-    UserReply:
-      type: object
-      properties:
-        user:
-          $ref: '#/components/schemas/User'
-    Plan:
-      type: string
-      enum:
-      - hobby
-      - starter
-      - startup
-      - business
-      - enterprise
-      - internal
-      - hobby23
-      - no_plan
-      - pro
-      - scale
-      - partner_csp
-      - partner_csp_unit
-      default: hobby
-    GetIdenfyTokenReply:
-      type: object
-      properties:
-        auth_token:
-          type: string
     Organization:
       type: object
       properties:
@@ -2057,38 +1964,67 @@ components:
         default_project_id:
           type: string
       title: Represent an Organization
-    Organization.Status:
+    ResetPasswordReply:
+      type: object
+    LoginMethodReply.Method:
       type: string
       enum:
-      - WARNING
-      - LOCKED
-      - ACTIVE
-      - DEACTIVATING
-      - DEACTIVATED
-      - DELETING
-      - DELETED
-      default: WARNING
-    UpdateUserSettingsRequest:
+      - KOYEB
+      - WORKOS
+      default: KOYEB
+    GetIdenfyTokenReply:
       type: object
       properties:
-        failed_deployment_email_notification:
+        auth_token:
+          type: string
+    DeclineOrganizationInvitationReply:
+      type: object
+      properties:
+        invitation:
+          $ref: '#/components/schemas/OrganizationInvitation'
+          title: The organization invitation declined
+    ListUserOrganizationsReply:
+      type: object
+      properties:
+        organizations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Organization'
+          title: The collection of organizations
+        limit:
+          type: integer
+          format: int64
+          title: The limit in the request
+        offset:
+          type: integer
+          format: int64
+          title: The offset in the request
+        has_next:
           type: boolean
-          description: (Optional) Toggle failed deployment email notification.
-    OrganizationDetailedStatus:
+          title: If there is more items after in the collection
+    AcceptOrganizationInvitationReply:
+      type: object
+      properties:
+        invitation:
+          $ref: '#/components/schemas/OrganizationInvitation'
+          title: The organization invitation accepted
+    UserRole.Role:
       type: string
       enum:
-      - NEW
-      - EMAIL_NOT_VALIDATED
-      - BILLING_INFO_MISSING
-      - LOCKED
-      - PAYMENT_FAILURE
-      - VALID
-      - PENDING_VERIFICATION
+      - INVALID
+      - OWNER
+      default: INVALID
+    Organization.DeactivationReason:
+      type: string
+      enum:
+      - INVALID
+      - REQUESTED_BY_OWNER
+      - SUBSCRIPTION_TERMINATION
+      - LOCKED_BY_ADMIN
       - VERIFICATION_FAILED
-      - REVIEWING_ACCOUNT
-      - PLAN_UPGRADE_REQUIRED
-      default: NEW
-    ErrorWithFields:
+      - TRIAL_DID_NOT_CONVERT
+      default: INVALID
+    Error:
       type: object
       properties:
         status:
@@ -2098,24 +2034,68 @@ components:
           type: string
         message:
           type: string
-        fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorField'
-    UserRole.Role:
-      type: string
-      enum:
-      - INVALID
-      - OWNER
-      default: INVALID
-    GetOAuthOptionsReply:
+    UserSettings:
       type: object
       properties:
-        oauth_providers:
+        id:
+          type: string
+        user_id:
+          type: string
+        failed_deployment_email_notification:
+          type: boolean
+    google.rpc.Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
           type: array
           items:
-            $ref: '#/components/schemas/OAuthProvider'
-      description: A list of providers which you can use for single sign-on.
+            $ref: '#/components/schemas/google.protobuf.Any'
+    google.protobuf.Any:
+      type: object
+      properties:
+        '@type':
+          type: string
+          description: "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
+      additionalProperties: {}
+      description: "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(&foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := &pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := &pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": <string>,\n      \"lastName\": <string>\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
+    ResetPasswordRequest:
+      type: object
+      example:
+        email: john@snow.com
+      properties:
+        email:
+          type: string
+    GetOrganizationReply:
+      type: object
+      properties:
+        organization:
+          $ref: '#/components/schemas/Organization'
+    OAuthCallbackReply:
+      type: object
+      properties:
+        token:
+          $ref: '#/components/schemas/Token'
+          title: A jwt token to be used for session
+    UserReply:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+    LoginReply:
+      type: object
+      properties:
+        token:
+          $ref: '#/components/schemas/Token'
+    GetUserOrganizationInvitationReply:
+      type: object
+      properties:
+        invitation:
+          $ref: '#/components/schemas/OrganizationInvitation'
   securitySchemes:
     Bearer:
       type: apiKey

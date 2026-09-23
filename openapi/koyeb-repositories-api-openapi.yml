@@ -1,9 +1,7 @@
 openapi: 3.2.0
 info:
   title: Koyeb Rest Repositories API
-  description: 'The Koyeb API allows you to interact with the Koyeb platform in a simple, programmatic way using conventional HTTP requests.
-
-    '
+  description: The Koyeb API allows you to interact with the Koyeb platform in a simple, programmatic way using conventional HTTP requests.
   version: 1.0.0
 servers:
 - url: https://app.koyeb.com
@@ -244,6 +242,28 @@ components:
           type: string
         description:
           type: string
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+    google.rpc.Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
     google.protobuf.Any:
       type: object
       properties:
@@ -272,12 +292,57 @@ components:
           type: integer
           format: int64
           description: The total number of items.
-    kgitproxy.RepositoryProvider:
-      type: string
-      enum:
-      - INVALID_PROVIDER
-      - GITHUB
-      default: INVALID_PROVIDER
+    ErrorWithFields:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorField'
+    kgitproxy.ListBranchesReply:
+      type: object
+      properties:
+        branches:
+          type: array
+          items:
+            $ref: '#/components/schemas/kgitproxy.Branch'
+          description: The collection of branches.
+        limit:
+          type: integer
+          format: int64
+          description: The limit in the request.
+        offset:
+          type: integer
+          format: int64
+          description: The offset in the request.
+        count:
+          type: integer
+          format: int64
+          description: The total number of items.
+    kgitproxy.Branch:
+      type: object
+      properties:
+        id:
+          type: string
+        organization_id:
+          type: string
+        repository_id:
+          type: string
+        name:
+          type: string
+        is_default:
+          type: boolean
+        is_protected:
+          type: boolean
+        provider:
+          $ref: '#/components/schemas/kgitproxy.RepositoryProvider'
     kgitproxy.Repository:
       type: object
       properties:
@@ -304,86 +369,19 @@ components:
           format: date-time
         github:
           $ref: '#/components/schemas/kgitproxy.GitHubRepository'
+    kgitproxy.ResyncOrganizationReply:
+      type: object
     kgitproxy.GitHubRepository:
       type: object
       properties:
         github_id:
           type: string
-    Error:
-      type: object
-      properties:
-        status:
-          type: integer
-          format: int32
-        code:
-          type: string
-        message:
-          type: string
-    kgitproxy.ListBranchesReply:
-      type: object
-      properties:
-        branches:
-          type: array
-          items:
-            $ref: '#/components/schemas/kgitproxy.Branch'
-          description: The collection of branches.
-        limit:
-          type: integer
-          format: int64
-          description: The limit in the request.
-        offset:
-          type: integer
-          format: int64
-          description: The offset in the request.
-        count:
-          type: integer
-          format: int64
-          description: The total number of items.
-    kgitproxy.ResyncOrganizationReply:
-      type: object
-    ErrorWithFields:
-      type: object
-      properties:
-        status:
-          type: integer
-          format: int32
-        code:
-          type: string
-        message:
-          type: string
-        fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorField'
-    kgitproxy.Branch:
-      type: object
-      properties:
-        id:
-          type: string
-        organization_id:
-          type: string
-        repository_id:
-          type: string
-        name:
-          type: string
-        is_default:
-          type: boolean
-        is_protected:
-          type: boolean
-        provider:
-          $ref: '#/components/schemas/kgitproxy.RepositoryProvider'
-    google.rpc.Status:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
+    kgitproxy.RepositoryProvider:
+      type: string
+      enum:
+      - INVALID_PROVIDER
+      - GITHUB
+      default: INVALID_PROVIDER
   securitySchemes:
     Bearer:
       type: apiKey
