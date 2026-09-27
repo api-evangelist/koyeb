@@ -51,7 +51,7 @@ tags:
 - Developer Tools
 - Compute
 - Hosting
-- Postgres
+- PostgreSQL
 - Sandbox
 - Edge Network
 - Infrastructure as Code
@@ -76,7 +76,7 @@ url: https://raw.githubusercontent.com/api-evangelist/koyeb/refs/heads/main/apis
 specificationVersion: '0.23'
 apis:
 - aid: koyeb:koyeb-activity-api
-  name: Koyeb activity API
+  name: Koyeb Activity API
   description: The activity API from Koyeb — 3 operation(s) for activity.
   humanURL: https://www.koyeb.com/docs/api
   baseURL: https://app.koyeb.com
@@ -128,7 +128,7 @@ apis:
   - type: Overlay
     url: overlays/koyeb-archives-api-overlay.yaml
 - aid: koyeb:koyeb-billing-api
-  name: Koyeb billing API
+  name: Koyeb Billing API
   description: The billing API from Koyeb — 3 operation(s) for billing.
   humanURL: https://www.koyeb.com/docs/api
   baseURL: https://app.koyeb.com
@@ -340,7 +340,7 @@ apis:
   - type: Overlay
     url: overlays/koyeb-intercom-api-overlay.yaml
 - aid: koyeb:koyeb-invite-api
-  name: Koyeb invite API
+  name: Koyeb Invite API
   description: The invite API from Koyeb — 1 operation(s) for invite.
   humanURL: https://www.koyeb.com/docs/api
   baseURL: https://app.koyeb.com
@@ -388,7 +388,7 @@ apis:
   - type: Overlay
     url: overlays/koyeb-metrics-api-overlay.yaml
 - aid: koyeb:koyeb-organization-api
-  name: Koyeb organization API
+  name: Koyeb Organization API
   description: The organization API from Koyeb — 12 operation(s) for organization.
   humanURL: https://www.koyeb.com/docs/api
   baseURL: https://app.koyeb.com
@@ -619,7 +619,7 @@ apis:
   - type: Overlay
     url: overlays/koyeb-snapshots-api-overlay.yaml
 - aid: koyeb:koyeb-sso-api
-  name: Koyeb sso API
+  name: Koyeb SSO API
   description: The sso API from Koyeb — 2 operation(s) for sso.
   humanURL: https://www.koyeb.com/docs/api
   baseURL: https://app.koyeb.com
