@@ -339,16 +339,13 @@ paths:
       - Logs
 components:
   schemas:
-    LogEntry:
+    ErrorField:
       type: object
       properties:
-        msg:
+        field:
           type: string
-        created_at:
+        description:
           type: string
-          format: date-time
-        labels:
-          type: object
     google.protobuf.Any:
       type: object
       properties:
@@ -366,6 +363,26 @@ components:
             $ref: '#/components/schemas/LogEntry'
         pagination:
           $ref: '#/components/schemas/QueryLogsReplyPagination'
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+    LogEntry:
+      type: object
+      properties:
+        msg:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        labels:
+          type: object
     QueryLogsReplyPagination:
       type: object
       properties:
@@ -377,28 +394,6 @@ components:
         next_end:
           type: string
           format: date-time
-    google.rpc.Status:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-    Error:
-      type: object
-      properties:
-        status:
-          type: integer
-          format: int32
-        code:
-          type: string
-        message:
-          type: string
     ErrorWithFields:
       type: object
       properties:
@@ -413,13 +408,18 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ErrorField'
-    ErrorField:
+    google.rpc.Status:
       type: object
       properties:
-        field:
+        code:
+          type: integer
+          format: int32
+        message:
           type: string
-        description:
-          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
   securitySchemes:
     Bearer:
       type: apiKey

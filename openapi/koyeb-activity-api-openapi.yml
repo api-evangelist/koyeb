@@ -241,36 +241,13 @@ paths:
       - Activity
 components:
   schemas:
-    Activity:
+    ErrorField:
       type: object
       properties:
-        id:
+        field:
           type: string
-        actor:
-          $ref: '#/components/schemas/Object'
-        object:
-          $ref: '#/components/schemas/Object'
-        verb:
+        description:
           type: string
-        metadata:
-          type: object
-        created_at:
-          type: string
-          format: date-time
-    Notification:
-      type: object
-      properties:
-        id:
-          type: string
-        activity:
-          $ref: '#/components/schemas/Activity'
-        is_read:
-          type: boolean
-        is_seen:
-          type: boolean
-        created_at:
-          type: string
-          format: date-time
     google.protobuf.Any:
       type: object
       properties:
@@ -315,18 +292,6 @@ components:
           type: string
         message:
           type: string
-    google.rpc.Status:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
     ActivityList:
       type: object
       properties:
@@ -342,6 +307,18 @@ components:
           format: int64
         has_next:
           type: boolean
+    google.rpc.Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
     ErrorWithFields:
       type: object
       properties:
@@ -356,13 +333,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ErrorField'
-    ErrorField:
-      type: object
-      properties:
-        field:
-          type: string
-        description:
-          type: string
     Object:
       type: object
       properties:
@@ -376,6 +346,36 @@ components:
           type: object
         deleted:
           type: boolean
+    Notification:
+      type: object
+      properties:
+        id:
+          type: string
+        activity:
+          $ref: '#/components/schemas/Activity'
+        is_read:
+          type: boolean
+        is_seen:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+    Activity:
+      type: object
+      properties:
+        id:
+          type: string
+        actor:
+          $ref: '#/components/schemas/Object'
+        object:
+          $ref: '#/components/schemas/Object'
+        verb:
+          type: string
+        metadata:
+          type: object
+        created_at:
+          type: string
+          format: date-time
   securitySchemes:
     Bearer:
       type: apiKey

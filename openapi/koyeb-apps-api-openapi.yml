@@ -658,97 +658,6 @@ paths:
       - Apps
 components:
   schemas:
-    PauseAppReply:
-      type: object
-    UpdateApp:
-      type: object
-      properties:
-        name:
-          type: string
-        life_cycle:
-          $ref: '#/components/schemas/AppLifeCycle'
-    ResumeAppReply:
-      type: object
-    GetAppReply:
-      type: object
-      properties:
-        app:
-          $ref: '#/components/schemas/App'
-          title: The App retrieved
-    App.Status:
-      type: string
-      enum:
-      - STARTING
-      - HEALTHY
-      - DEGRADED
-      - UNHEALTHY
-      - DELETING
-      - DELETED
-      - PAUSING
-      - PAUSED
-      - RESUMING
-      default: STARTING
-    AppLifeCycle:
-      type: object
-      properties:
-        delete_when_empty:
-          type: boolean
-    ListAppsReply:
-      type: object
-      properties:
-        apps:
-          type: array
-          items:
-            $ref: '#/components/schemas/AppListItem'
-        limit:
-          type: integer
-          format: int64
-          title: The limit in the request
-        offset:
-          type: integer
-          format: int64
-          title: The offset in the request
-        count:
-          type: integer
-          format: int64
-          title: The total number of items
-        has_next:
-          type: boolean
-          title: If there is more items after in the collection
-    AppListItem:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        organization_id:
-          type: string
-        updated_at:
-          type: string
-          format: date-time
-        created_at:
-          type: string
-          format: date-time
-        domains:
-          type: array
-          items:
-            $ref: '#/components/schemas/Domain'
-        status:
-          $ref: '#/components/schemas/App.Status'
-        messages:
-          type: array
-          items:
-            type: string
-    ErrorField:
-      type: object
-      properties:
-        field:
-          type: string
-        description:
-          type: string
-    Domain.LoadBalancerCloudflare:
-      type: object
     ListAppEventsReply:
       type: object
       properties:
@@ -771,93 +680,6 @@ components:
         has_next:
           type: boolean
           title: If there is more items after in the collection
-    Domain:
-      type: object
-      properties:
-        id:
-          type: string
-        organization_id:
-          type: string
-        name:
-          type: string
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-        status:
-          $ref: '#/components/schemas/Domain.Status'
-        type:
-          $ref: '#/components/schemas/Domain.Type'
-        app_id:
-          type: string
-        deployment_group:
-          type: string
-        verified_at:
-          type: string
-          format: date-time
-        intended_cname:
-          type: string
-        messages:
-          type: array
-          items:
-            type: string
-        version:
-          type: string
-          format: uint64
-        cloudflare:
-          $ref: '#/components/schemas/Domain.LoadBalancerCloudflare'
-        koyeb:
-          $ref: '#/components/schemas/Domain.LoadBalancerKoyeb'
-        project_id:
-          type: string
-          description: The project ID this domain belongs to. Empty if the domain is organization-level.
-    Domain.Status:
-      type: string
-      enum:
-      - PENDING
-      - ACTIVE
-      - ERROR
-      - DELETING
-      - DELETED
-      default: PENDING
-    CreateApp:
-      type: object
-      properties:
-        name:
-          type: string
-        life_cycle:
-          $ref: '#/components/schemas/AppLifeCycle'
-        project_id:
-          type: string
-          title: (Optional) The project ID to associate with the app
-    google.protobuf.Any:
-      type: object
-      properties:
-        '@type':
-          type: string
-          description: "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
-      additionalProperties: {}
-      description: "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(&foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := &pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := &pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": <string>,\n      \"lastName\": <string>\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
-    UpdateAppReply:
-      type: object
-      properties:
-        app:
-          $ref: '#/components/schemas/App'
-          title: The entity updated
-    Error:
-      type: object
-      properties:
-        status:
-          type: integer
-          format: int32
-        code:
-          type: string
-        message:
-          type: string
-    DeleteAppReply:
-      type: object
     Domain.LoadBalancerKoyeb:
       type: object
       properties:
@@ -865,63 +687,6 @@ components:
           type: integer
           format: int64
           title: Between 100 and 900
-    Domain.Type:
-      type: string
-      enum:
-      - AUTOASSIGNED
-      - CUSTOM
-      default: AUTOASSIGNED
-      title: '- AUTOASSIGNED: Domain like <appName>-<orgName>.koyeb.app'
-    CreateAppReply:
-      type: object
-      properties:
-        app:
-          $ref: '#/components/schemas/App'
-          title: The entity created
-    google.rpc.Status:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-    AppEvent:
-      type: object
-      properties:
-        id:
-          type: string
-        when:
-          type: string
-          format: date-time
-        organization_id:
-          type: string
-        app_id:
-          type: string
-        type:
-          type: string
-        message:
-          type: string
-        metadata:
-          type: object
-    ErrorWithFields:
-      type: object
-      properties:
-        status:
-          type: integer
-          format: int32
-        code:
-          type: string
-        message:
-          type: string
-        fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorField'
     App:
       type: object
       properties:
@@ -967,6 +732,241 @@ components:
             $ref: '#/components/schemas/Domain'
         life_cycle:
           $ref: '#/components/schemas/AppLifeCycle'
+    CreateApp:
+      type: object
+      properties:
+        name:
+          type: string
+        life_cycle:
+          $ref: '#/components/schemas/AppLifeCycle'
+        project_id:
+          type: string
+          title: (Optional) The project ID to associate with the app
+    PauseAppReply:
+      type: object
+    GetAppReply:
+      type: object
+      properties:
+        app:
+          $ref: '#/components/schemas/App'
+          title: The App retrieved
+    Domain.Type:
+      type: string
+      enum:
+      - AUTOASSIGNED
+      - CUSTOM
+      default: AUTOASSIGNED
+      title: '- AUTOASSIGNED: Domain like <appName>-<orgName>.koyeb.app'
+    ListAppsReply:
+      type: object
+      properties:
+        apps:
+          type: array
+          items:
+            $ref: '#/components/schemas/AppListItem'
+        limit:
+          type: integer
+          format: int64
+          title: The limit in the request
+        offset:
+          type: integer
+          format: int64
+          title: The offset in the request
+        count:
+          type: integer
+          format: int64
+          title: The total number of items
+        has_next:
+          type: boolean
+          title: If there is more items after in the collection
+    App.Status:
+      type: string
+      enum:
+      - STARTING
+      - HEALTHY
+      - DEGRADED
+      - UNHEALTHY
+      - DELETING
+      - DELETED
+      - PAUSING
+      - PAUSED
+      - RESUMING
+      default: STARTING
+    AppEvent:
+      type: object
+      properties:
+        id:
+          type: string
+        when:
+          type: string
+          format: date-time
+        organization_id:
+          type: string
+        app_id:
+          type: string
+        type:
+          type: string
+        message:
+          type: string
+        metadata:
+          type: object
+    UpdateAppReply:
+      type: object
+      properties:
+        app:
+          $ref: '#/components/schemas/App'
+          title: The entity updated
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+    google.rpc.Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+    UpdateApp:
+      type: object
+      properties:
+        name:
+          type: string
+        life_cycle:
+          $ref: '#/components/schemas/AppLifeCycle'
+    google.protobuf.Any:
+      type: object
+      properties:
+        '@type':
+          type: string
+          description: "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
+      additionalProperties: {}
+      description: "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(&foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := &pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := &pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": <string>,\n      \"lastName\": <string>\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
+    AppListItem:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        organization_id:
+          type: string
+        updated_at:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+        domains:
+          type: array
+          items:
+            $ref: '#/components/schemas/Domain'
+        status:
+          $ref: '#/components/schemas/App.Status'
+        messages:
+          type: array
+          items:
+            type: string
+    ResumeAppReply:
+      type: object
+    AppLifeCycle:
+      type: object
+      properties:
+        delete_when_empty:
+          type: boolean
+    Domain:
+      type: object
+      properties:
+        id:
+          type: string
+        organization_id:
+          type: string
+        name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        status:
+          $ref: '#/components/schemas/Domain.Status'
+        type:
+          $ref: '#/components/schemas/Domain.Type'
+        app_id:
+          type: string
+        deployment_group:
+          type: string
+        verified_at:
+          type: string
+          format: date-time
+        intended_cname:
+          type: string
+        messages:
+          type: array
+          items:
+            type: string
+        version:
+          type: string
+          format: uint64
+        cloudflare:
+          $ref: '#/components/schemas/Domain.LoadBalancerCloudflare'
+        koyeb:
+          $ref: '#/components/schemas/Domain.LoadBalancerKoyeb'
+        project_id:
+          type: string
+          description: The project ID this domain belongs to. Empty if the domain is organization-level.
+    ErrorField:
+      type: object
+      properties:
+        field:
+          type: string
+        description:
+          type: string
+    Domain.LoadBalancerCloudflare:
+      type: object
+    CreateAppReply:
+      type: object
+      properties:
+        app:
+          $ref: '#/components/schemas/App'
+          title: The entity created
+    ErrorWithFields:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorField'
+    DeleteAppReply:
+      type: object
+    Domain.Status:
+      type: string
+      enum:
+      - PENDING
+      - ACTIVE
+      - ERROR
+      - DELETING
+      - DELETED
+      default: PENDING
   securitySchemes:
     Bearer:
       type: apiKey
