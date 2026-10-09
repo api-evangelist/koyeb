@@ -193,3 +193,49 @@ programmatic_billing_surface:
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  - negotiated
+  units:
+  - compute
+  - money
+  - seat
+  plans:
+  - name: Hobby
+    access: freemium
+    model: free
+    model_how: derived
+    units:
+    - compute
+    periods:
+    - month
+  - name: Pro
+    access: paid
+    model: free
+    model_how: derived
+    units:
+    - money
+    - other
+    - seat
+    periods:
+    - month
+  - name: Scale
+    access: paid
+    model: free
+    model_how: derived
+    units:
+    - money
+    - other
+    - seat
+    periods:
+    - month
+  - name: Enterprise
+    access: negotiated
+    model: negotiated
+    model_how: stated
+    units:
+    - seat
+    periods: []
