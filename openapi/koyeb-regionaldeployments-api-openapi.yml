@@ -250,6 +250,34 @@ paths:
       - RegionalDeployments
 components:
   schemas:
+    RegionalDeploymentEvent:
+      type: object
+      properties:
+        id:
+          type: string
+        when:
+          type: string
+          format: date-time
+        organization_id:
+          type: string
+        regional_deployment_id:
+          type: string
+        type:
+          type: string
+        message:
+          type: string
+        metadata:
+          type: object
+    MeshScope:
+      type: string
+      enum:
+      - MESH_SCOPE_UNSPECIFIED
+      - MESH_SCOPE_ORGANIZATION
+      - MESH_SCOPE_WORKSPACE
+      - MESH_SCOPE_APP
+      - MESH_SCOPE_CUSTOM
+      default: MESH_SCOPE_UNSPECIFIED
+      description: "MeshScope selects which set of services can communicate over the mesh.\nOnly meaningful when the mesh is on (i.e. DeploymentMesh is ENABLED, or\nAUTO and the service is eligible). UNSPECIFIED defers to the\norganization-level default (workspace-scoped since KOYEB-6062, legacy\norganizations opted back to organization scope via\nuse_organization_level_mesh).\n\n - MESH_SCOPE_ORGANIZATION: Private communication between services in the same organization\n(mesh label k-<orgId>).\n - MESH_SCOPE_WORKSPACE: Private communication between services in the same workspace/project\n(mesh label pr_<projectId>).\n - MESH_SCOPE_APP: Private communication between services in the same app\n(mesh label app_<appId>).\n - MESH_SCOPE_CUSTOM: Private communication between services in the same workspace that\nshare the same NetworkPolicy.mesh.name. Server-computed label is\nscoped by workspace, so the same custom name in different workspaces\nnever collides."
     SecurityPolicies:
       type: object
       properties:
@@ -261,20 +289,130 @@ components:
           type: array
           items:
             type: string
-    BasicAuthPolicy:
+    ErrorWithFields:
       type: object
       properties:
-        username:
+        status:
+          type: integer
+          format: int32
+        code:
           type: string
-        password:
+        message:
           type: string
-    GetRegionalDeploymentReply:
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorField'
+    BuildpackBuilder:
       type: object
       properties:
-        regional_deployment:
-          $ref: '#/components/schemas/RegionalDeployment'
-    RegionalDeploymentMetadata:
+        build_command:
+          type: string
+          title: A command used to override the build command, run after all build steps
+        run_command:
+          type: string
+          title: A command used to override the default run command
+        privileged:
+          type: boolean
+          title: A flag to run the container in privileged mode
+    EgressPolicyMode:
+      type: string
+      enum:
+      - EGRESS_POLICY_MODE_DEFAULT
+      - EGRESS_POLICY_MODE_DENY_ALL
+      default: EGRESS_POLICY_MODE_DEFAULT
+    DeploymentProvisioningInfo.Stage.BuildAttempt:
       type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        status:
+          $ref: '#/components/schemas/DeploymentProvisioningInfo.Stage.Status'
+        messages:
+          type: array
+          items:
+            type: string
+        started_at:
+          type: string
+          format: date-time
+        finished_at:
+          type: string
+          format: date-time
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeploymentProvisioningInfo.Stage.BuildAttempt.BuildStep'
+        image_pushed:
+          type: boolean
+        internal_failure:
+          type: boolean
+        retryable_failure:
+          type: boolean
+        wait_completion:
+          type: boolean
+          description: This flag is used to finalize the build, and continue the deployment in case of success, or cancel and potentially retry the build in case of failure.
+    TCPHealthCheck:
+      type: object
+      properties:
+        port:
+          type: integer
+          format: int64
+          title: The port to use to perform the health check, must be declared in the ports section
+    DeploymentStrategyType:
+      type: string
+      enum:
+      - DEPLOYMENT_STRATEGY_TYPE_INVALID
+      - DEPLOYMENT_STRATEGY_TYPE_DEFAULT
+      - DEPLOYMENT_STRATEGY_TYPE_CANARY
+      - DEPLOYMENT_STRATEGY_TYPE_ROLLING
+      - DEPLOYMENT_STRATEGY_TYPE_BLUE_GREEN
+      - DEPLOYMENT_STRATEGY_TYPE_IMMEDIATE
+      default: DEPLOYMENT_STRATEGY_TYPE_INVALID
+      description: " - DEPLOYMENT_STRATEGY_TYPE_INVALID: DEPRECATED: Use DEPLOYMENT_STRATEGY_TYPE_DEFAULT instead.\n - DEPLOYMENT_STRATEGY_TYPE_DEFAULT: Default/unspecified strategy (resolves to platform default, currently ROLLING).\n - DEPLOYMENT_STRATEGY_TYPE_CANARY: Use canary strategy.\n - DEPLOYMENT_STRATEGY_TYPE_ROLLING: Use rolling strategy.\n - DEPLOYMENT_STRATEGY_TYPE_BLUE_GREEN: Use blue green strategy.\n - DEPLOYMENT_STRATEGY_TYPE_IMMEDIATE: Use immediate strategy."
+    RegionalDeploymentMesh:
+      type: string
+      enum:
+      - REGIONAL_DEPLOYMENT_MESH_AUTO
+      - REGIONAL_DEPLOYMENT_MESH_ENABLED
+      - REGIONAL_DEPLOYMENT_MESH_DISABLED
+      default: REGIONAL_DEPLOYMENT_MESH_AUTO
+    DeploymentScalingTargetAverageMem:
+      type: object
+      properties:
+        value:
+          type: integer
+          format: int64
+    DeploymentStrategy:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/DeploymentStrategyType'
+          title: Strategy type
+    RegionalDeployment.Role:
+      type: string
+      enum:
+      - INVALID
+      - ACTIVE
+      - UPCOMING
+      - CURRENT
+      default: INVALID
+    DeploymentScalingTargetRequestsPerSecond:
+      type: object
+      properties:
+        value:
+          type: integer
+          format: int64
+    NetworkPolicyDestination:
+      type: object
+      properties:
+        cidr:
+          type: string
+          description: 'IPv4 or IPv6 CIDR (e.g. "10.0.0.0/8", "2001:db8::/32").
+
+            Bare IPs are accepted at the API boundary and normalized to /32
+
+            (IPv4) or /128 (IPv6) before storage.'
     ListRegionalDeploymentEventsReply:
       type: object
       properties:
@@ -297,101 +435,163 @@ components:
         has_next:
           type: boolean
           title: If there is more items after in the collection
-    TCPHealthCheck:
+    ConfigFile:
+      type: object
+      properties:
+        path:
+          type: string
+          title: the path where the file is copied
+        permissions:
+          type: string
+          title: the permissions of the file in format 0644
+        content:
+          type: string
+          title: the content of the file
+    EgressPolicy:
+      type: object
+      properties:
+        mode:
+          $ref: '#/components/schemas/EgressPolicyMode'
+        allow_list:
+          type: array
+          items:
+            $ref: '#/components/schemas/NetworkPolicyDestination'
+          description: 'Allowed destinations (deny-by-default semantics under DENY_ALL).
+
+            Ignored when mode is DEFAULT.'
+    google.protobuf.Any:
+      type: object
+      properties:
+        '@type':
+          type: string
+          description: "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
+      additionalProperties: {}
+      description: "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(&foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := &pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := &pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": <string>,\n      \"lastName\": <string>\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
+    RegionalDeploymentVolume:
+      type: object
+      properties:
+        id:
+          type: string
+          title: the id of the volume
+        path:
+          type: string
+          title: the path where the volume is mounted to
+        replica_index:
+          type: integer
+          format: int64
+          title: the replica index to mount the volume to
+    DeploymentProvisioningInfo.Stage:
+      type: object
+      properties:
+        name:
+          type: string
+        status:
+          $ref: '#/components/schemas/DeploymentProvisioningInfo.Stage.Status'
+        messages:
+          type: array
+          items:
+            type: string
+        started_at:
+          type: string
+          format: date-time
+        finished_at:
+          type: string
+          format: date-time
+        build_attempts:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeploymentProvisioningInfo.Stage.BuildAttempt'
+    Port:
       type: object
       properties:
         port:
           type: integer
           format: int64
-          title: The port to use to perform the health check, must be declared in the ports section
-    Scaling:
+        protocol:
+          type: string
+    DockerSource:
       type: object
       properties:
-        min:
-          type: integer
-          format: int64
-        max:
-          type: integer
-          format: int64
-        targets:
+        image:
+          type: string
+        command:
+          type: string
+        args:
           type: array
           items:
-            $ref: '#/components/schemas/DeploymentScalingTarget'
-    DeploymentScalingTarget:
+            type: string
+        image_registry_secret:
+          type: string
+        entrypoint:
+          type: array
+          items:
+            type: string
+        privileged:
+          type: boolean
+          title: A flag to run the container in privileged mode
+    DeploymentProvisioningInfo.Stage.BuildAttempt.BuildStep:
       type: object
       properties:
-        average_cpu:
-          $ref: '#/components/schemas/DeploymentScalingTargetAverageCPU'
-        average_mem:
-          $ref: '#/components/schemas/DeploymentScalingTargetAverageMem'
-        requests_per_second:
-          $ref: '#/components/schemas/DeploymentScalingTargetRequestsPerSecond'
-        concurrent_requests:
-          $ref: '#/components/schemas/DeploymentScalingTargetConcurrentRequests'
-        requests_response_time:
-          $ref: '#/components/schemas/DeploymentScalingTargetRequestsResponseTime'
-        sleep_idle_delay:
-          $ref: '#/components/schemas/DeploymentScalingTargetSleepIdleDelay'
-    RegionalDeployment.Status:
+        name:
+          type: string
+        status:
+          $ref: '#/components/schemas/DeploymentProvisioningInfo.Stage.Status'
+        messages:
+          type: array
+          items:
+            type: string
+        started_at:
+          type: string
+          format: date-time
+        finished_at:
+          type: string
+          format: date-time
+    DeploymentProvisioningInfo.Stage.Status:
       type: string
       enum:
+      - UNKNOWN
       - PENDING
-      - PROVISIONING
-      - SCHEDULED
-      - CANCELING
-      - CANCELED
-      - ALLOCATING
-      - STARTING
-      - HEALTHY
-      - DEGRADED
-      - UNHEALTHY
-      - STOPPING
-      - STOPPED
-      - ERRORING
-      - ERROR
-      - SLEEPING
-      default: PENDING
-    RegionalDeployment.Role:
-      type: string
-      enum:
-      - INVALID
-      - ACTIVE
-      - UPCOMING
-      - CURRENT
-      default: INVALID
-    DeploymentStrategyType:
-      type: string
-      enum:
-      - DEPLOYMENT_STRATEGY_TYPE_INVALID
-      - DEPLOYMENT_STRATEGY_TYPE_DEFAULT
-      - DEPLOYMENT_STRATEGY_TYPE_CANARY
-      - DEPLOYMENT_STRATEGY_TYPE_ROLLING
-      - DEPLOYMENT_STRATEGY_TYPE_BLUE_GREEN
-      - DEPLOYMENT_STRATEGY_TYPE_IMMEDIATE
-      default: DEPLOYMENT_STRATEGY_TYPE_INVALID
-      description: " - DEPLOYMENT_STRATEGY_TYPE_INVALID: DEPRECATED: Use DEPLOYMENT_STRATEGY_TYPE_DEFAULT instead.\n - DEPLOYMENT_STRATEGY_TYPE_DEFAULT: Default/unspecified strategy (resolves to platform default, currently ROLLING).\n - DEPLOYMENT_STRATEGY_TYPE_CANARY: Use canary strategy.\n - DEPLOYMENT_STRATEGY_TYPE_ROLLING: Use rolling strategy.\n - DEPLOYMENT_STRATEGY_TYPE_BLUE_GREEN: Use blue green strategy.\n - DEPLOYMENT_STRATEGY_TYPE_IMMEDIATE: Use immediate strategy."
-    DeploymentScalingTargetRequestsResponseTime:
+      - RUNNING
+      - FAILED
+      - COMPLETED
+      - ABORTED
+      default: UNKNOWN
+    DeploymentScalingTargetSleepIdleDelay:
       type: object
       properties:
         value:
           type: integer
           format: int64
-        quantile:
+          description: 'DEPRECATED: use deep_sleep_value instead.
+
+            Delay in seconds after which a service which received 0 request is put to deep sleep.'
+        deep_sleep_value:
           type: integer
           format: int64
-          description: 'The quantile to use for autoscaling. For example, set to 95 to use the 95th
-
-            percentile (p95) for autoscaling.  Valid values are between 0 and 100.'
-    NetworkPolicyDestination:
+          description: Delay in seconds after which a service which received 0 request is put to deep sleep.
+        light_sleep_value:
+          type: integer
+          format: int64
+          description: Delay in seconds after which a service which received 0 request is put to light sleep.
+    Mesh:
       type: object
       properties:
-        cidr:
+        scope:
+          $ref: '#/components/schemas/MeshScope'
+        name:
           type: string
-          description: 'IPv4 or IPv6 CIDR (e.g. "10.0.0.0/8", "2001:db8::/32").
+          description: 'Custom mesh name — required when scope is MESH_SCOPE_CUSTOM, ignored
 
-            Bare IPs are accepted at the API boundary and normalized to /32
+            otherwise. Combined with the workspace ID server-side to ensure the same
 
-            (IPv4) or /128 (IPv6) before storage.'
+            custom name in different workspaces never collides.'
+      description: 'Mesh groups the mesh scope selector and the (optional) custom mesh name.
+
+        Kept inside NetworkPolicy so scope/name and other network-policy dimensions
+
+        (egress, future inbound) live together.'
+    RegionalDeploymentMetadata:
+      type: object
     GitSource:
       type: object
       properties:
@@ -423,53 +623,41 @@ components:
           $ref: '#/components/schemas/BuildpackBuilder'
         docker:
           $ref: '#/components/schemas/DockerBuilder'
-    DeploymentScalingTargetAverageCPU:
+    ErrorField:
       type: object
       properties:
-        value:
+        field:
+          type: string
+        description:
+          type: string
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+    HTTPHealthCheck:
+      type: object
+      properties:
+        port:
           type: integer
           format: int64
-    Mesh:
-      type: object
-      properties:
-        scope:
-          $ref: '#/components/schemas/MeshScope'
-        name:
+          title: The port to use to perform the health check, must be declared in the ports section
+        path:
           type: string
-          description: 'Custom mesh name — required when scope is MESH_SCOPE_CUSTOM, ignored
-
-            otherwise. Combined with the workspace ID server-side to ensure the same
-
-            custom name in different workspaces never collides.'
-      description: 'Mesh groups the mesh scope selector and the (optional) custom mesh name.
-
-        Kept inside NetworkPolicy so scope/name and other network-policy dimensions
-
-        (egress, future inbound) live together.'
-    google.protobuf.Any:
-      type: object
-      properties:
-        '@type':
+          title: The path to use to perform the HTTP health check
+        method:
           type: string
-          description: "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
-      additionalProperties: {}
-      description: "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(&foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := &pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := &pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": <string>,\n      \"lastName\": <string>\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
-    MeshScope:
-      type: string
-      enum:
-      - MESH_SCOPE_UNSPECIFIED
-      - MESH_SCOPE_ORGANIZATION
-      - MESH_SCOPE_WORKSPACE
-      - MESH_SCOPE_APP
-      - MESH_SCOPE_CUSTOM
-      default: MESH_SCOPE_UNSPECIFIED
-      description: "MeshScope selects which set of services can communicate over the mesh.\nOnly meaningful when the mesh is on (i.e. DeploymentMesh is ENABLED, or\nAUTO and the service is eligible). UNSPECIFIED defers to the\norganization-level default (workspace-scoped since KOYEB-6062, legacy\norganizations opted back to organization scope via\nuse_organization_level_mesh).\n\n - MESH_SCOPE_ORGANIZATION: Private communication between services in the same organization\n(mesh label k-<orgId>).\n - MESH_SCOPE_WORKSPACE: Private communication between services in the same workspace/project\n(mesh label pr_<projectId>).\n - MESH_SCOPE_APP: Private communication between services in the same app\n(mesh label app_<appId>).\n - MESH_SCOPE_CUSTOM: Private communication between services in the same workspace that\nshare the same NetworkPolicy.mesh.name. Server-computed label is\nscoped by workspace, so the same custom name in different workspaces\nnever collides."
-    EgressPolicyMode:
-      type: string
-      enum:
-      - EGRESS_POLICY_MODE_DEFAULT
-      - EGRESS_POLICY_MODE_DENY_ALL
-      default: EGRESS_POLICY_MODE_DEFAULT
+          title: An optional HTTP method to use to perform the health check, default is GET
+        headers:
+          type: array
+          items:
+            $ref: '#/components/schemas/HTTPHeader'
+          title: An optional list of HTTP headers to provide when performing the request, default is empty
     ArchiveSource:
       type: object
       properties:
@@ -489,6 +677,39 @@ components:
           type: string
         secret:
           type: string
+    DeploymentScalingTargetConcurrentRequests:
+      type: object
+      properties:
+        value:
+          type: integer
+          format: int64
+    Scaling:
+      type: object
+      properties:
+        min:
+          type: integer
+          format: int64
+        max:
+          type: integer
+          format: int64
+        targets:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeploymentScalingTarget'
+    DeploymentProvisioningInfo:
+      type: object
+      properties:
+        sha:
+          type: string
+          description: The git sha for this build (we resolve the reference at the start of the build).
+        image:
+          type: string
+          description: The docker image built as a result of this build.
+        stages:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeploymentProvisioningInfo.Stage'
+          description: Some info about the build.
     DeploymentHealthCheck:
       type: object
       properties:
@@ -512,6 +733,43 @@ components:
           $ref: '#/components/schemas/TCPHealthCheck'
         http:
           $ref: '#/components/schemas/HTTPHealthCheck'
+    google.rpc.Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+    DockerBuilder:
+      type: object
+      properties:
+        dockerfile:
+          type: string
+          title: A path to the Dockerfile
+        entrypoint:
+          type: array
+          items:
+            type: string
+          title: The docker ENTRYPOINT
+        command:
+          type: string
+          title: The docker CMD
+        args:
+          type: array
+          items:
+            type: string
+          title: The docker CMD args
+        target:
+          type: string
+          title: The target for multi-stage builds
+        privileged:
+          type: boolean
+          title: A flag to run the container in privileged mode
     ListRegionalDeploymentsReply:
       type: object
       properties:
@@ -535,40 +793,45 @@ components:
         has_next:
           type: boolean
           title: If there is more items after in the collection
-    DeploymentScalingTargetSleepIdleDelay:
+    GetRegionalDeploymentReply:
       type: object
       properties:
-        value:
-          type: integer
-          format: int64
-          description: 'DEPRECATED: use deep_sleep_value instead.
-
-            Delay in seconds after which a service which received 0 request is put to deep sleep.'
-        deep_sleep_value:
-          type: integer
-          format: int64
-          description: Delay in seconds after which a service which received 0 request is put to deep sleep.
-        light_sleep_value:
-          type: integer
-          format: int64
-          description: Delay in seconds after which a service which received 0 request is put to light sleep.
-    RegionalDeploymentMesh:
+        regional_deployment:
+          $ref: '#/components/schemas/RegionalDeployment'
+    RegionalDeployment.Status:
       type: string
       enum:
-      - REGIONAL_DEPLOYMENT_MESH_AUTO
-      - REGIONAL_DEPLOYMENT_MESH_ENABLED
-      - REGIONAL_DEPLOYMENT_MESH_DISABLED
-      default: REGIONAL_DEPLOYMENT_MESH_AUTO
-    Route:
+      - PENDING
+      - PROVISIONING
+      - SCHEDULED
+      - CANCELING
+      - CANCELED
+      - ALLOCATING
+      - STARTING
+      - HEALTHY
+      - DEGRADED
+      - UNHEALTHY
+      - STOPPING
+      - STOPPED
+      - ERRORING
+      - ERROR
+      - SLEEPING
+      default: PENDING
+    DeploymentScalingTarget:
       type: object
       properties:
-        port:
-          type: integer
-          format: int64
-        path:
-          type: string
-        security_policies:
-          $ref: '#/components/schemas/SecurityPolicies'
+        average_cpu:
+          $ref: '#/components/schemas/DeploymentScalingTargetAverageCPU'
+        average_mem:
+          $ref: '#/components/schemas/DeploymentScalingTargetAverageMem'
+        requests_per_second:
+          $ref: '#/components/schemas/DeploymentScalingTargetRequestsPerSecond'
+        concurrent_requests:
+          $ref: '#/components/schemas/DeploymentScalingTargetConcurrentRequests'
+        requests_response_time:
+          $ref: '#/components/schemas/DeploymentScalingTargetRequestsResponseTime'
+        sleep_idle_delay:
+          $ref: '#/components/schemas/DeploymentScalingTargetSleepIdleDelay'
     HTTPHeader:
       type: object
       properties:
@@ -576,133 +839,12 @@ components:
           type: string
         value:
           type: string
-    RegionalDeploymentDefinition:
+    DeploymentScalingTargetAverageCPU:
       type: object
       properties:
-        name:
-          type: string
-        type:
-          $ref: '#/components/schemas/RegionalDeploymentDefinition.Type'
-        strategy:
-          $ref: '#/components/schemas/DeploymentStrategy'
-        routes:
-          type: array
-          items:
-            $ref: '#/components/schemas/Route'
-        ports:
-          type: array
-          items:
-            $ref: '#/components/schemas/Port'
-        env:
-          type: array
-          items:
-            $ref: '#/components/schemas/Env'
-        region:
-          type: string
-        scaling:
-          $ref: '#/components/schemas/Scaling'
-        instance_type:
-          type: string
-        deployment_group:
-          type: string
-        health_checks:
-          type: array
-          items:
-            $ref: '#/components/schemas/DeploymentHealthCheck'
-        volumes:
-          type: array
-          items:
-            $ref: '#/components/schemas/RegionalDeploymentVolume'
-        config_files:
-          type: array
-          items:
-            $ref: '#/components/schemas/ConfigFile'
-        skip_cache:
-          type: boolean
-        mesh:
-          $ref: '#/components/schemas/RegionalDeploymentMesh'
-        network_policy:
-          $ref: '#/components/schemas/NetworkPolicy'
-        docker:
-          $ref: '#/components/schemas/DockerSource'
-        git:
-          $ref: '#/components/schemas/GitSource'
-        archive:
-          $ref: '#/components/schemas/ArchiveSource'
-    DeploymentProvisioningInfo.Stage:
-      type: object
-      properties:
-        name:
-          type: string
-        status:
-          $ref: '#/components/schemas/DeploymentProvisioningInfo.Stage.Status'
-        messages:
-          type: array
-          items:
-            type: string
-        started_at:
-          type: string
-          format: date-time
-        finished_at:
-          type: string
-          format: date-time
-        build_attempts:
-          type: array
-          items:
-            $ref: '#/components/schemas/DeploymentProvisioningInfo.Stage.BuildAttempt'
-    ConfigFile:
-      type: object
-      properties:
-        path:
-          type: string
-          title: the path where the file is copied
-        permissions:
-          type: string
-          title: the permissions of the file in format 0644
-        content:
-          type: string
-          title: the content of the file
-    DeploymentProvisioningInfo:
-      type: object
-      properties:
-        sha:
-          type: string
-          description: The git sha for this build (we resolve the reference at the start of the build).
-        image:
-          type: string
-          description: The docker image built as a result of this build.
-        stages:
-          type: array
-          items:
-            $ref: '#/components/schemas/DeploymentProvisioningInfo.Stage'
-          description: Some info about the build.
-    DeploymentProvisioningInfo.Stage.Status:
-      type: string
-      enum:
-      - UNKNOWN
-      - PENDING
-      - RUNNING
-      - FAILED
-      - COMPLETED
-      - ABORTED
-      default: UNKNOWN
-    DeploymentProvisioningInfo.Stage.BuildAttempt.BuildStep:
-      type: object
-      properties:
-        name:
-          type: string
-        status:
-          $ref: '#/components/schemas/DeploymentProvisioningInfo.Stage.Status'
-        messages:
-          type: array
-          items:
-            type: string
-        started_at:
-          type: string
-          format: date-time
-        finished_at:
-          type: string
-          format: date-time
+        value:
+          type: integer
+          format: int64
     NetworkPolicy:
       type: object
       properties:
@@ -715,30 +857,38 @@ components:
             field, which only toggles the mesh on/off. This sub-message controls
 
             WHICH services can reach each other over the mesh when it is on.'
-    RegionalDeploymentListItem:
+    DeploymentScalingTargetRequestsResponseTime:
       type: object
       properties:
-        id:
+        value:
+          type: integer
+          format: int64
+        quantile:
+          type: integer
+          format: int64
+          description: 'The quantile to use for autoscaling. For example, set to 95 to use the 95th
+
+            percentile (p95) for autoscaling.  Valid values are between 0 and 100.'
+    Route:
+      type: object
+      properties:
+        port:
+          type: integer
+          format: int64
+        path:
           type: string
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-        region:
-          type: string
-        status:
-          $ref: '#/components/schemas/RegionalDeployment.Status'
-        messages:
-          type: array
-          items:
-            type: string
-        definition:
-          $ref: '#/components/schemas/RegionalDeploymentDefinition'
-        instance_snapshot_id:
-          type: string
-          title: Instance Snapshot used to boot the Instances of this deployment
+        security_policies:
+          $ref: '#/components/schemas/SecurityPolicies'
+    RegionalDeploymentDefinition.Type:
+      type: string
+      enum:
+      - INVALID
+      - WEB
+      - WORKER
+      - _
+      - SANDBOX
+      default: INVALID
+      title: '- _: We match with DeploymentDefinition.Type, so we skip 3 which is DATABASE'
     RegionalDeployment:
       type: object
       properties:
@@ -806,240 +956,90 @@ components:
           title: Legacy stuff
         deployment_id:
           type: string
-    BuildpackBuilder:
+    BasicAuthPolicy:
       type: object
       properties:
-        build_command:
+        username:
           type: string
-          title: A command used to override the build command, run after all build steps
-        run_command:
+        password:
           type: string
-          title: A command used to override the default run command
-        privileged:
-          type: boolean
-          title: A flag to run the container in privileged mode
-    google.rpc.Status:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/google.protobuf.Any'
-    DeploymentProvisioningInfo.Stage.BuildAttempt:
+    RegionalDeploymentListItem:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        region:
+          type: string
         status:
-          $ref: '#/components/schemas/DeploymentProvisioningInfo.Stage.Status'
+          $ref: '#/components/schemas/RegionalDeployment.Status'
         messages:
           type: array
           items:
             type: string
-        started_at:
+        definition:
+          $ref: '#/components/schemas/RegionalDeploymentDefinition'
+        instance_snapshot_id:
           type: string
-          format: date-time
-        finished_at:
-          type: string
-          format: date-time
-        steps:
-          type: array
-          items:
-            $ref: '#/components/schemas/DeploymentProvisioningInfo.Stage.BuildAttempt.BuildStep'
-        image_pushed:
-          type: boolean
-        internal_failure:
-          type: boolean
-        retryable_failure:
-          type: boolean
-        wait_completion:
-          type: boolean
-          description: This flag is used to finalize the build, and continue the deployment in case of success, or cancel and potentially retry the build in case of failure.
-    RegionalDeploymentDefinition.Type:
-      type: string
-      enum:
-      - INVALID
-      - WEB
-      - WORKER
-      - _
-      - SANDBOX
-      default: INVALID
-      title: '- _: We match with DeploymentDefinition.Type, so we skip 3 which is DATABASE'
-    RegionalDeploymentVolume:
+          title: Instance Snapshot used to boot the Instances of this deployment
+    RegionalDeploymentDefinition:
       type: object
       properties:
-        id:
-          type: string
-          title: the id of the volume
-        path:
-          type: string
-          title: the path where the volume is mounted to
-        replica_index:
-          type: integer
-          format: int64
-          title: the replica index to mount the volume to
-    DockerBuilder:
-      type: object
-      properties:
-        dockerfile:
-          type: string
-          title: A path to the Dockerfile
-        entrypoint:
-          type: array
-          items:
-            type: string
-          title: The docker ENTRYPOINT
-        command:
-          type: string
-          title: The docker CMD
-        args:
-          type: array
-          items:
-            type: string
-          title: The docker CMD args
-        target:
-          type: string
-          title: The target for multi-stage builds
-        privileged:
-          type: boolean
-          title: A flag to run the container in privileged mode
-    HTTPHealthCheck:
-      type: object
-      properties:
-        port:
-          type: integer
-          format: int64
-          title: The port to use to perform the health check, must be declared in the ports section
-        path:
-          type: string
-          title: The path to use to perform the HTTP health check
-        method:
-          type: string
-          title: An optional HTTP method to use to perform the health check, default is GET
-        headers:
-          type: array
-          items:
-            $ref: '#/components/schemas/HTTPHeader'
-          title: An optional list of HTTP headers to provide when performing the request, default is empty
-    EgressPolicy:
-      type: object
-      properties:
-        mode:
-          $ref: '#/components/schemas/EgressPolicyMode'
-        allow_list:
-          type: array
-          items:
-            $ref: '#/components/schemas/NetworkPolicyDestination'
-          description: 'Allowed destinations (deny-by-default semantics under DENY_ALL).
-
-            Ignored when mode is DEFAULT.'
-    DeploymentScalingTargetConcurrentRequests:
-      type: object
-      properties:
-        value:
-          type: integer
-          format: int64
-    ErrorWithFields:
-      type: object
-      properties:
-        status:
-          type: integer
-          format: int32
-        code:
-          type: string
-        message:
-          type: string
-        fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorField'
-    DeploymentScalingTargetRequestsPerSecond:
-      type: object
-      properties:
-        value:
-          type: integer
-          format: int64
-    Error:
-      type: object
-      properties:
-        status:
-          type: integer
-          format: int32
-        code:
-          type: string
-        message:
-          type: string
-    DeploymentScalingTargetAverageMem:
-      type: object
-      properties:
-        value:
-          type: integer
-          format: int64
-    ErrorField:
-      type: object
-      properties:
-        field:
-          type: string
-        description:
-          type: string
-    RegionalDeploymentEvent:
-      type: object
-      properties:
-        id:
-          type: string
-        when:
-          type: string
-          format: date-time
-        organization_id:
-          type: string
-        regional_deployment_id:
+        name:
           type: string
         type:
-          type: string
-        message:
-          type: string
-        metadata:
-          type: object
-    Port:
-      type: object
-      properties:
-        port:
-          type: integer
-          format: int64
-        protocol:
-          type: string
-    DockerSource:
-      type: object
-      properties:
-        image:
-          type: string
-        command:
-          type: string
-        args:
+          $ref: '#/components/schemas/RegionalDeploymentDefinition.Type'
+        strategy:
+          $ref: '#/components/schemas/DeploymentStrategy'
+        routes:
           type: array
           items:
-            type: string
-        image_registry_secret:
-          type: string
-        entrypoint:
+            $ref: '#/components/schemas/Route'
+        ports:
           type: array
           items:
-            type: string
-        privileged:
+            $ref: '#/components/schemas/Port'
+        env:
+          type: array
+          items:
+            $ref: '#/components/schemas/Env'
+        region:
+          type: string
+        scaling:
+          $ref: '#/components/schemas/Scaling'
+        instance_type:
+          type: string
+        deployment_group:
+          type: string
+        health_checks:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeploymentHealthCheck'
+        volumes:
+          type: array
+          items:
+            $ref: '#/components/schemas/RegionalDeploymentVolume'
+        config_files:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConfigFile'
+        skip_cache:
           type: boolean
-          title: A flag to run the container in privileged mode
-    DeploymentStrategy:
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/DeploymentStrategyType'
-          title: Strategy type
+        mesh:
+          $ref: '#/components/schemas/RegionalDeploymentMesh'
+        network_policy:
+          $ref: '#/components/schemas/NetworkPolicy'
+        docker:
+          $ref: '#/components/schemas/DockerSource'
+        git:
+          $ref: '#/components/schemas/GitSource'
+        archive:
+          $ref: '#/components/schemas/ArchiveSource'
   securitySchemes:
     Bearer:
       type: apiKey

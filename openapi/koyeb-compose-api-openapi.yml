@@ -73,6 +73,86 @@ paths:
         required: true
 components:
   schemas:
+    DeploymentVolume:
+      type: object
+      properties:
+        id:
+          type: string
+          title: the id of the volume
+        path:
+          type: string
+          title: the path where the volume is mounted to
+        replica_index:
+          type: integer
+          format: int64
+          title: optionally, explicitly choose the replica index to mount the volume to
+        scopes:
+          type: array
+          items:
+            type: string
+          title: scope of the associated
+    MeshScope:
+      type: string
+      enum:
+      - MESH_SCOPE_UNSPECIFIED
+      - MESH_SCOPE_ORGANIZATION
+      - MESH_SCOPE_WORKSPACE
+      - MESH_SCOPE_APP
+      - MESH_SCOPE_CUSTOM
+      default: MESH_SCOPE_UNSPECIFIED
+      description: "MeshScope selects which set of services can communicate over the mesh.\nOnly meaningful when the mesh is on (i.e. DeploymentMesh is ENABLED, or\nAUTO and the service is eligible). UNSPECIFIED defers to the\norganization-level default (workspace-scoped since KOYEB-6062, legacy\norganizations opted back to organization scope via\nuse_organization_level_mesh).\n\n - MESH_SCOPE_ORGANIZATION: Private communication between services in the same organization\n(mesh label k-<orgId>).\n - MESH_SCOPE_WORKSPACE: Private communication between services in the same workspace/project\n(mesh label pr_<projectId>).\n - MESH_SCOPE_APP: Private communication between services in the same app\n(mesh label app_<appId>).\n - MESH_SCOPE_CUSTOM: Private communication between services in the same workspace that\nshare the same NetworkPolicy.mesh.name. Server-computed label is\nscoped by workspace, so the same custom name in different workspaces\nnever collides."
+    Domain.LoadBalancerCloudflare:
+      type: object
+    NeonPostgresDatabase:
+      type: object
+      properties:
+        pg_version:
+          type: integer
+          format: int64
+        region:
+          type: string
+        instance_type:
+          type: string
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/NeonPostgresDatabase.NeonRole'
+        databases:
+          type: array
+          items:
+            $ref: '#/components/schemas/NeonPostgresDatabase.NeonDatabase'
+    AutoRelease:
+      type: object
+      properties:
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/AutoRelease.Group'
+    CreateService:
+      type: object
+      properties:
+        app_id:
+          type: string
+        definition:
+          $ref: '#/components/schemas/DeploymentDefinition'
+        life_cycle:
+          $ref: '#/components/schemas/ServiceLifeCycle'
+        project_id:
+          type: string
+          title: (Optional) The project ID to associate with the service
+        instance_snapshot_id:
+          type: string
+          title: 'Instance Snapshot used to boot the Instances of this deployment
+
+            With a Full Snapshot, definition must not be provided'
+        name:
+          type: string
+          title: Service name, set at creation time only. If empty, fallback to definition.name
+        service_account_id:
+          type: string
+          description: '(Optional) The Albe service account ID to associate with the service.
+
+            Immutable after creation.'
     SecurityPolicies:
       type: object
       properties:
@@ -84,63 +164,27 @@ components:
           type: array
           items:
             type: string
-    Domain.Type:
-      type: string
-      enum:
-      - AUTOASSIGNED
-      - CUSTOM
-      default: AUTOASSIGNED
-      title: '- AUTOASSIGNED: Domain like <appName>-<orgName>.koyeb.app'
-    BasicAuthPolicy:
+    ServiceState:
       type: object
       properties:
-        username:
-          type: string
-        password:
-          type: string
-    DeploymentRoute:
+        desired_deployment:
+          $ref: '#/components/schemas/DesiredDeployment'
+        auto_release:
+          $ref: '#/components/schemas/AutoRelease'
+    ErrorWithFields:
       type: object
       properties:
-        port:
+        status:
           type: integer
-          format: int64
-        path:
+          format: int32
+        code:
           type: string
-        security_policies:
-          $ref: '#/components/schemas/SecurityPolicies'
-    TCPHealthCheck:
-      type: object
-      properties:
-        port:
-          type: integer
-          format: int64
-          title: The port to use to perform the health check, must be declared in the ports section
-    Domain.LoadBalancerCloudflare:
-      type: object
-    DeploymentScalingTarget:
-      type: object
-      properties:
-        average_cpu:
-          $ref: '#/components/schemas/DeploymentScalingTargetAverageCPU'
-        average_mem:
-          $ref: '#/components/schemas/DeploymentScalingTargetAverageMem'
-        requests_per_second:
-          $ref: '#/components/schemas/DeploymentScalingTargetRequestsPerSecond'
-        concurrent_requests:
-          $ref: '#/components/schemas/DeploymentScalingTargetConcurrentRequests'
-        requests_response_time:
-          $ref: '#/components/schemas/DeploymentScalingTargetRequestsResponseTime'
-        sleep_idle_delay:
-          $ref: '#/components/schemas/DeploymentScalingTargetSleepIdleDelay'
-    ComposeReply:
-      type: object
-      properties:
-        app:
-          $ref: '#/components/schemas/App'
-        services:
+        message:
+          type: string
+        fields:
           type: array
           items:
-            $ref: '#/components/schemas/Service'
+            $ref: '#/components/schemas/ErrorField'
     Domain.Status:
       type: string
       enum:
@@ -150,14 +194,96 @@ components:
       - DELETING
       - DELETED
       default: PENDING
-    App:
+    CreateApp:
+      type: object
+      properties:
+        name:
+          type: string
+        life_cycle:
+          $ref: '#/components/schemas/AppLifeCycle'
+        project_id:
+          type: string
+          title: (Optional) The project ID to associate with the app
+    Service.Status:
+      type: string
+      enum:
+      - STARTING
+      - HEALTHY
+      - DEGRADED
+      - UNHEALTHY
+      - DELETING
+      - DELETED
+      - PAUSING
+      - PAUSED
+      - RESUMING
+      default: STARTING
+    DeploymentEnv:
+      type: object
+      properties:
+        scopes:
+          type: array
+          items:
+            type: string
+        key:
+          type: string
+        value:
+          type: string
+        secret:
+          type: string
+    DesiredDeployment:
+      type: object
+      properties:
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/DesiredDeployment.Group'
+    BuildpackBuilder:
+      type: object
+      properties:
+        build_command:
+          type: string
+          title: A command used to override the build command, run after all build steps
+        run_command:
+          type: string
+          title: A command used to override the default run command
+        privileged:
+          type: boolean
+          title: A flag to run the container in privileged mode
+    DeploymentInstanceType:
+      type: object
+      properties:
+        scopes:
+          type: array
+          items:
+            type: string
+        type:
+          type: string
+    EgressPolicyMode:
+      type: string
+      enum:
+      - EGRESS_POLICY_MODE_DEFAULT
+      - EGRESS_POLICY_MODE_DENY_ALL
+      default: EGRESS_POLICY_MODE_DEFAULT
+    DeploymentDefinition.Type:
+      type: string
+      enum:
+      - INVALID
+      - WEB
+      - WORKER
+      - DATABASE
+      - SANDBOX
+      default: INVALID
+    Domain.Type:
+      type: string
+      enum:
+      - AUTOASSIGNED
+      - CUSTOM
+      default: AUTOASSIGNED
+      title: '- AUTOASSIGNED: Domain like <appName>-<orgName>.koyeb.app'
+    Service:
       type: object
       properties:
         id:
-          type: string
-        name:
-          type: string
-        organization_id:
           type: string
         created_at:
           type: string
@@ -180,8 +306,18 @@ components:
         terminated_at:
           type: string
           format: date-time
+        name:
+          type: string
+        type:
+          $ref: '#/components/schemas/Service.Type'
+        organization_id:
+          type: string
+        project_id:
+          type: string
+        app_id:
+          type: string
         status:
-          $ref: '#/components/schemas/App.Status'
+          $ref: '#/components/schemas/Service.Status'
         messages:
           type: array
           items:
@@ -189,12 +325,58 @@ components:
         version:
           type: string
           format: uint64
-        domains:
+        active_deployment_id:
+          type: string
+        latest_deployment_id:
+          type: string
+        last_provisioned_deployment_id:
+          type: string
+        state:
+          $ref: '#/components/schemas/ServiceState'
+          title: Legacy stuff
+        life_cycle:
+          $ref: '#/components/schemas/ServiceLifeCycle'
+        service_account_id:
+          type: string
+          title: (Optional) The Albe service account ID associated with this service
+    AppLifeCycle:
+      type: object
+      properties:
+        delete_when_empty:
+          type: boolean
+    ComposeReply:
+      type: object
+      properties:
+        app:
+          $ref: '#/components/schemas/App'
+        services:
           type: array
           items:
-            $ref: '#/components/schemas/Domain'
-        life_cycle:
-          $ref: '#/components/schemas/AppLifeCycle'
+            $ref: '#/components/schemas/Service'
+    TCPHealthCheck:
+      type: object
+      properties:
+        port:
+          type: integer
+          format: int64
+          title: The port to use to perform the health check, must be declared in the ports section
+    DeploymentScaling:
+      type: object
+      properties:
+        scopes:
+          type: array
+          items:
+            type: string
+        min:
+          type: integer
+          format: int64
+        max:
+          type: integer
+          format: int64
+        targets:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeploymentScalingTarget'
     DeploymentStrategyType:
       type: string
       enum:
@@ -206,18 +388,6 @@ components:
       - DEPLOYMENT_STRATEGY_TYPE_IMMEDIATE
       default: DEPLOYMENT_STRATEGY_TYPE_INVALID
       description: " - DEPLOYMENT_STRATEGY_TYPE_INVALID: DEPRECATED: Use DEPLOYMENT_STRATEGY_TYPE_DEFAULT instead.\n - DEPLOYMENT_STRATEGY_TYPE_DEFAULT: Default/unspecified strategy (resolves to platform default, currently ROLLING).\n - DEPLOYMENT_STRATEGY_TYPE_CANARY: Use canary strategy.\n - DEPLOYMENT_STRATEGY_TYPE_ROLLING: Use rolling strategy.\n - DEPLOYMENT_STRATEGY_TYPE_BLUE_GREEN: Use blue green strategy.\n - DEPLOYMENT_STRATEGY_TYPE_IMMEDIATE: Use immediate strategy."
-    DeploymentScalingTargetRequestsResponseTime:
-      type: object
-      properties:
-        value:
-          type: integer
-          format: int64
-        quantile:
-          type: integer
-          format: int64
-          description: 'The quantile to use for autoscaling. For example, set to 95 to use the 95th
-
-            percentile (p95) for autoscaling.  Valid values are between 0 and 100.'
     DeploymentDefinition:
       type: object
       properties:
@@ -282,6 +452,38 @@ components:
           $ref: '#/components/schemas/DatabaseSource'
         archive:
           $ref: '#/components/schemas/ArchiveSource'
+    DeploymentStrategy:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/DeploymentStrategyType'
+          title: Strategy type
+    DeploymentScalingTargetAverageMem:
+      type: object
+      properties:
+        value:
+          type: integer
+          format: int64
+    CreateCompose:
+      type: object
+      properties:
+        app:
+          $ref: '#/components/schemas/CreateApp'
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreateService'
+    ProxyPortProtocol:
+      type: string
+      enum:
+      - tcp
+      default: tcp
+    DeploymentScalingTargetRequestsPerSecond:
+      type: object
+      properties:
+        value:
+          type: integer
+          format: int64
     NetworkPolicyDestination:
       type: object
       properties:
@@ -292,24 +494,147 @@ components:
             Bare IPs are accepted at the API boundary and normalized to /32
 
             (IPv4) or /128 (IPv6) before storage.'
-    DeploymentInstanceType:
+    ConfigFile:
       type: object
       properties:
-        scopes:
+        path:
+          type: string
+          title: the path where the file is copied
+        permissions:
+          type: string
+          title: the permissions of the file in format 0644
+        content:
+          type: string
+          title: the content of the file
+    google.protobuf.Any:
+      type: object
+      properties:
+        '@type':
+          type: string
+          description: "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
+      additionalProperties: {}
+      description: "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(&foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := &pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := &pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": <string>,\n      \"lastName\": <string>\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
+    EgressPolicy:
+      type: object
+      properties:
+        mode:
+          $ref: '#/components/schemas/EgressPolicyMode'
+        allow_list:
+          type: array
+          items:
+            $ref: '#/components/schemas/NetworkPolicyDestination'
+          description: 'Allowed destinations (deny-by-default semantics under DENY_ALL).
+
+            Ignored when mode is DEFAULT.'
+    Domain.LoadBalancerKoyeb:
+      type: object
+      properties:
+        request_timeout_seconds:
+          type: integer
+          format: int64
+          title: Between 100 and 900
+    DatabaseSource:
+      type: object
+      properties:
+        neon_postgres:
+          $ref: '#/components/schemas/NeonPostgresDatabase'
+    DockerSource:
+      type: object
+      properties:
+        image:
+          type: string
+        command:
+          type: string
+        args:
           type: array
           items:
             type: string
-        type:
+        image_registry_secret:
           type: string
-    ServiceLifeCycle:
+        entrypoint:
+          type: array
+          items:
+            type: string
+        privileged:
+          type: boolean
+          title: A flag to run the container in privileged mode
+    DesiredDeployment.Group:
       type: object
       properties:
-        delete_after_sleep:
+        name:
+          type: string
+        deployment_ids:
+          type: array
+          items:
+            type: string
+    App.Status:
+      type: string
+      enum:
+      - STARTING
+      - HEALTHY
+      - DEGRADED
+      - UNHEALTHY
+      - DELETING
+      - DELETED
+      - PAUSING
+      - PAUSED
+      - RESUMING
+      default: STARTING
+    Mesh:
+      type: object
+      properties:
+        scope:
+          $ref: '#/components/schemas/MeshScope'
+        name:
+          type: string
+          description: 'Custom mesh name — required when scope is MESH_SCOPE_CUSTOM, ignored
+
+            otherwise. Combined with the workspace ID server-side to ensure the same
+
+            custom name in different workspaces never collides.'
+      description: 'Mesh groups the mesh scope selector and the (optional) custom mesh name.
+
+        Kept inside NetworkPolicy so scope/name and other network-policy dimensions
+
+        (egress, future inbound) live together.'
+    DeploymentScalingTargetSleepIdleDelay:
+      type: object
+      properties:
+        value:
           type: integer
           format: int64
-        delete_after_create:
+          description: 'DEPRECATED: use deep_sleep_value instead.
+
+            Delay in seconds after which a service which received 0 request is put to deep sleep.'
+        deep_sleep_value:
           type: integer
           format: int64
+          description: Delay in seconds after which a service which received 0 request is put to deep sleep.
+        light_sleep_value:
+          type: integer
+          format: int64
+          description: Delay in seconds after which a service which received 0 request is put to light sleep.
+    BasicAuthPolicy:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    AutoRelease.Group:
+      type: object
+      properties:
+        name:
+          type: string
+        repository:
+          type: string
+        git_ref:
+          type: string
+          title: 'A git ref to track (.e.g: refs/tags/<tag> or refs/heads/<branch>'
+        latest_sha:
+          type: string
+          title: The last hash that was resolved (used to avoid triggering releases when things haven't changed)
+      title: Configuration extracted from the latest deployment in this deployment_group
     GitSource:
       type: object
       properties:
@@ -341,237 +666,12 @@ components:
           $ref: '#/components/schemas/BuildpackBuilder'
         docker:
           $ref: '#/components/schemas/DockerBuilder'
-    DeploymentScalingTargetAverageCPU:
+    ErrorField:
       type: object
       properties:
-        value:
-          type: integer
-          format: int64
-    Mesh:
-      type: object
-      properties:
-        scope:
-          $ref: '#/components/schemas/MeshScope'
-        name:
+        field:
           type: string
-          description: 'Custom mesh name — required when scope is MESH_SCOPE_CUSTOM, ignored
-
-            otherwise. Combined with the workspace ID server-side to ensure the same
-
-            custom name in different workspaces never collides.'
-      description: 'Mesh groups the mesh scope selector and the (optional) custom mesh name.
-
-        Kept inside NetworkPolicy so scope/name and other network-policy dimensions
-
-        (egress, future inbound) live together.'
-    google.protobuf.Any:
-      type: object
-      properties:
-        '@type':
-          type: string
-          description: "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
-      additionalProperties: {}
-      description: "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(&foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := &pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := &pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": <string>,\n      \"lastName\": <string>\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
-    MeshScope:
-      type: string
-      enum:
-      - MESH_SCOPE_UNSPECIFIED
-      - MESH_SCOPE_ORGANIZATION
-      - MESH_SCOPE_WORKSPACE
-      - MESH_SCOPE_APP
-      - MESH_SCOPE_CUSTOM
-      default: MESH_SCOPE_UNSPECIFIED
-      description: "MeshScope selects which set of services can communicate over the mesh.\nOnly meaningful when the mesh is on (i.e. DeploymentMesh is ENABLED, or\nAUTO and the service is eligible). UNSPECIFIED defers to the\norganization-level default (workspace-scoped since KOYEB-6062, legacy\norganizations opted back to organization scope via\nuse_organization_level_mesh).\n\n - MESH_SCOPE_ORGANIZATION: Private communication between services in the same organization\n(mesh label k-<orgId>).\n - MESH_SCOPE_WORKSPACE: Private communication between services in the same workspace/project\n(mesh label pr_<projectId>).\n - MESH_SCOPE_APP: Private communication between services in the same app\n(mesh label app_<appId>).\n - MESH_SCOPE_CUSTOM: Private communication between services in the same workspace that\nshare the same NetworkPolicy.mesh.name. Server-computed label is\nscoped by workspace, so the same custom name in different workspaces\nnever collides."
-    EgressPolicyMode:
-      type: string
-      enum:
-      - EGRESS_POLICY_MODE_DEFAULT
-      - EGRESS_POLICY_MODE_DENY_ALL
-      default: EGRESS_POLICY_MODE_DEFAULT
-    ArchiveSource:
-      type: object
-      properties:
-        id:
-          type: string
-          title: The ID of the archive to deploy
-        buildpack:
-          $ref: '#/components/schemas/BuildpackBuilder'
-        docker:
-          $ref: '#/components/schemas/DockerBuilder'
-    DeploymentHealthCheck:
-      type: object
-      properties:
-        grace_period:
-          type: integer
-          format: int64
-          title: An optional initial period in seconds to wait for the instance to become healthy, default is 5s
-        interval:
-          type: integer
-          format: int64
-          title: An optional period in seconds between two health checks, default is 60s
-        restart_limit:
-          type: integer
-          format: int64
-          title: An optional number of consecutive failures before attempting to restart the service, default is 3
-        timeout:
-          type: integer
-          format: int64
-          title: An optional maximum time to wait in seconds before considering the check as a failure, default is 5s
-        tcp:
-          $ref: '#/components/schemas/TCPHealthCheck'
-        http:
-          $ref: '#/components/schemas/HTTPHealthCheck'
-    Service:
-      type: object
-      properties:
-        id:
-          type: string
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-        started_at:
-          type: string
-          format: date-time
-        succeeded_at:
-          type: string
-          format: date-time
-        paused_at:
-          type: string
-          format: date-time
-        resumed_at:
-          type: string
-          format: date-time
-        terminated_at:
-          type: string
-          format: date-time
-        name:
-          type: string
-        type:
-          $ref: '#/components/schemas/Service.Type'
-        organization_id:
-          type: string
-        project_id:
-          type: string
-        app_id:
-          type: string
-        status:
-          $ref: '#/components/schemas/Service.Status'
-        messages:
-          type: array
-          items:
-            type: string
-        version:
-          type: string
-          format: uint64
-        active_deployment_id:
-          type: string
-        latest_deployment_id:
-          type: string
-        last_provisioned_deployment_id:
-          type: string
-        state:
-          $ref: '#/components/schemas/ServiceState'
-          title: Legacy stuff
-        life_cycle:
-          $ref: '#/components/schemas/ServiceLifeCycle'
-        service_account_id:
-          type: string
-          title: (Optional) The Albe service account ID associated with this service
-    Service.Type:
-      type: string
-      enum:
-      - INVALID_TYPE
-      - WEB
-      - WORKER
-      - DATABASE
-      - SANDBOX
-      default: INVALID_TYPE
-    Service.Status:
-      type: string
-      enum:
-      - STARTING
-      - HEALTHY
-      - DEGRADED
-      - UNHEALTHY
-      - DELETING
-      - DELETED
-      - PAUSING
-      - PAUSED
-      - RESUMING
-      default: STARTING
-    DeploymentScalingTargetSleepIdleDelay:
-      type: object
-      properties:
-        value:
-          type: integer
-          format: int64
-          description: 'DEPRECATED: use deep_sleep_value instead.
-
-            Delay in seconds after which a service which received 0 request is put to deep sleep.'
-        deep_sleep_value:
-          type: integer
-          format: int64
-          description: Delay in seconds after which a service which received 0 request is put to deep sleep.
-        light_sleep_value:
-          type: integer
-          format: int64
-          description: Delay in seconds after which a service which received 0 request is put to light sleep.
-    NeonPostgresDatabase.NeonDatabase:
-      type: object
-      properties:
-        name:
-          type: string
-        owner:
-          type: string
-    AutoRelease:
-      type: object
-      properties:
-        groups:
-          type: array
-          items:
-            $ref: '#/components/schemas/AutoRelease.Group'
-    DeploymentScaling:
-      type: object
-      properties:
-        scopes:
-          type: array
-          items:
-            type: string
-        min:
-          type: integer
-          format: int64
-        max:
-          type: integer
-          format: int64
-        targets:
-          type: array
-          items:
-            $ref: '#/components/schemas/DeploymentScalingTarget'
-    CreateCompose:
-      type: object
-      properties:
-        app:
-          $ref: '#/components/schemas/CreateApp'
-        services:
-          type: array
-          items:
-            $ref: '#/components/schemas/CreateService'
-    HTTPHeader:
-      type: object
-      properties:
-        key:
-          type: string
-        value:
-          type: string
-    NeonPostgresDatabase.NeonRole:
-      type: object
-      properties:
-        name:
-          type: string
-        secret:
+        description:
           type: string
     Domain:
       type: object
@@ -615,81 +715,59 @@ components:
         project_id:
           type: string
           description: The project ID this domain belongs to. Empty if the domain is organization-level.
-    ConfigFile:
+    Error:
       type: object
       properties:
+        status:
+          type: integer
+          format: int32
+        code:
+          type: string
+        message:
+          type: string
+    HTTPHealthCheck:
+      type: object
+      properties:
+        port:
+          type: integer
+          format: int64
+          title: The port to use to perform the health check, must be declared in the ports section
         path:
           type: string
-          title: the path where the file is copied
-        permissions:
+          title: The path to use to perform the HTTP health check
+        method:
           type: string
-          title: the permissions of the file in format 0644
-        content:
-          type: string
-          title: the content of the file
-    DeploymentMesh:
-      type: string
-      enum:
-      - DEPLOYMENT_MESH_AUTO
-      - DEPLOYMENT_MESH_ENABLED
-      - DEPLOYMENT_MESH_DISABLED
-      default: DEPLOYMENT_MESH_AUTO
-    DesiredDeployment:
-      type: object
-      properties:
-        groups:
+          title: An optional HTTP method to use to perform the health check, default is GET
+        headers:
           type: array
           items:
-            $ref: '#/components/schemas/DesiredDeployment.Group'
-    ServiceState:
+            $ref: '#/components/schemas/HTTPHeader'
+          title: An optional list of HTTP headers to provide when performing the request, default is empty
+    ArchiveSource:
       type: object
       properties:
-        desired_deployment:
-          $ref: '#/components/schemas/DesiredDeployment'
-        auto_release:
-          $ref: '#/components/schemas/AutoRelease'
-    NetworkPolicy:
-      type: object
-      properties:
-        egress:
-          $ref: '#/components/schemas/EgressPolicy'
-        mesh:
-          $ref: '#/components/schemas/Mesh'
-          description: 'Mesh configuration. Orthogonal to the top-level DeploymentDefinition.mesh
-
-            field, which only toggles the mesh on/off. This sub-message controls
-
-            WHICH services can reach each other over the mesh when it is on.'
-    CreateApp:
-      type: object
-      properties:
-        name:
+        id:
           type: string
-        life_cycle:
-          $ref: '#/components/schemas/AppLifeCycle'
-        project_id:
-          type: string
-          title: (Optional) The project ID to associate with the app
-    BuildpackBuilder:
-      type: object
-      properties:
-        build_command:
-          type: string
-          title: A command used to override the build command, run after all build steps
-        run_command:
-          type: string
-          title: A command used to override the default run command
-        privileged:
-          type: boolean
-          title: A flag to run the container in privileged mode
-    DeploymentProxyPort:
+          title: The ID of the archive to deploy
+        buildpack:
+          $ref: '#/components/schemas/BuildpackBuilder'
+        docker:
+          $ref: '#/components/schemas/DockerBuilder'
+    DeploymentPort:
       type: object
       properties:
         port:
           type: integer
           format: int64
         protocol:
-          $ref: '#/components/schemas/ProxyPortProtocol'
+          type: string
+          title: One of http, http2, tcp
+    DeploymentScalingTargetConcurrentRequests:
+      type: object
+      properties:
+        value:
+          type: integer
+          format: int64
     google.rpc.Status:
       type: object
       properties:
@@ -702,74 +780,74 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/google.protobuf.Any'
-    DeploymentDefinition.Type:
-      type: string
-      enum:
-      - INVALID
-      - WEB
-      - WORKER
-      - DATABASE
-      - SANDBOX
-      default: INVALID
-    ProxyPortProtocol:
-      type: string
-      enum:
-      - tcp
-      default: tcp
-    DeploymentPort:
+    DeploymentHealthCheck:
       type: object
       properties:
-        port:
+        grace_period:
           type: integer
           format: int64
-        protocol:
-          type: string
-          title: One of http, http2, tcp
-    App.Status:
-      type: string
-      enum:
-      - STARTING
-      - HEALTHY
-      - DEGRADED
-      - UNHEALTHY
-      - DELETING
-      - DELETED
-      - PAUSING
-      - PAUSED
-      - RESUMING
-      default: STARTING
-    Domain.LoadBalancerKoyeb:
-      type: object
-      properties:
-        request_timeout_seconds:
+          title: An optional initial period in seconds to wait for the instance to become healthy, default is 5s
+        interval:
           type: integer
           format: int64
-          title: Between 100 and 900
-    CreateService:
+          title: An optional period in seconds between two health checks, default is 60s
+        restart_limit:
+          type: integer
+          format: int64
+          title: An optional number of consecutive failures before attempting to restart the service, default is 3
+        timeout:
+          type: integer
+          format: int64
+          title: An optional maximum time to wait in seconds before considering the check as a failure, default is 5s
+        tcp:
+          $ref: '#/components/schemas/TCPHealthCheck'
+        http:
+          $ref: '#/components/schemas/HTTPHealthCheck'
+    App:
       type: object
       properties:
-        app_id:
+        id:
           type: string
-        definition:
-          $ref: '#/components/schemas/DeploymentDefinition'
-        life_cycle:
-          $ref: '#/components/schemas/ServiceLifeCycle'
-        project_id:
-          type: string
-          title: (Optional) The project ID to associate with the service
-        instance_snapshot_id:
-          type: string
-          title: 'Instance Snapshot used to boot the Instances of this deployment
-
-            With a Full Snapshot, definition must not be provided'
         name:
           type: string
-          title: Service name, set at creation time only. If empty, fallback to definition.name
-        service_account_id:
+        organization_id:
           type: string
-          description: '(Optional) The Albe service account ID to associate with the service.
-
-            Immutable after creation.'
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        started_at:
+          type: string
+          format: date-time
+        succeeded_at:
+          type: string
+          format: date-time
+        paused_at:
+          type: string
+          format: date-time
+        resumed_at:
+          type: string
+          format: date-time
+        terminated_at:
+          type: string
+          format: date-time
+        status:
+          $ref: '#/components/schemas/App.Status'
+        messages:
+          type: array
+          items:
+            type: string
+        version:
+          type: string
+          format: uint64
+        domains:
+          type: array
+          items:
+            $ref: '#/components/schemas/Domain'
+        life_cycle:
+          $ref: '#/components/schemas/AppLifeCycle'
     DockerBuilder:
       type: object
       properties:
@@ -795,193 +873,115 @@ components:
         privileged:
           type: boolean
           title: A flag to run the container in privileged mode
-    NeonPostgresDatabase:
+    Service.Type:
+      type: string
+      enum:
+      - INVALID_TYPE
+      - WEB
+      - WORKER
+      - DATABASE
+      - SANDBOX
+      default: INVALID_TYPE
+    DeploymentScalingTarget:
       type: object
       properties:
-        pg_version:
+        average_cpu:
+          $ref: '#/components/schemas/DeploymentScalingTargetAverageCPU'
+        average_mem:
+          $ref: '#/components/schemas/DeploymentScalingTargetAverageMem'
+        requests_per_second:
+          $ref: '#/components/schemas/DeploymentScalingTargetRequestsPerSecond'
+        concurrent_requests:
+          $ref: '#/components/schemas/DeploymentScalingTargetConcurrentRequests'
+        requests_response_time:
+          $ref: '#/components/schemas/DeploymentScalingTargetRequestsResponseTime'
+        sleep_idle_delay:
+          $ref: '#/components/schemas/DeploymentScalingTargetSleepIdleDelay'
+    HTTPHeader:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    DeploymentScalingTargetAverageCPU:
+      type: object
+      properties:
+        value:
           type: integer
           format: int64
-        region:
+    NeonPostgresDatabase.NeonDatabase:
+      type: object
+      properties:
+        name:
           type: string
-        instance_type:
+        owner:
           type: string
-        roles:
-          type: array
-          items:
-            $ref: '#/components/schemas/NeonPostgresDatabase.NeonRole'
-        databases:
-          type: array
-          items:
-            $ref: '#/components/schemas/NeonPostgresDatabase.NeonDatabase'
-    HTTPHealthCheck:
+    DeploymentMesh:
+      type: string
+      enum:
+      - DEPLOYMENT_MESH_AUTO
+      - DEPLOYMENT_MESH_ENABLED
+      - DEPLOYMENT_MESH_DISABLED
+      default: DEPLOYMENT_MESH_AUTO
+    NeonPostgresDatabase.NeonRole:
+      type: object
+      properties:
+        name:
+          type: string
+        secret:
+          type: string
+    NetworkPolicy:
+      type: object
+      properties:
+        egress:
+          $ref: '#/components/schemas/EgressPolicy'
+        mesh:
+          $ref: '#/components/schemas/Mesh'
+          description: 'Mesh configuration. Orthogonal to the top-level DeploymentDefinition.mesh
+
+            field, which only toggles the mesh on/off. This sub-message controls
+
+            WHICH services can reach each other over the mesh when it is on.'
+    ServiceLifeCycle:
+      type: object
+      properties:
+        delete_after_sleep:
+          type: integer
+          format: int64
+        delete_after_create:
+          type: integer
+          format: int64
+    DeploymentScalingTargetRequestsResponseTime:
+      type: object
+      properties:
+        value:
+          type: integer
+          format: int64
+        quantile:
+          type: integer
+          format: int64
+          description: 'The quantile to use for autoscaling. For example, set to 95 to use the 95th
+
+            percentile (p95) for autoscaling.  Valid values are between 0 and 100.'
+    DeploymentRoute:
       type: object
       properties:
         port:
           type: integer
           format: int64
-          title: The port to use to perform the health check, must be declared in the ports section
         path:
           type: string
-          title: The path to use to perform the HTTP health check
-        method:
-          type: string
-          title: An optional HTTP method to use to perform the health check, default is GET
-        headers:
-          type: array
-          items:
-            $ref: '#/components/schemas/HTTPHeader'
-          title: An optional list of HTTP headers to provide when performing the request, default is empty
-    DeploymentScalingTargetConcurrentRequests:
+        security_policies:
+          $ref: '#/components/schemas/SecurityPolicies'
+    DeploymentProxyPort:
       type: object
       properties:
-        value:
+        port:
           type: integer
           format: int64
-    DatabaseSource:
-      type: object
-      properties:
-        neon_postgres:
-          $ref: '#/components/schemas/NeonPostgresDatabase'
-    EgressPolicy:
-      type: object
-      properties:
-        mode:
-          $ref: '#/components/schemas/EgressPolicyMode'
-        allow_list:
-          type: array
-          items:
-            $ref: '#/components/schemas/NetworkPolicyDestination'
-          description: 'Allowed destinations (deny-by-default semantics under DENY_ALL).
-
-            Ignored when mode is DEFAULT.'
-    DesiredDeployment.Group:
-      type: object
-      properties:
-        name:
-          type: string
-        deployment_ids:
-          type: array
-          items:
-            type: string
-    ErrorWithFields:
-      type: object
-      properties:
-        status:
-          type: integer
-          format: int32
-        code:
-          type: string
-        message:
-          type: string
-        fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorField'
-    DeploymentScalingTargetRequestsPerSecond:
-      type: object
-      properties:
-        value:
-          type: integer
-          format: int64
-    Error:
-      type: object
-      properties:
-        status:
-          type: integer
-          format: int32
-        code:
-          type: string
-        message:
-          type: string
-    DeploymentScalingTargetAverageMem:
-      type: object
-      properties:
-        value:
-          type: integer
-          format: int64
-    AppLifeCycle:
-      type: object
-      properties:
-        delete_when_empty:
-          type: boolean
-    AutoRelease.Group:
-      type: object
-      properties:
-        name:
-          type: string
-        repository:
-          type: string
-        git_ref:
-          type: string
-          title: 'A git ref to track (.e.g: refs/tags/<tag> or refs/heads/<branch>'
-        latest_sha:
-          type: string
-          title: The last hash that was resolved (used to avoid triggering releases when things haven't changed)
-      title: Configuration extracted from the latest deployment in this deployment_group
-    ErrorField:
-      type: object
-      properties:
-        field:
-          type: string
-        description:
-          type: string
-    DockerSource:
-      type: object
-      properties:
-        image:
-          type: string
-        command:
-          type: string
-        args:
-          type: array
-          items:
-            type: string
-        image_registry_secret:
-          type: string
-        entrypoint:
-          type: array
-          items:
-            type: string
-        privileged:
-          type: boolean
-          title: A flag to run the container in privileged mode
-    DeploymentEnv:
-      type: object
-      properties:
-        scopes:
-          type: array
-          items:
-            type: string
-        key:
-          type: string
-        value:
-          type: string
-        secret:
-          type: string
-    DeploymentStrategy:
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/DeploymentStrategyType'
-          title: Strategy type
-    DeploymentVolume:
-      type: object
-      properties:
-        id:
-          type: string
-          title: the id of the volume
-        path:
-          type: string
-          title: the path where the volume is mounted to
-        replica_index:
-          type: integer
-          format: int64
-          title: optionally, explicitly choose the replica index to mount the volume to
-        scopes:
-          type: array
-          items:
-            type: string
-          title: scope of the associated
+        protocol:
+          $ref: '#/components/schemas/ProxyPortProtocol'
   securitySchemes:
     Bearer:
       type: apiKey
