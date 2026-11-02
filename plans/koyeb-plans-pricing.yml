@@ -1,0 +1,325 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-28'
+method: searched
+source: https://www.koyeb.com/pricing
+sources:
+- https://www.koyeb.com/pricing
+provenance:
+  tool: engine/economics/harvest_pricing.py
+  run: 20261028T141238
+  grounding: every price_text was found verbatim in the fetched page text
+audience: developer-api
+pricing_basis: usage-other
+delivery:
+  delivery: managed
+  method: page
+  read: '2026-10-28'
+  managed_tier: Pro
+published: true
+note: Serverless compute/GPU priced per hour/second plus subscription tiers; Postgres instances priced
+  hourly/monthly. Enterprise is custom.
+plan_count: 19
+currency: USD
+plans:
+- name: Pro
+  price_text: $ 29 /mo +compute
+  price: 29
+  currency: USD
+  period: month
+  unit: plan
+  included_quota: $10 included compute, 10 users, 100 services, 5 concurrent builds, 1TB/mo bandwidth
+  overage: Additional bandwidth EU/US $0.02/GB; Asia $0.04/GB
+- name: Scale
+  price_text: $ 299 /mo +compute
+  price: 299
+  currency: USD
+  period: month
+  unit: plan
+  included_quota: $100 included compute, 50 users, 1000 services, AWS Regions, 99.9% uptime SLA
+  overage: Additional bandwidth EU/US $0.02/GB; Asia $0.04/GB
+- name: Enterprise
+  price_text: Custom +compute
+  period: month
+  unit: plan
+  included_quota: Private dedicated locations, unlimited users, SSO/RBAC/audit, 99.99% SLA, starting at
+    $1000/mo
+  overage: Custom
+- name: RTX-4000-SFF-ADA
+  price_text: $ 0.50 /hr
+  price: 0.5
+  currency: USD
+  period: per-use
+  unit: hour
+  included_quota: vCPU 6, RAM 44GB, Disk 240GB
+- name: L4
+  price_text: $ 0.70 /hr
+  price: 0.7
+  currency: USD
+  period: per-use
+  unit: hour
+  included_quota: vCPU 6, RAM 32GB, Disk 160GB
+- name: RTX-A6000
+  price_text: $ 0.75 /hour
+  price: 0.75
+  currency: USD
+  period: per-use
+  unit: hour
+  included_quota: 48GB vRAM
+- name: L40S
+  price_text: $ 1.20 /hour
+  price: 1.2
+  currency: USD
+  period: per-use
+  unit: hour
+  included_quota: 48GB vRAM
+- name: A100
+  price_text: $ 1.60 /hour
+  price: 1.6
+  currency: USD
+  period: per-use
+  unit: hour
+  included_quota: 80GB vRAM
+- name: A100 SXM
+  price_text: $ 2.15 /hr
+  price: 2.15
+  currency: USD
+  period: per-use
+  unit: hour
+  included_quota: vCPU 15, RAM 180GB
+- name: RTX-PRO-6000
+  price_text: $ 2.20 /hr
+  price: 2.2
+  currency: USD
+  period: per-use
+  unit: hour
+  included_quota: vCPU 15, RAM 220GB
+- name: H100
+  price_text: $ 2.50 /hr
+  price: 2.5
+  currency: USD
+  period: per-use
+  unit: hour
+  included_quota: vCPU 15, RAM 180GB
+- name: H200
+  price_text: $ 3.00 /hr
+  price: 3
+  currency: USD
+  period: per-use
+  unit: hour
+  included_quota: vCPU 15, RAM 240GB
+- name: B200
+  price_text: $ 5.50 /hr
+  price: 5.5
+  currency: USD
+  period: per-use
+  unit: hour
+  included_quota: vCPU 15, RAM 240GB
+- name: 8x H200
+  price_text: $ 24.0 /hr
+  price: 24
+  currency: USD
+  period: per-use
+  unit: hour
+  included_quota: vCPU 120, RAM 1920GB
+- name: Postgres Free
+  price_text: $ 0 /mo
+  price: 0
+  currency: USD
+  period: month
+  unit: instance
+  included_quota: 5h, vCPU 0.25, RAM 1GB, Storage 1GB
+- name: Postgres Small
+  price_text: $ 29.76 /mo
+  price: 29.76
+  currency: USD
+  period: month
+  unit: instance
+  included_quota: vCPU 0.25, RAM 1GB
+  overage: 'Storage: $0.50/mo per GB'
+- name: Postgres Medium
+  price_text: $ 59.52 /mo
+  price: 59.52
+  currency: USD
+  period: month
+  unit: instance
+  included_quota: vCPU 0.5, RAM 2GB
+  overage: 'Storage: $0.50/mo per GB'
+- name: Postgres Large
+  price_text: $ 119.04 /mo
+  price: 119.04
+  currency: USD
+  period: month
+  unit: instance
+  included_quota: vCPU 1, RAM 4GB
+- name: Postgres 3XLarge
+  price_text: $ 952.32 /mo
+  price: 952.32
+  currency: USD
+  period: month
+  unit: instance
+  included_quota: vCPU 8, RAM 32GB
+rate_limit_statements:
+- CPU concurrency 100 100 1000 Custom
+- GPU concurrency 20 20 40 Custom
+- Concurrent builds 5 5 20 Custom
+x-canonical:
+  generated: '2026-11-01'
+  vocabulary: engine/economics/plans-canonical.yml
+  models:
+  - hybrid
+  - metered
+  units:
+  - compute
+  plans:
+  - name: Pro
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: Scale
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: Enterprise
+    access: other
+    model: metered
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: RTX-4000-SFF-ADA
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - compute
+    periods:
+    - other
+  - name: L4
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - compute
+    periods:
+    - other
+  - name: RTX-A6000
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - compute
+    periods:
+    - other
+  - name: L40S
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - compute
+    periods:
+    - other
+  - name: A100
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - compute
+    periods:
+    - other
+  - name: A100 SXM
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - compute
+    periods:
+    - other
+  - name: RTX-PRO-6000
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - compute
+    periods:
+    - other
+  - name: H100
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - compute
+    periods:
+    - other
+  - name: H200
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - compute
+    periods:
+    - other
+  - name: B200
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - compute
+    periods:
+    - other
+  - name: 8x H200
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - compute
+    periods:
+    - other
+  - name: Postgres Free
+    access: other
+    model: metered
+    model_how: derived
+    units:
+    - compute
+    periods:
+    - month
+  - name: Postgres Small
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - compute
+    periods:
+    - month
+  - name: Postgres Medium
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - compute
+    periods:
+    - month
+  - name: Postgres Large
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - compute
+    periods:
+    - month
+  - name: Postgres 3XLarge
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - compute
+    periods:
+    - month
