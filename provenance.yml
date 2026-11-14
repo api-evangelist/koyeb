@@ -5,10 +5,19 @@ artifacts:
   agentic-access/koyeb-agentic-access.yml:
     method: generated
     evidence: declared in the artifact
+  ai-preferences/koyeb-ai-preferences.yml:
+    method: harvested
+    evidence: declared in the artifact
   authentication/koyeb-authentication.yml:
     method: searched
     evidence: declared in the artifact
   capabilities/koyeb-capability-edges.yml:
+    method: unknown
+    evidence: no authorship recorded
+  certification/observations-2026-11-11.jsonl:
+    method: unknown
+    evidence: no authorship recorded
+  certification/status.yml:
     method: unknown
     evidence: no authorship recorded
   changelog/koyeb-changelog.yml:
@@ -287,6 +296,9 @@ artifacts:
   data-model/koyeb-data-model.yml:
     method: derived
     evidence: declared in the artifact
+  eligibility/koyeb-eligibility.yml:
+    method: harvested
+    evidence: declared in the artifact
   errors/koyeb-problem-types.yml:
     method: derived
     evidence: declared in the artifact
@@ -302,6 +314,9 @@ artifacts:
   heartbeat/2026-11-06.yml:
     method: unknown
     evidence: no authorship recorded
+  heartbeat/2026-11-13.yml:
+    method: unknown
+    evidence: no authorship recorded
   integrations/_index.yml:
     method: generated
     evidence: carries an API Evangelist house phrase
@@ -311,7 +326,7 @@ artifacts:
   kin/checks-2026-10-23T222754.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
-  kin/checks-2026-11-02T082323.yml:
+  kin/checks-2026-11-06T143934.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-23T000603.yml:
@@ -375,6 +390,9 @@ artifacts:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-11-02T082323.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-11-06T143934.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   lifecycle/koyeb-lifecycle.yml:
@@ -537,15 +555,24 @@ artifacts:
   overlays/koyeb-billing-api-overlay.yaml:
     method: derived
     evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/koyeb-catalogdatacenters-api-certification-overlay.yaml:
+    method: derived
+    evidence: declared in the artifact
   overlays/koyeb-catalogdatacenters-api-overlay.yaml:
     method: derived
     evidence: an API Evangelist overlay (title) over the provider's contract
   overlays/koyeb-cataloginstances-api-overlay.yaml:
     method: derived
     evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/koyeb-cataloginstanceusage-api-certification-overlay.yaml:
+    method: derived
+    evidence: declared in the artifact
   overlays/koyeb-cataloginstanceusage-api-overlay.yaml:
     method: derived
     evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/koyeb-catalogregions-api-certification-overlay.yaml:
+    method: derived
+    evidence: declared in the artifact
   overlays/koyeb-catalogregions-api-overlay.yaml:
     method: derived
     evidence: an API Evangelist overlay (title) over the provider's contract
@@ -603,6 +630,9 @@ artifacts:
   overlays/koyeb-persistentvolumes-api-overlay.yaml:
     method: derived
     evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/koyeb-profile-api-certification-overlay.yaml:
+    method: derived
+    evidence: declared in the artifact
   overlays/koyeb-profile-api-overlay.yaml:
     method: derived
     evidence: an API Evangelist overlay (title) over the provider's contract
@@ -663,6 +693,9 @@ artifacts:
   plans/koyeb-price-estimates.yml:
     method: unknown
     evidence: no authorship recorded
+  privacy/koyeb-privacy-policy.yml:
+    method: harvested
+    evidence: declared in the artifact
   rate-limits/koyeb-rate-limits.yml:
     method: unknown
     evidence: no authorship recorded
@@ -683,6 +716,9 @@ artifacts:
     evidence: declared in the artifact
   sla/koyeb-sla.yml:
     method: searched
+    evidence: declared in the artifact
+  terms/koyeb-terms-of-service.yml:
+    method: harvested
     evidence: declared in the artifact
   well-known/koyeb-well-known.yml:
     method: unknown
